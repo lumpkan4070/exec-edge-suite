@@ -28,6 +28,7 @@ const rolesByTier = {
 
 export default function WelcomeScreen({ onNext, tier }: WelcomeScreenProps) {
   const [selectedRole, setSelectedRole] = useState<string>("");
+  const [showError, setShowError] = useState(false);
   
   const roles = rolesByTier[tier as keyof typeof rolesByTier] || rolesByTier.executive;
   
@@ -64,11 +65,16 @@ export default function WelcomeScreen({ onNext, tier }: WelcomeScreenProps) {
           </p>
         </div>
 
-        {/* Role Selection */}
+        {/* Role Selection - ONB-005: Block without selection */}
         <div className="space-y-4">
           <h2 className="text-lg font-semibold text-center text-foreground">
             {tier === 'personal' ? 'Select Your Goal' : tier === 'professional' ? 'Select Your Stage' : 'Select Your Role'}
           </h2>
+          {showError && !selectedRole && (
+            <div className="text-center text-sm text-destructive bg-destructive/10 p-3 rounded-lg">
+              Please select a role to continue
+            </div>
+          )}
           <div className="space-y-3">
             {roles.map((role) => {
               const Icon = role.icon;
@@ -104,7 +110,13 @@ export default function WelcomeScreen({ onNext, tier }: WelcomeScreenProps) {
         {/* CTA */}
         <ExecutiveButton
           variant="hero"
-          onClick={() => selectedRole && onNext(selectedRole)}
+          onClick={() => {
+            if (selectedRole) {
+              onNext(selectedRole);
+            } else {
+              setShowError(true);
+            }
+          }}
           disabled={!selectedRole}
           className="w-full"
         >

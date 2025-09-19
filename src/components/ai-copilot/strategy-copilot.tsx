@@ -123,7 +123,7 @@ export default function StrategyCopilot({ onBack, userRole, userObjective, tier 
     setInputText("");
     setIsTyping(true);
 
-    // Simulate AI thinking time
+    // Simulate AI thinking time (AIC-005: <2s avg, <3s 95th percentile)
     setTimeout(() => {
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -134,7 +134,7 @@ export default function StrategyCopilot({ onBack, userRole, userObjective, tier 
       
       setMessages(prev => [...prev, aiMessage]);
       setIsTyping(false);
-    }, 1000);
+    }, Math.random() * 1500 + 500); // 0.5-2s response time
   };
 
   const handleSuggestedPrompt = (prompt: string) => {

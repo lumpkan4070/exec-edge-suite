@@ -235,7 +235,7 @@ export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }:
                   onClick={() => onSubscribe(tier.id)}
                   className="w-full h-14 text-lg font-bold shadow-md hover:shadow-lg"
                 >
-                  {tier.popular ? "Start Executive Transformation" : "Choose Pro"}
+                  Start 3-Day Free Trial
                 </ExecutiveButton>
               </div>
             );
