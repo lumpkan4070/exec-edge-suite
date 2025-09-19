@@ -7,45 +7,41 @@ interface SubscriptionScreenProps {
   currentTier: string;
 }
 
-const tierPlans = {
-  professional: [
-    {
-      id: "professional",
-      name: "Professional",
-      price: "$99",
-      period: "/month",
-      description: "Advanced training for senior leaders and executives",
-      features: [
-        "AI Strategy Co-pilot",
-        "Unlimited scenario simulations",
-        "Voice coaching & analysis",
-        "Advanced performance analytics",
-        "Weekly AI coaching reports",
-        "Priority support",
-      ],
-      icon: Crown,
-      popular: true,
-    },
-  ],
-  personal: [
-    {
-      id: "personal",
-      name: "Personal",
-      price: "$29",
-      period: "/month",
-      description: "Perfect for individual professionals building their leadership foundation",
-      features: [
-        "Basic AI Strategy Co-pilot",
-        "5 scenario simulations/month",
-        "Performance habit tracking",
-        "Basic analytics",
-        "Email support",
-      ],
-      icon: Briefcase,
-      popular: false,
-    },
-  ],
-};
+const allTiers = [
+  {
+    id: "personal",
+    name: "Personal Plan",
+    price: "$29",
+    period: "/month",
+    description: "Perfect for individual professionals building their leadership foundation",
+    features: [
+      "Basic AI Strategy Co-pilot",
+      "5 scenario simulations/month", 
+      "Performance habit tracking",
+      "Basic analytics",
+      "Email support",
+    ],
+    icon: Briefcase,
+    popular: false,
+  },
+  {
+    id: "professional", 
+    name: "Professional Plan",
+    price: "$99",
+    period: "/month",
+    description: "Advanced training for senior leaders and executives",
+    features: [
+      "AI Strategy Co-pilot",
+      "Unlimited scenario simulations",
+      "Voice coaching & analysis", 
+      "Advanced performance analytics",
+      "Weekly AI coaching reports",
+      "Priority support",
+    ],
+    icon: Crown,
+    popular: true,
+  },
+];
 
 const roiMetrics = [
   { icon: TrendingUp, text: "Close 23% more deals on average" },
@@ -54,7 +50,6 @@ const roiMetrics = [
 ];
 
 export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }: SubscriptionScreenProps) {
-  const tiers = tierPlans[currentTier as keyof typeof tierPlans] || tierPlans.professional;
   
   const getTierTheme = () => {
     switch (currentTier) {
@@ -85,11 +80,9 @@ export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }:
             <ArrowLeft className="w-6 h-6" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-foreground">{getTierTitle()}</h1>
+            <h1 className="text-2xl font-bold text-foreground">Choose Your Plan</h1>
             <p className="text-muted-foreground font-medium">
-              {currentTier === 'personal' ? 'Choose your growth plan' : 
-               currentTier === 'professional' ? 'Choose your career edge' : 
-               'Choose your executive edge'}
+              Select the plan that best fits your leadership goals
             </p>
           </div>
         </div>
@@ -115,8 +108,8 @@ export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }:
         </div>
 
         {/* Subscription Tiers */}
-        <div className="space-y-6">
-          {tiers.map((tier) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {allTiers.map((tier) => {
             const Icon = tier.icon;
             return (
               <div
