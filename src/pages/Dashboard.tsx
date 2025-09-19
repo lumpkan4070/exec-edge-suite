@@ -4,10 +4,12 @@ import TierSelection from "@/components/onboarding/tier-selection";
 import WelcomeScreen from "@/components/onboarding/welcome-screen";
 import ObjectiveScreen from "@/components/onboarding/objective-screen";
 import ExecutiveDashboard from "@/components/dashboard/executive-dashboard";
+import PaymentHandler from "@/components/payment/payment-handler";
 
 export default function Dashboard() {
   const { userData, setUserData } = useUser();
-  const [currentStep, setCurrentStep] = useState<"tier" | "welcome" | "objective" | "dashboard">("tier");
+  const [currentStep, setCurrentStep] = useState<"tier" | "welcome" | "objective" | "dashboard" | "payment">("tier");
+  const [selectedPaymentTier, setSelectedPaymentTier] = useState<string>("");
 
   // Load existing user data on mount
   useEffect(() => {
@@ -35,6 +37,24 @@ export default function Dashboard() {
     setCurrentStep("dashboard");
   };
 
+  const handleUpgrade = (tier: string) => {
+    setSelectedPaymentTier(tier);
+    setCurrentStep("payment");
+  };
+
+  const handlePaymentSuccess = () => {
+    setCurrentStep("dashboard");
+  };
+
+  const handlePaymentError = (error: string) => {
+    console.error("Payment error:", error);
+    // Stay on payment screen for retry
+  };
+
+  const handlePaymentBack = () => {
+    setCurrentStep("dashboard");
+  };
+
   if (currentStep === "tier") {
     return <TierSelection onNext={handleTierSelection} />;
   }
@@ -47,5 +67,30 @@ export default function Dashboard() {
     return <ObjectiveScreen role={userData.role || ""} tier={userData.tier || ""} onComplete={handleObjectiveSelection} />;
   }
 
-  return <ExecutiveDashboard userRole={userData.role || ""} userObjective={userData.objective || ""} tier={userData.tier || ""} />;
+  if (currentStep === "payment") {
+    const tierData = {
+      personal: { amount: "$29/month", priceId: "price_1S97NyBgt7hUXmS2a8tpOW6I" },
+      professional: { amount: "$99/month", priceId: "price_1S97ORBgt7hUXmS2JXVMb0tu" }
+    };
+    
+    const currentTierData = tierData[selectedPaymentTier as keyof typeof tierData];
+    
+    return (
+      <PaymentHandler
+        tier={selectedPaymentTier}
+        priceId={currentTierData.priceId}
+        amount={currentTierData.amount}
+        onSuccess={handlePaymentSuccess}
+        onError={handlePaymentError}
+        onBack={handlePaymentBack}
+      />
+    );
+  }
+
+  return <ExecutiveDashboard 
+    userRole={userData.role || ""} 
+    userObjective={userData.objective || ""} 
+    tier={userData.tier || ""} 
+    onUpgrade={handleUpgrade}
+  />;
 }

@@ -10,9 +10,10 @@ interface ExecutiveDashboardProps {
   userRole: string;
   userObjective: string;
   tier: string;
+  onUpgrade?: (tier: string) => void;
 }
 
-export default function ExecutiveDashboard({ userRole, userObjective, tier }: ExecutiveDashboardProps) {
+export default function ExecutiveDashboard({ userRole, userObjective, tier, onUpgrade }: ExecutiveDashboardProps) {
   const [showStrategyCopilot, setShowStrategyCopilot] = useState(false);
   const [showPerformanceHabits, setShowPerformanceHabits] = useState(false);
   const [showScenarioLibrary, setShowScenarioLibrary] = useState(false);
@@ -120,9 +121,15 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier }: Ex
     return (
       <SubscriptionScreen 
         onBack={() => setShowSubscription(false)}
-        onSubscribe={(tier) => {
-          console.log("Subscribing to:", tier);
+        onSubscribe={(selectedTier) => {
+          console.log("Subscribing to:", selectedTier);
           setShowSubscription(false);
+          // Call the upgrade callback if provided, otherwise go home
+          if (onUpgrade) {
+            onUpgrade(selectedTier);
+          } else {
+            goHome();
+          }
         }}
         currentTier={tier}
       />
