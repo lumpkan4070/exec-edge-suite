@@ -1,14 +1,22 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
 User-agent: *
 Allow: /
+
+# App Store Optimization - Allow crawling of key pages
+Allow: /about
+Allow: /blog
+Allow: /careers
+Allow: /help
+Allow: /contact
+Allow: /privacy
+
+# Prevent crawling of dynamic/temporary pages
+Disallow: /success
+Disallow: /cancel
+Disallow: /dashboard
+
+# Sitemap location
+Sitemap: https://apex-executive.com/sitemap.xml
+
+# Executive coaching app - keywords for discovery
+# Primary: executive coach app, AI executive coaching, performance coach
+# Secondary: leadership training app, negotiation practice app, confidence coach

@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "app_title": "APEX Executive – AI Coach",
+  "app_title_length": 25,
+  "subtitle_apple": "AI coaching for leaders daily",
+  "subtitle_apple_length": 28,
+  "short_description_google": "AI-powered executive coaching. Build confidence, master meetings, and grow faster.",
+  "short_description_google_length": 79,
+  "long_description": "APEX Executive is the AI-powered executive coaching app built for leaders, entrepreneurs, and sales professionals. In just 15 minutes a day, APEX helps you:\n\n– Boost executive presence before every meeting\n– Master high-stakes negotiations with AI simulations\n– Improve leadership and team communication\n– Track confidence and performance growth with analytics\n\nUnlike generic coaching apps, APEX delivers real-time, personalized AI coaching. From investor pitches to client negotiations, APEX prepares you for every challenge.\n\nCore Features:\n– AI Strategy Co-pilot: Instant pre-meeting coaching\n– Scenario Library: Practice investor pitches & negotiations\n– Performance Analytics: Track growth with dashboards & KPIs\n– Confidence Habits: Build executive presence daily\n\nPlans & Pricing:\n– Personal Plan: $29/month\n– Professional Plan: $99/month\n\nStart your free trial today and experience the future of executive coaching.",
+  "primary_keywords": [
+    "executive coach app",
+    "AI executive coaching", 
+    "performance coach",
+    "leadership training app",
+    "negotiation practice app"
+  ],
+  "secondary_keywords": [
+    "confidence coach",
+    "sales leader AI",
+    "business performance app", 
+    "executive presence training",
+    "leadership habit tracker"
+  ],
+  "screenshot_captions": [
+    "Boost Executive Presence in 15 Minutes",
+    "AI Strategy Co-pilot – Real-Time Coaching", 
+    "Master High-Stakes Meetings & Negotiations",
+    "Practice Investor Pitches & Client Scenarios",
+    "Track Growth with Confidence Analytics",
+    "Designed for Executives, Founders & Sales Leaders",
+    "Start Your Free Trial Today"
+  ],
+  "color_scheme": {
+    "primary": "#111827",
+    "accent": "#3B82F6", 
+    "background": "#FFFFFF"
+  },
+  "requirements": {
+    "encoding": "UTF-8",
+    "screenshot_dpi": 300,
+    "icon_sizes": ["1024x1024", "512x512", "180x180", "120x120", "87x87", "80x80", "58x58", "40x40", "29x29", "20x20"],
+    "screenshot_sizes_ios": ["6.7_inch", "6.5_inch", "5.5_inch", "iPad_Pro_3rd_gen", "iPad_Pro_2nd_gen"],
+    "screenshot_sizes_android": ["Phone", "7_inch_tablet", "10_inch_tablet"]
+  }
+}
