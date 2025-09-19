@@ -122,13 +122,10 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
       <SubscriptionScreen 
         onBack={() => setShowSubscription(false)}
         onSubscribe={(selectedTier) => {
-          console.log("Subscribing to:", selectedTier);
+          // Close subscription screen and trigger upgrade flow
           setShowSubscription(false);
-          // Call the upgrade callback if provided, otherwise go home
           if (onUpgrade) {
             onUpgrade(selectedTier);
-          } else {
-            goHome();
           }
         }}
         currentTier={tier}
