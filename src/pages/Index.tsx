@@ -7,10 +7,8 @@ export default function Index() {
   const { userData } = useUser();
   const [showDashboard, setShowDashboard] = useState(false);
 
-  // Check if user should go directly to dashboard
-  const shouldShowDashboard = showDashboard || (userData.tier && userData.role && userData.objective);
-
-  if (shouldShowDashboard) {
+  // Only show dashboard if explicitly requested by user clicking Get Started
+  if (showDashboard) {
     return <Dashboard />;
   }
 

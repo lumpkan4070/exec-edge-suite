@@ -10,12 +10,6 @@ interface LandingProps {
 export default function Landing({ onGetStarted }: LandingProps) {
   const { userData } = useUser();
 
-  // If user has already started, redirect to dashboard
-  if (userData.tier && userData.role && userData.objective) {
-    onGetStarted();
-    return null;
-  }
-
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
