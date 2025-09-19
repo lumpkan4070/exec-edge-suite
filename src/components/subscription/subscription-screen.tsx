@@ -157,13 +157,23 @@ export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }:
                   ))}
                 </div>
 
-                <ExecutiveButton
-                  variant={tier.popular ? "primary" : "secondary"}
-                  onClick={() => onSubscribe(tier.id)}
-                  className="w-full h-14 text-lg font-bold shadow-md hover:shadow-lg"
-                >
-                  Start 3-Day Free Trial
-                </ExecutiveButton>
+                <div className="space-y-3">
+                  <ExecutiveButton
+                    variant={tier.popular ? "primary" : "secondary"}
+                    onClick={() => onSubscribe(tier.id)}
+                    className="w-full h-12 text-lg font-bold shadow-md hover:shadow-lg"
+                  >
+                    Start 3-Day Free Trial
+                  </ExecutiveButton>
+                  
+                  <ExecutiveButton
+                    variant="outline"
+                    onClick={() => onSubscribe(tier.id)}
+                    className="w-full h-12 text-lg font-medium border-2"
+                  >
+                    Subscribe Now - {tier.price}{tier.period}
+                  </ExecutiveButton>
+                </div>
               </div>
             );
           })}
