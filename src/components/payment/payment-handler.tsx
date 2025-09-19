@@ -3,6 +3,8 @@ import { ExecutiveButton } from "@/components/ui/executive-button";
 import { CreditCard, AlertCircle, CheckCircle, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/contexts/user-context";
+import AuthModal from "@/components/auth/auth-modal";
 
 interface PaymentHandlerProps {
   tier: string;
@@ -16,10 +18,18 @@ export default function PaymentHandler({ tier, priceId, amount, onSuccess, onErr
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const { toast } = useToast();
+  const { user, session } = useUser();
 
-  // Real Stripe payment integration
+  // Check authentication and handle Stripe checkout
   const handleStripeCheckout = async () => {
+    // Check if user is authenticated
+    if (!user || !session) {
+      setShowAuthModal(true);
+      return;
+    }
+
     setIsProcessing(true);
     setPaymentStatus('processing');
     
@@ -49,6 +59,14 @@ export default function PaymentHandler({ tier, priceId, amount, onSuccess, onErr
       setIsProcessing(false);
       onError(errorMsg);
     }
+  };
+
+  const handleAuthSuccess = () => {
+    setShowAuthModal(false);
+    // After successful auth, automatically proceed to checkout
+    setTimeout(() => {
+      handleStripeCheckout();
+    }, 500);
   };
 
   const startFreeTrial = () => {
@@ -136,12 +154,19 @@ export default function PaymentHandler({ tier, priceId, amount, onSuccess, onErr
             variant="outline"
             onClick={handleStripeCheckout}
             disabled={isProcessing}
-            className="w-full h-12"
-          >
-            <CreditCard className="w-5 h-5 mr-2" />
-            Subscribe with Stripe
-          </ExecutiveButton>
-        </div>
+          className="w-full h-12"
+        >
+          <CreditCard className="w-5 h-5 mr-2" />
+          {user ? 'Subscribe with Stripe' : 'Sign In & Subscribe'}
+        </ExecutiveButton>
+      </div>
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={handleAuthSuccess}
+      />
 
       </div>
     </div>
