@@ -23,9 +23,9 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               <span className="text-2xl font-bold text-foreground">APEX</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
-              <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
-              <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">About</a>
+              <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors scroll-smooth">Features</a>
+              <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors scroll-smooth">Pricing</a>
+              <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors scroll-smooth">About</a>
             </div>
             <ExecutiveButton onClick={onGetStarted} variant="primary">
               Get Started

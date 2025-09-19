@@ -87,49 +87,57 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
 
   if (showStrategyCopilot) {
     return (
-      <StrategyCopilot 
-        onBack={() => setShowStrategyCopilot(false)}
-        onHome={goHome}
-        userRole={userRole}
-        userObjective={userObjective}
-        tier={tier}
-      />
+      <div className="animate-fade-in">
+        <StrategyCopilot 
+          onBack={() => setShowStrategyCopilot(false)}
+          onHome={goHome}
+          userRole={userRole}
+          userObjective={userObjective}
+          tier={tier}
+        />
+      </div>
     );
   }
 
   if (showPerformanceHabits) {
     return (
-      <PerformanceHabits 
-        onBack={() => setShowPerformanceHabits(false)}
-        onHome={goHome}
-        userRole={userRole}
-      />
+      <div className="animate-fade-in">
+        <PerformanceHabits 
+          onBack={() => setShowPerformanceHabits(false)}
+          onHome={goHome}
+          userRole={userRole}
+        />
+      </div>
     );
   }
 
   if (showScenarioLibrary) {
     return (
-      <ScenarioLibrary 
-        onBack={() => setShowScenarioLibrary(false)}
-        onHome={goHome}
-        userRole={userRole}
-      />
+      <div className="animate-fade-in">
+        <ScenarioLibrary 
+          onBack={() => setShowScenarioLibrary(false)}
+          onHome={goHome}
+          userRole={userRole}
+        />
+      </div>
     );
   }
 
   if (showSubscription) {
     return (
-      <SubscriptionScreen 
-        onBack={() => setShowSubscription(false)}
-        onSubscribe={(selectedTier) => {
-          // Close subscription screen and trigger upgrade flow
-          setShowSubscription(false);
-          if (onUpgrade) {
-            onUpgrade(selectedTier);
-          }
-        }}
-        currentTier={tier}
-      />
+      <div className="animate-fade-in">
+        <SubscriptionScreen 
+          onBack={() => setShowSubscription(false)}
+          onSubscribe={(selectedTier) => {
+            // Close subscription screen and trigger upgrade flow
+            setShowSubscription(false);
+            if (onUpgrade) {
+              onUpgrade(selectedTier);
+            }
+          }}
+          currentTier={tier}
+        />
+      </div>
     );
   }
 
