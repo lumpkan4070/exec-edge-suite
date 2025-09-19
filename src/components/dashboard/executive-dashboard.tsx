@@ -1,15 +1,31 @@
 import { useState, useEffect } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { MessageSquare, Target, BarChart3, Settings, Zap, TrendingUp, Users, Brain, Trophy, Clock } from "lucide-react";
+import StrategyCopilot from "@/components/ai-copilot/strategy-copilot";
+import SubscriptionScreen from "@/components/subscription/subscription-screen";
+import PerformanceHabits from "@/components/dashboard/performance-habits";
+import ScenarioLibrary from "@/components/dashboard/scenario-library";
 
-interface DashboardProps {
-  userName: string;
-  role: string;
-  objective: string;
-  onNavigate: (screen: string) => void;
+interface ExecutiveDashboardProps {
+  userRole: string;
+  userObjective: string;
+  tier: string;
 }
 
-export default function ExecutiveDashboard({ userName, role, objective, onNavigate }: DashboardProps) {
+export default function ExecutiveDashboard({ userRole, userObjective, tier }: ExecutiveDashboardProps) {
+  const [showStrategyCopilot, setShowStrategyCopilot] = useState(false);
+  const [showPerformanceHabits, setShowPerformanceHabits] = useState(false);
+  const [showScenarioLibrary, setShowScenarioLibrary] = useState(false);
+  const [showSubscription, setShowSubscription] = useState(false);
+
+  const getTierTheme = () => {
+    switch (tier) {
+      case 'professional': return 'professional-theme';
+      case 'personal': return 'personal-theme';
+      default: return '';
+    }
+  };
+
   const [confidenceLevel, setConfidenceLevel] = useState(78);
   const [performanceMetrics, setPerformanceMetrics] = useState({
     meetingsPrepped: 12,
@@ -23,12 +39,12 @@ export default function ExecutiveDashboard({ userName, role, objective, onNaviga
       "sales-leader": [
         "💰 SALES EDGE: Your closing power increases 40% when you pause 3 seconds before responding to objections. Use this in today's negotiations.",
         "🎯 REVENUE BOOST: High-performing sales leaders visualize the signed contract 3x more than average. Spend 2 minutes seeing today's deal closed.",
-        "⚡ AUTHORITY MOVE: Frame every client interaction around their Q4 objectives. Ask: 'How does this impact your year-end goals?' Instant executive credibility."
+        "⚡ PSYCHOLOGY WIN: Mirror your prospect's communication style (fast/slow, data/emotion) for 23% higher close rates. Match their energy today."
       ],
       "entrepreneur": [
-        "🚀 FOUNDER POWER: Investor confidence increases 60% when you lead with market size, not product features. Start every pitch with the billion-dollar opportunity.",
-        "💡 STRATEGIC EDGE: The most successful entrepreneurs ask 'What would this look like if it were easy?' Apply this framework to today's biggest challenge.",
-        "🎯 EXECUTION BOOST: Executive presence is 67% decisive communication. Make statements, not suggestions. Own your space and decisions today."
+        "🚀 FOUNDER EDGE: VCs fund confidence, not just ideas. Practice your 2-minute pitch until you can deliver it while visualizing their 'yes.'",
+        "💡 STRATEGIC POWER: Market leaders think customer obsession, not feature obsession. Ask 3 customers what problem keeps them awake tonight.",
+        "🎯 EXECUTION BOOST: High-growth founders time-block ruthlessly. Dedicate 90 minutes today to your #1 needle-moving activity."
       ],
       "executive": [
         "👑 LEADERSHIP EDGE: Team performance increases 45% when you create psychological safety first. Start today's interactions with: 'What are we not seeing?'",
@@ -37,7 +53,7 @@ export default function ExecutiveDashboard({ userName, role, objective, onNaviga
       ]
     };
     
-    const boosts = roleSpecificBoosts[role as keyof typeof roleSpecificBoosts] || roleSpecificBoosts.executive;
+    const boosts = roleSpecificBoosts[userRole as keyof typeof roleSpecificBoosts] || roleSpecificBoosts.executive;
     return boosts[Math.floor(Math.random() * boosts.length)];
   };
 
@@ -61,19 +77,61 @@ export default function ExecutiveDashboard({ userName, role, objective, onNaviga
     return "Evening";
   };
 
+  if (showStrategyCopilot) {
+    return (
+      <StrategyCopilot 
+        onBack={() => setShowStrategyCopilot(false)}
+        userRole={userRole}
+        userObjective={userObjective}
+        tier={tier}
+      />
+    );
+  }
+
+  if (showPerformanceHabits) {
+    return (
+      <PerformanceHabits 
+        onBack={() => setShowPerformanceHabits(false)}
+        userRole={userRole}
+      />
+    );
+  }
+
+  if (showScenarioLibrary) {
+    return (
+      <ScenarioLibrary 
+        onBack={() => setShowScenarioLibrary(false)}
+        userRole={userRole}
+      />
+    );
+  }
+
+  if (showSubscription) {
+    return (
+      <SubscriptionScreen 
+        onBack={() => setShowSubscription(false)}
+        onSubscribe={(tier) => {
+          console.log("Subscribing to:", tier);
+          setShowSubscription(false);
+        }}
+        currentTier={tier}
+      />
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className={cn("min-h-screen bg-background", getTierTheme())}>
       {/* Header */}
       <header className="border-b border-border p-6 bg-card shadow-sm">
         <div className="flex items-center justify-between max-w-4xl mx-auto">
           <div>
             <h1 className="text-2xl font-bold text-foreground mb-1">
-              {getTimeOfDay()}, {userName}
+              {getTimeOfDay()}, Executive
             </h1>
             <p className="text-muted-foreground font-medium">Let's frame your day for executive success</p>
           </div>
           <button
-            onClick={() => onNavigate('settings')}
+            onClick={() => setShowSubscription(true)}
             className="p-3 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-105"
           >
             <Settings className="w-6 h-6 text-muted-foreground" />
@@ -81,152 +139,110 @@ export default function ExecutiveDashboard({ userName, role, objective, onNaviga
         </div>
       </header>
 
-      {/* Main Content */}
       <div className="p-6 space-y-8 max-w-4xl mx-auto">
         {/* Today's Executive Boost */}
-        <div className="executive-card p-8 animate-fade-in shadow-lg">
-          <div className="flex items-center mb-6">
-            <div className="w-12 h-12 bg-electric rounded-2xl flex items-center justify-center mr-4 shadow-md">
-              <Zap className="w-6 h-6 text-electric-foreground" />
-            </div>
-            <h2 className="text-2xl font-bold text-foreground">Today's Executive Boost</h2>
+        <div className="executive-card p-6 shadow-lg">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">Today's Executive Boost</h2>
+            <Brain className="w-6 h-6 text-electric" />
           </div>
-          <p className="text-foreground leading-relaxed text-lg font-medium">{getTodaysBoost()}</p>
+          <p className="text-foreground leading-relaxed text-lg">{getTodaysBoost()}</p>
         </div>
 
-        {/* Performance Analytics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Quick Access */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <ExecutiveButton
+            variant="outline"
+            onClick={() => setShowStrategyCopilot(true)}
+            className="h-20 flex-col space-y-2"
+          >
+            <MessageSquare className="w-6 h-6" />
+            <span>AI Strategy Co-pilot</span>
+          </ExecutiveButton>
+          
+          <ExecutiveButton
+            variant="outline"
+            onClick={() => setShowScenarioLibrary(true)}
+            className="h-20 flex-col space-y-2"
+          >
+            <Target className="w-6 h-6" />
+            <span>Scenario Library</span>
+          </ExecutiveButton>
+          
+          <ExecutiveButton
+            variant="outline"
+            onClick={() => setShowPerformanceHabits(true)}
+            className="h-20 flex-col space-y-2"
+          >
+            <Trophy className="w-6 h-6" />
+            <span>Performance Habits</span>
+          </ExecutiveButton>
+        </div>
+
+        {/* Performance Dashboard */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Confidence Meter */}
           <div className="executive-card p-6 shadow-lg">
             <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center">
-                <Brain className="w-6 h-6 text-electric mr-3" />
-                <h3 className="text-lg font-bold text-foreground">Confidence Level</h3>
-              </div>
-              <span className="metric-display text-3xl font-mono font-bold text-electric">{confidenceLevel}%</span>
+              <h3 className="text-lg font-bold text-foreground">Confidence Level</h3>
+              <div className="metric-display text-2xl">{confidenceLevel}%</div>
             </div>
-            <div className="w-full bg-muted rounded-full h-3 mb-3 shadow-inner">
+            <div className="w-full bg-muted rounded-full h-3 mb-2">
               <div 
-                className="confidence-meter h-3 transition-all duration-700 ease-out rounded-full shadow-sm"
+                className="confidence-meter h-3 rounded-full transition-all duration-500" 
                 style={{ width: `${confidenceLevel}%` }}
               />
             </div>
-            <p className="text-sm text-muted-foreground font-medium">
-              Peak zone: 80%+ • Growing: +{performanceMetrics.weeklyGrowth}% this week
+            <p className="text-sm text-muted-foreground">
+              {confidenceLevel >= 85 ? "🔥 Peak performance zone" : 
+               confidenceLevel >= 75 ? "⚡ Strong confidence" : 
+               "💪 Building momentum"}
             </p>
           </div>
 
-          {/* Weekly Performance */}
+          {/* Performance Metrics */}
           <div className="executive-card p-6 shadow-lg">
-            <div className="flex items-center mb-4">
-              <Trophy className="w-6 h-6 text-electric mr-3" />
-              <h3 className="text-lg font-bold text-foreground">This Week's Impact</h3>
-            </div>
+            <h3 className="text-lg font-bold text-foreground mb-4">This Week's Impact</h3>
             <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground font-medium">Meetings Prepped</span>
-                <span className="text-2xl font-bold text-electric">{performanceMetrics.meetingsPrepped}</span>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Meetings Prepped</span>
+                <span className="metric-display">{performanceMetrics.meetingsPrepped}</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground font-medium">Deals Advanced</span>
-                <span className="text-2xl font-bold text-electric">{performanceMetrics.dealsAdvanced}</span>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Deals Advanced</span>
+                <span className="metric-display">{performanceMetrics.dealsAdvanced}</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground font-medium">Team Interactions</span>
-                <span className="text-2xl font-bold text-electric">{performanceMetrics.teamInteractions}</span>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Team Interactions</span>
+                <span className="metric-display">{performanceMetrics.teamInteractions}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Weekly Growth</span>
+                <span className="metric-display">+{performanceMetrics.weeklyGrowth}%</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-bold text-foreground">Executive Tools</h3>
-          
-          <ExecutiveButton
-            variant="primary"
-            onClick={() => onNavigate('ai-copilot')}
-            className="w-full h-20 justify-start shadow-lg hover:shadow-xl transition-all duration-200"
-          >
-            <MessageSquare className="mr-4 h-6 w-6" />
-            <div className="text-left">
-              <div className="font-bold text-lg">AI Strategy Co-pilot</div>
-              <div className="text-sm opacity-90">Get strategic insights and confidence boosts</div>
-            </div>
-          </ExecutiveButton>
-
-          <ExecutiveButton
-            variant="secondary"
-            onClick={() => onNavigate('scenarios')}
-            className="w-full h-20 justify-start shadow-lg hover:shadow-xl transition-all duration-200"
-          >
-            <Target className="mr-4 h-6 w-6" />
-            <div className="text-left">
-              <div className="font-bold text-lg">Scenario Library</div>
-              <div className="text-sm opacity-90">Practice high-stakes situations</div>
-            </div>
-          </ExecutiveButton>
-
-          <ExecutiveButton
-            variant="secondary"
-            onClick={() => onNavigate('habits')}
-            className="w-full h-20 justify-start shadow-lg hover:shadow-xl transition-all duration-200"
-          >
-            <BarChart3 className="mr-4 h-6 w-6" />
-            <div className="text-left">
-              <div className="font-bold text-lg">Executive Habits</div>
-              <div className="text-sm opacity-90">Track performance-critical behaviors</div>
-            </div>
-          </ExecutiveButton>
-        </div>
-
-        {/* Status */}
-        <div className="executive-card p-6 shadow-lg">
+        {/* Upgrade CTA */}
+        <div className="executive-card p-6 shadow-lg bg-gradient-to-r from-electric/10 to-electric/5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <div className="w-3 h-3 bg-electric rounded-full mr-3 animate-pulse shadow-sm" />
-              <span className="font-bold text-foreground">Trial Active</span>
+            <div>
+              <h3 className="text-lg font-bold text-foreground mb-2">Unlock Your Full Potential</h3>
+              <p className="text-muted-foreground">
+                Access advanced scenarios, voice coaching, and weekly AI reports
+              </p>
             </div>
             <ExecutiveButton
-              variant="outline"
-              size="sm"
-              onClick={() => onNavigate('subscription')}
-              className="font-bold"
+              variant="primary"
+              onClick={() => setShowSubscription(true)}
+              className="ml-4"
             >
-              Upgrade to Pro
+              Upgrade Now
             </ExecutiveButton>
           </div>
         </div>
       </div>
-
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg backdrop-blur-sm">
-        <div className="flex justify-around py-3 max-w-4xl mx-auto">
-          {[
-            { icon: TrendingUp, label: "Home", active: true, action: () => {} },
-            { icon: MessageSquare, label: "Chat", active: false, action: () => onNavigate('ai-copilot') },
-            { icon: BarChart3, label: "Habits", active: false, action: () => onNavigate('habits') },
-            { icon: Users, label: "Profile", active: false, action: () => onNavigate('settings') },
-          ].map((item) => {
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.label}
-                onClick={item.action}
-                className={cn(
-                  "flex flex-col items-center py-3 px-6 transition-all duration-200 rounded-xl",
-                  item.active 
-                    ? "text-electric bg-electric/10 scale-105" 
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                )}
-              >
-                <Icon className="w-6 h-6 mb-1" />
-                <span className="text-xs font-medium">{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </nav>
     </div>
   );
 }

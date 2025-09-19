@@ -4,6 +4,7 @@ import { ArrowRight, DollarSign, Zap, Crown } from "lucide-react";
 
 interface ObjectiveScreenProps {
   role: string;
+  tier: string;
   onComplete: (objective: string) => void;
 }
 
@@ -75,21 +76,35 @@ const objectivesByRole: Record<string, Array<{
   ],
 };
 
-export default function ObjectiveScreen({ role, onComplete }: ObjectiveScreenProps) {
+export default function ObjectiveScreen({ role, tier, onComplete }: ObjectiveScreenProps) {
   const [selectedObjective, setSelectedObjective] = useState<string>("");
   const objectives = objectivesByRole[role] || objectivesByRole["executive"];
+
+  const getTierTheme = () => {
+    switch (tier) {
+      case 'professional': return 'professional-theme';
+      case 'personal': return 'personal-theme';
+      default: return '';
+    }
+  };
 
   const getRoleTitle = (role: string) => {
     switch (role) {
       case "sales-leader": return "Sales Leader";
       case "entrepreneur": return "Entrepreneur";
       case "executive": return "Executive";
+      case "freelancer": return "Freelancer";
+      case "manager": return "Manager";
+      case "analyst": return "Analyst";
+      case "confidence": return "Confidence Building";
+      case "motivation": return "Motivation";
+      case "lifestyle": return "Lifestyle Improvement";
       default: return "Executive";
     }
   };
 
   return (
-    <div className="min-h-screen bg-background dark:bg-primary flex items-center justify-center px-4">
+    <div className={cn("min-h-screen bg-background flex items-center justify-center px-4", getTierTheme())}>
       <div className="max-w-md w-full space-y-8 animate-executive-slide-in">
         {/* Header */}
         <div className="text-center">

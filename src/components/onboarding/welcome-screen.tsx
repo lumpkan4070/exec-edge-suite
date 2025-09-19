@@ -4,34 +4,52 @@ import { ArrowRight, Target, TrendingUp, Users } from "lucide-react";
 
 interface WelcomeScreenProps {
   onNext: (role: string) => void;
+  tier: string;
 }
 
-const roles = [
-  {
-    id: "sales-leader",
-    title: "Sales Leader",
-    description: "Drive revenue and close more deals",
-    icon: TrendingUp,
-  },
-  {
-    id: "entrepreneur",
-    title: "Entrepreneur",
-    description: "Scale your business and lead with confidence",
-    icon: Target,
-  },
-  {
-    id: "executive",
-    title: "Executive",
-    description: "Lead teams and make strategic decisions",
-    icon: Users,
-  },
-];
+// Roles by tier
+const rolesByTier = {
+  executive: [
+    { id: "sales-leader", title: "Sales Leader", description: "Drive revenue and close more deals", icon: TrendingUp },
+    { id: "entrepreneur", title: "Entrepreneur", description: "Scale your business and lead with confidence", icon: Target },
+    { id: "executive", title: "Executive", description: "Lead teams and make strategic decisions", icon: Users }
+  ],
+  professional: [
+    { id: "freelancer", title: "Freelancer", description: "Build your client base and grow income", icon: Target },
+    { id: "manager", title: "Manager", description: "Lead teams and improve productivity", icon: Users },
+    { id: "analyst", title: "Analyst", description: "Advance your career with confidence", icon: TrendingUp }
+  ],
+  personal: [
+    { id: "confidence", title: "Build Confidence", description: "Overcome self-doubt and speak up", icon: Target },
+    { id: "motivation", title: "Stay Motivated", description: "Maintain momentum and achieve goals", icon: TrendingUp },
+    { id: "lifestyle", title: "Improve Lifestyle", description: "Create positive daily habits", icon: Users }
+  ]
+};
 
-export default function WelcomeScreen({ onNext }: WelcomeScreenProps) {
+export default function WelcomeScreen({ onNext, tier }: WelcomeScreenProps) {
   const [selectedRole, setSelectedRole] = useState<string>("");
+  
+  const roles = rolesByTier[tier as keyof typeof rolesByTier] || rolesByTier.executive;
+  
+  const getTierTheme = () => {
+    switch (tier) {
+      case 'professional': return 'professional-theme';
+      case 'personal': return 'personal-theme';
+      default: return '';
+    }
+  };
+
+  const getTierTagline = () => {
+    switch (tier) {
+      case 'executive': return '"Your Executive Edge in 90 Days"';
+      case 'professional': return '"Level Up Your Career"';
+      case 'personal': return '"Grow Your Confidence Daily"';
+      default: return '"Your Executive Edge in 90 Days"';
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-background dark:bg-primary flex items-center justify-center px-4">
+    <div className={cn("min-h-screen bg-background flex items-center justify-center px-4", getTierTheme())}>
       <div className="max-w-md w-full space-y-8 animate-executive-slide-in">
         {/* Logo/Brand */}
         <div className="text-center">
@@ -42,14 +60,14 @@ export default function WelcomeScreen({ onNext }: WelcomeScreenProps) {
             AI Executive Performance Coach
           </h1>
           <p className="text-xl text-electric font-semibold">
-            "Your Executive Edge in 90 Days"
+            {getTierTagline()}
           </p>
         </div>
 
         {/* Role Selection */}
         <div className="space-y-4">
           <h2 className="text-lg font-semibold text-center text-foreground">
-            Select Your Role
+            {tier === 'personal' ? 'Select Your Goal' : tier === 'professional' ? 'Select Your Stage' : 'Select Your Role'}
           </h2>
           <div className="space-y-3">
             {roles.map((role) => {

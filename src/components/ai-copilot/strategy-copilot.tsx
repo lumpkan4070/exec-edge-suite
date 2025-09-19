@@ -13,6 +13,7 @@ interface StrategyCopilotProps {
   onBack: () => void;
   userRole: string;
   userObjective: string;
+  tier: string;
 }
 
 const getCoachingCategories = (role: string, objective: string) => {
@@ -34,7 +35,7 @@ const getCoachingCategories = (role: string, objective: string) => {
   return baseCategories;
 };
 
-export default function StrategyCopilot({ onBack, userRole, userObjective }: StrategyCopilotProps) {
+export default function StrategyCopilot({ onBack, userRole, userObjective, tier }: StrategyCopilotProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',

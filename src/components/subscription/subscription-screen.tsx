@@ -1,46 +1,117 @@
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { ArrowLeft, Check, Crown, Zap, TrendingUp, Users, Target } from "lucide-react";
+import { ArrowLeft, Check, Crown, Zap, TrendingUp, Users, Target, Briefcase, Heart } from "lucide-react";
 
 interface SubscriptionScreenProps {
   onBack: () => void;
   onSubscribe: (tier: string) => void;
+  currentTier: string;
 }
 
-const tiers = [
-  {
-    id: "pro",
-    name: "Pro",
-    price: "$49.99",
-    period: "/month",
-    description: "Core executive coaching + habits",
-    features: [
-      "AI Strategy Co-pilot",
-      "Daily confidence boosts",
-      "Executive habits tracker",
-      "Performance analytics",
-      "Email support",
-    ],
-    icon: Zap,
-    popular: false,
-  },
-  {
-    id: "executive",
-    name: "Executive",
-    price: "$99.99",
-    period: "/month",
-    description: "Complete executive transformation suite",
-    features: [
-      "Everything in Pro",
-      "Scenario library & simulations",
-      "Weekly AI performance report",
-      "Team leadership tools",
-      "Priority support",
-      "Custom coaching sessions",
-    ],
-    icon: Crown,
-    popular: true,
-  },
-];
+const tierPlans = {
+  executive: [
+    {
+      id: "pro",
+      name: "Pro",
+      price: "$49.99",
+      period: "/month",
+      description: "Core executive coaching + habits",
+      features: [
+        "AI Strategy Co-pilot",
+        "Executive Dashboard & Analytics",
+        "Daily confidence boosts",
+        "Performance habits tracker",
+        "Email support",
+      ],
+      icon: Zap,
+      popular: false,
+    },
+    {
+      id: "executive",
+      name: "Executive",
+      price: "$99.99", 
+      period: "/month",
+      description: "Complete executive transformation suite",
+      features: [
+        "Everything in Pro",
+        "Scenario library & simulations",
+        "Weekly AI performance report",
+        "Voice coaching mode",
+        "Team leadership tools",
+        "Priority support",
+      ],
+      icon: Crown,
+      popular: true,
+    },
+  ],
+  professional: [
+    {
+      id: "core",
+      name: "Core",
+      price: "$19.99",
+      period: "/month", 
+      description: "Essential career growth tools",
+      features: [
+        "AI Growth Coach",
+        "Daily confidence boosts",
+        "Performance dashboard",
+        "Career habits tracker",
+        "Email support",
+      ],
+      icon: Briefcase,
+      popular: false,
+    },
+    {
+      id: "advanced",
+      name: "Advanced",
+      price: "$29.99",
+      period: "/month",
+      description: "Complete professional development",
+      features: [
+        "Everything in Core",
+        "Mini-scenarios (Interview, Client)",
+        "Weekly progress reports",
+        "Advanced analytics",
+        "Priority support",
+      ],
+      icon: TrendingUp,
+      popular: true,
+    },
+  ],
+  personal: [
+    {
+      id: "basic",
+      name: "Basic",
+      price: "$9.99",
+      period: "/month",
+      description: "Daily motivation and confidence",
+      features: [
+        "AI Daily Motivation Coach",
+        "Confidence tracker & streaks",
+        "Daily affirmations",
+        "Basic journaling",
+        "Community support",
+      ],
+      icon: Heart,
+      popular: false,
+    },
+    {
+      id: "premium",
+      name: "Premium", 
+      price: "$14.99",
+      period: "/month",
+      description: "Complete personal growth experience",
+      features: [
+        "Everything in Basic",
+        "Gamified challenges",
+        "Social sharing",
+        "Advanced affirmations",
+        "Personal insights",
+      ],
+      icon: Crown,
+      popular: true,
+    },
+  ],
+};
 
 const roiMetrics = [
   { icon: TrendingUp, text: "Close 23% more deals on average" },
@@ -48,9 +119,28 @@ const roiMetrics = [
   { icon: Target, text: "Boost confidence in 14 days" },
 ];
 
-export default function SubscriptionScreen({ onBack, onSubscribe }: SubscriptionScreenProps) {
+export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }: SubscriptionScreenProps) {
+  const tiers = tierPlans[currentTier as keyof typeof tierPlans] || tierPlans.executive;
+  
+  const getTierTheme = () => {
+    switch (currentTier) {
+      case 'professional': return 'professional-theme';
+      case 'personal': return 'personal-theme';
+      default: return '';
+    }
+  };
+
+  const getTierTitle = () => {
+    switch (currentTier) {
+      case 'executive': return 'Upgrade to Unlock Performance';
+      case 'professional': return 'Accelerate Your Career Growth';
+      case 'personal': return 'Unlock Your Confidence Journey';
+      default: return 'Upgrade to Unlock Performance';
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className={cn("min-h-screen bg-background", getTierTheme())}>
       {/* Header */}
       <header className="border-b border-border p-6 bg-card shadow-sm">
         <div className="flex items-center max-w-4xl mx-auto">
@@ -61,8 +151,12 @@ export default function SubscriptionScreen({ onBack, onSubscribe }: Subscription
             <ArrowLeft className="w-6 h-6" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Upgrade to Unlock Performance</h1>
-            <p className="text-muted-foreground font-medium">Choose your executive edge</p>
+            <h1 className="text-2xl font-bold text-foreground">{getTierTitle()}</h1>
+            <p className="text-muted-foreground font-medium">
+              {currentTier === 'personal' ? 'Choose your growth plan' : 
+               currentTier === 'professional' ? 'Choose your career edge' : 
+               'Choose your executive edge'}
+            </p>
           </div>
         </div>
       </header>
