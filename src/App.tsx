@@ -15,6 +15,7 @@ import Careers from "./pages/Careers";
 import HelpCenter from "./pages/HelpCenter";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
+import Audit from "./pages/Audit";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/help" element={<HelpCenter />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/audit" element={<Audit />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
