@@ -277,19 +277,18 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
       </section>
 
       {/* Why Work at APEX Section */}
-      <section id="about" className="py-20 px-6 bg-gradient-to-br from-charcoal-black via-charcoal-black/95 to-electric/10 text-white relative overflow-hidden">
+      <section id="about" className="py-20 px-6 bg-gradient-to-br from-background via-background to-electric/5 relative overflow-hidden">
         {/* Background elements */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--electric-blue)_0%,_transparent_70%)] opacity-10"></div>
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-electric/50 to-transparent"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--electric-blue)_0%,_transparent_80%)] opacity-5"></div>
         <div className="absolute -top-20 -right-20 w-80 h-80 bg-electric/5 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-electric/10 rounded-full blur-2xl"></div>
         
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
               Why Work at APEX?
             </h2>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Join a team that's transforming leadership development with cutting-edge AI and executive expertise.
             </p>
           </div>
@@ -297,7 +296,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             {/* Left side - Enhanced testimonial */}
             <div className="relative">
-              <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl p-12 relative">
+              <div className="executive-card p-12 bg-gradient-to-br from-electric/5 to-electric/10 border-electric/20 relative">
                 {/* Decorative elements */}
                 <div className="absolute -top-3 -left-3 w-6 h-6 bg-electric rounded-full opacity-60"></div>
                 <div className="absolute -bottom-3 -right-3 w-4 h-4 bg-electric/60 rounded-full opacity-80"></div>
@@ -310,10 +309,10 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                 
                 <blockquote className="text-center">
                   <div className="text-6xl text-electric/30 mb-4 font-bold">"</div>
-                  <p className="text-2xl font-medium text-white mb-6 leading-relaxed">
+                  <p className="text-2xl font-medium text-foreground mb-6 leading-relaxed">
                     At APEX, I've grown faster than in any role before.
                   </p>
-                  <footer className="text-white/70 text-lg">
+                  <footer className="text-muted-foreground text-lg">
                     — Sarah Chen, Senior Team Member
                   </footer>
                 </blockquote>
@@ -322,50 +321,50 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             
             {/* Right side - Enhanced benefits grid */}
             <div className="grid grid-cols-1 gap-6">
-              <div className="group p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)]">
+              <div className="group p-6 executive-card hover:shadow-electric/20 hover:shadow-xl transition-all duration-500 hover:scale-105">
                 <div className="flex items-center space-x-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-electric/20 to-electric/30 rounded-2xl flex items-center justify-center group-hover:from-electric/30 group-hover:to-electric/40 transition-all duration-300 shadow-lg">
+                  <div className="w-16 h-16 bg-gradient-to-br from-electric/10 to-electric/20 rounded-2xl flex items-center justify-center group-hover:from-electric/20 group-hover:to-electric/30 transition-all duration-300 shadow-lg">
                     <Target className="w-8 h-8 text-electric" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-white mb-2">Comprehensive Health</h3>
-                    <p className="text-white/70 text-lg leading-relaxed">World-class medical, dental, and vision for you and your family.</p>
+                    <h3 className="text-2xl font-bold text-foreground mb-2">Comprehensive Health</h3>
+                    <p className="text-muted-foreground text-lg leading-relaxed">World-class medical, dental, and vision for you and your family.</p>
                   </div>
                 </div>
               </div>
 
-              <div className="group p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)]">
+              <div className="group p-6 executive-card hover:shadow-electric/20 hover:shadow-xl transition-all duration-500 hover:scale-105">
                 <div className="flex items-center space-x-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-electric/20 to-electric/30 rounded-2xl flex items-center justify-center group-hover:from-electric/30 group-hover:to-electric/40 transition-all duration-300 shadow-lg">
+                  <div className="w-16 h-16 bg-gradient-to-br from-electric/10 to-electric/20 rounded-2xl flex items-center justify-center group-hover:from-electric/20 group-hover:to-electric/30 transition-all duration-300 shadow-lg">
                     <Zap className="w-8 h-8 text-electric" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-white mb-2">Flexible Work</h3>
-                    <p className="text-white/70 text-lg leading-relaxed">Remote-first culture with flexible hours and unlimited PTO.</p>
+                    <h3 className="text-2xl font-bold text-foreground mb-2">Flexible Work</h3>
+                    <p className="text-muted-foreground text-lg leading-relaxed">Remote-first culture with flexible hours and unlimited PTO.</p>
                   </div>
                 </div>
               </div>
 
-              <div className="group p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)]">
+              <div className="group p-6 executive-card hover:shadow-electric/20 hover:shadow-xl transition-all duration-500 hover:scale-105">
                 <div className="flex items-center space-x-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-electric/20 to-electric/30 rounded-2xl flex items-center justify-center group-hover:from-electric/30 group-hover:to-electric/40 transition-all duration-300 shadow-lg">
+                  <div className="w-16 h-16 bg-gradient-to-br from-electric/10 to-electric/20 rounded-2xl flex items-center justify-center group-hover:from-electric/20 group-hover:to-electric/30 transition-all duration-300 shadow-lg">
                     <Brain className="w-8 h-8 text-electric" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-white mb-2">Growth & Learning</h3>
-                    <p className="text-white/70 text-lg leading-relaxed">Annual learning budget, mentorship, and conference access.</p>
+                    <h3 className="text-2xl font-bold text-foreground mb-2">Growth & Learning</h3>
+                    <p className="text-muted-foreground text-lg leading-relaxed">Annual learning budget, mentorship, and conference access.</p>
                   </div>
                 </div>
               </div>
 
-              <div className="group p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)]">
+              <div className="group p-6 executive-card hover:shadow-electric/20 hover:shadow-xl transition-all duration-500 hover:scale-105">
                 <div className="flex items-center space-x-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-electric/20 to-electric/30 rounded-2xl flex items-center justify-center group-hover:from-electric/30 group-hover:to-electric/40 transition-all duration-300 shadow-lg">
+                  <div className="w-16 h-16 bg-gradient-to-br from-electric/10 to-electric/20 rounded-2xl flex items-center justify-center group-hover:from-electric/20 group-hover:to-electric/30 transition-all duration-300 shadow-lg">
                     <BarChart3 className="w-8 h-8 text-electric" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-white mb-2">Equity & Impact</h3>
-                    <p className="text-white/70 text-lg leading-relaxed">Equity participation and a chance to transform leadership.</p>
+                    <h3 className="text-2xl font-bold text-foreground mb-2">Equity & Impact</h3>
+                    <p className="text-muted-foreground text-lg leading-relaxed">Equity participation and a chance to transform leadership.</p>
                   </div>
                 </div>
               </div>
