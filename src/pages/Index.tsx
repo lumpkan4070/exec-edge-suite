@@ -1,51 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useUser } from "@/contexts/user-context";
-import TierSelection from "@/components/onboarding/tier-selection";
-import WelcomeScreen from "@/components/onboarding/welcome-screen";
-import ObjectiveScreen from "@/components/onboarding/objective-screen";
-import ExecutiveDashboard from "@/components/dashboard/executive-dashboard";
+import Landing from "./Landing";
+import Dashboard from "./Dashboard";
 
 export default function Index() {
-  const { userData, setUserData } = useUser();
-  const [currentStep, setCurrentStep] = useState<"tier" | "welcome" | "objective" | "dashboard">("tier");
+  const { userData } = useUser();
+  const [showDashboard, setShowDashboard] = useState(false);
 
-  // Load existing user data on mount
-  useEffect(() => {
-    if (userData.tier && userData.role && userData.objective) {
-      setCurrentStep("dashboard");
-    } else if (userData.tier && userData.role) {
-      setCurrentStep("objective");
-    } else if (userData.tier) {
-      setCurrentStep("welcome");
-    }
-  }, [userData]);
+  // Check if user should go directly to dashboard
+  const shouldShowDashboard = showDashboard || (userData.tier && userData.role && userData.objective);
 
-  const handleTierSelection = (tier: string) => {
-    setUserData({ tier });
-    setCurrentStep("welcome");
-  };
-
-  const handleRoleSelection = (role: string) => {
-    setUserData({ role });
-    setCurrentStep("objective");
-  };
-
-  const handleObjectiveSelection = (objective: string) => {
-    setUserData({ objective });
-    setCurrentStep("dashboard");
-  };
-
-  if (currentStep === "tier") {
-    return <TierSelection onNext={handleTierSelection} />;
+  if (shouldShowDashboard) {
+    return <Dashboard />;
   }
 
-  if (currentStep === "welcome") {
-    return <WelcomeScreen onNext={handleRoleSelection} tier={userData.tier || ""} />;
-  }
-
-  if (currentStep === "objective") {
-    return <ObjectiveScreen role={userData.role || ""} tier={userData.tier || ""} onComplete={handleObjectiveSelection} />;
-  }
-
-  return <ExecutiveDashboard userRole={userData.role || ""} userObjective={userData.objective || ""} tier={userData.tier || ""} />;
+  return <Landing onGetStarted={() => setShowDashboard(true)} />;
 }
