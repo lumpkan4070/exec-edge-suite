@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { ArrowLeft, CheckCircle2, Circle, Zap, Target, Crown } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Circle, Zap, Target, Crown, Home } from "lucide-react";
 
 interface Habit {
   id: string;
@@ -13,6 +13,7 @@ interface Habit {
 
 interface PerformanceHabitsProps {
   onBack: () => void;
+  onHome: () => void;
   userRole: string;
 }
 
@@ -77,7 +78,7 @@ const getHabitsForRole = (role: string): Habit[] => {
   return baseHabits;
 };
 
-export default function PerformanceHabits({ onBack, userRole }: PerformanceHabitsProps) {
+export default function PerformanceHabits({ onBack, onHome, userRole }: PerformanceHabitsProps) {
   const [habits, setHabits] = useState<Habit[]>(getHabitsForRole(userRole));
 
   const toggleHabit = (habitId: string) => {
@@ -113,9 +114,20 @@ export default function PerformanceHabits({ onBack, userRole }: PerformanceHabit
               <p className="text-muted-foreground font-medium">Mission-critical daily behaviors</p>
             </div>
           </div>
-          <div className="text-right">
-            <div className="text-2xl font-bold text-electric">{completedToday}/{totalHabits}</div>
-            <div className="text-sm text-muted-foreground">Completed Today</div>
+          <div className="flex items-center space-x-4">
+            <ExecutiveButton
+              variant="ghost"
+              size="sm"
+              onClick={onHome}
+              className="font-medium"
+            >
+              <Home className="w-5 h-5 mr-2" />
+              Home
+            </ExecutiveButton>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-electric">{completedToday}/{totalHabits}</div>
+              <div className="text-sm text-muted-foreground">Completed Today</div>
+            </div>
           </div>
         </div>
       </header>

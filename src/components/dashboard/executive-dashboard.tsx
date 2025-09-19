@@ -77,10 +77,18 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier }: Ex
     return "Evening";
   };
 
+  const goHome = () => {
+    setShowStrategyCopilot(false);
+    setShowPerformanceHabits(false);
+    setShowScenarioLibrary(false);
+    setShowSubscription(false);
+  };
+
   if (showStrategyCopilot) {
     return (
       <StrategyCopilot 
         onBack={() => setShowStrategyCopilot(false)}
+        onHome={goHome}
         userRole={userRole}
         userObjective={userObjective}
         tier={tier}
@@ -92,6 +100,7 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier }: Ex
     return (
       <PerformanceHabits 
         onBack={() => setShowPerformanceHabits(false)}
+        onHome={goHome}
         userRole={userRole}
       />
     );
@@ -101,6 +110,7 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier }: Ex
     return (
       <ScenarioLibrary 
         onBack={() => setShowScenarioLibrary(false)}
+        onHome={goHome}
         userRole={userRole}
       />
     );

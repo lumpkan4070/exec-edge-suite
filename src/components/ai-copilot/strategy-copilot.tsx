@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { ArrowLeft, Send, Zap, Target, Briefcase, Download, DollarSign, Crown, Lightbulb } from "lucide-react";
+import { ArrowLeft, Send, Zap, Target, Briefcase, Download, DollarSign, Crown, Lightbulb, Home } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
@@ -12,6 +12,7 @@ interface Message {
 
 interface StrategyCopilotProps {
   onBack: () => void;
+  onHome: () => void;
   userRole: string;
   userObjective: string;
   tier: string;
@@ -36,7 +37,7 @@ const getCoachingCategories = (role: string, objective: string) => {
   return baseCategories;
 };
 
-export default function StrategyCopilot({ onBack, userRole, userObjective, tier }: StrategyCopilotProps) {
+export default function StrategyCopilot({ onBack, onHome, userRole, userObjective, tier }: StrategyCopilotProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -151,15 +152,26 @@ export default function StrategyCopilot({ onBack, userRole, userObjective, tier 
               <p className="text-muted-foreground font-medium">Executive performance insights</p>
             </div>
           </div>
-          <ExecutiveButton
-            variant="ghost"
-            size="sm"
-            onClick={handleExportNotes}
-            className="font-medium"
-          >
-            <Download className="w-5 h-5 mr-2" />
-            Export
-          </ExecutiveButton>
+          <div className="flex items-center space-x-2">
+            <ExecutiveButton
+              variant="ghost"
+              size="sm"
+              onClick={onHome}
+              className="font-medium"
+            >
+              <Home className="w-5 h-5 mr-2" />
+              Home
+            </ExecutiveButton>
+            <ExecutiveButton
+              variant="ghost"
+              size="sm"
+              onClick={handleExportNotes}
+              className="font-medium"
+            >
+              <Download className="w-5 h-5 mr-2" />
+              Export
+            </ExecutiveButton>
+          </div>
         </div>
       </header>
 

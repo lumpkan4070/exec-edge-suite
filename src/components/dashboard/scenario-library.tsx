@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { ArrowLeft, Play, Target, DollarSign, Users, Crown, TrendingUp, Briefcase, Mic, MicOff, Volume2 } from "lucide-react";
+import { ArrowLeft, Play, Target, DollarSign, Users, Crown, TrendingUp, Briefcase, Mic, MicOff, Volume2, Home } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -17,6 +17,7 @@ interface Scenario {
 
 interface ScenarioLibraryProps {
   onBack: () => void;
+  onHome: () => void;
   userRole: string;
 }
 
@@ -82,7 +83,7 @@ const scenarios: Scenario[] = [
   }
 ];
 
-export default function ScenarioLibrary({ onBack, userRole }: ScenarioLibraryProps) {
+export default function ScenarioLibrary({ onBack, onHome, userRole }: ScenarioLibraryProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -414,20 +415,29 @@ export default function ScenarioLibrary({ onBack, userRole }: ScenarioLibraryPro
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border p-6 bg-card shadow-sm">
-        <div className="flex items-center justify-between max-w-4xl mx-auto">
-          <div className="flex items-center">
-            <button
-              onClick={onBack}
-              className="mr-4 p-3 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-105"
-            >
-              <ArrowLeft className="w-6 h-6" />
-            </button>
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">Scenario Library</h1>
-              <p className="text-muted-foreground font-medium">Practice high-stakes situations</p>
+          <div className="flex items-center justify-between max-w-4xl mx-auto">
+            <div className="flex items-center">
+              <button
+                onClick={onBack}
+                className="mr-4 p-3 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-105"
+              >
+                <ArrowLeft className="w-6 h-6" />
+              </button>
+              <div>
+                <h1 className="text-2xl font-bold text-foreground">Scenario Library</h1>
+                <p className="text-muted-foreground font-medium">Practice high-stakes situations</p>
+              </div>
             </div>
+            <ExecutiveButton
+              variant="ghost"
+              size="sm"
+              onClick={onHome}
+              className="font-medium"
+            >
+              <Home className="w-5 h-5 mr-2" />
+              Home
+            </ExecutiveButton>
           </div>
-        </div>
       </header>
 
       {/* Content */}
