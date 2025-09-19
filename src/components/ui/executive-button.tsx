@@ -10,6 +10,7 @@ const executiveButtonVariants = cva(
       variant: {
         primary: "executive-button-primary",
         secondary: "executive-button-secondary",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline: "border border-electric text-electric hover:bg-electric hover:text-electric-foreground",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         hero: "bg-electric text-electric-foreground hover:bg-electric/90 text-lg font-semibold px-8 py-6 shadow-lg hover:shadow-xl",
