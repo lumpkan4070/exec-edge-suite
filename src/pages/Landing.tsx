@@ -5,9 +5,10 @@ import { useUser } from "@/contexts/user-context";
 
 interface LandingProps {
   onGetStarted: () => void;
+  onSelectPlan?: (tier: string) => void;
 }
 
-export default function Landing({ onGetStarted }: LandingProps) {
+export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
   const { userData } = useUser();
   const [showDemo, setShowDemo] = useState(false);
 
@@ -194,7 +195,11 @@ export default function Landing({ onGetStarted }: LandingProps) {
                 </div>
               </div>
 
-              <ExecutiveButton onClick={onGetStarted} variant="outline" className="w-full">
+              <ExecutiveButton 
+                onClick={() => onSelectPlan ? onSelectPlan('personal') : onGetStarted()} 
+                variant="outline" 
+                className="w-full"
+              >
                 Start Personal Plan
               </ExecutiveButton>
             </div>
@@ -241,7 +246,11 @@ export default function Landing({ onGetStarted }: LandingProps) {
                 </div>
               </div>
 
-              <ExecutiveButton onClick={onGetStarted} variant="primary" className="w-full">
+              <ExecutiveButton 
+                onClick={() => onSelectPlan ? onSelectPlan('professional') : onGetStarted()} 
+                variant="primary" 
+                className="w-full"
+              >
                 Start Professional Plan
               </ExecutiveButton>
             </div>
