@@ -277,81 +277,95 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
       </section>
 
       {/* Why Work at APEX Section */}
-      <section id="about" className="py-20 px-6 bg-muted/20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+      <section id="about" className="py-20 px-6 bg-gradient-to-br from-charcoal-black via-charcoal-black/95 to-electric/10 text-white relative overflow-hidden">
+        {/* Background elements */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--electric-blue)_0%,_transparent_70%)] opacity-10"></div>
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-electric/50 to-transparent"></div>
+        <div className="absolute -top-20 -right-20 w-80 h-80 bg-electric/5 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-electric/10 rounded-full blur-2xl"></div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
               Why Work at APEX?
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
               Join a team that's transforming leadership development with cutting-edge AI and executive expertise.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left side - Branded visual */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            {/* Left side - Enhanced testimonial */}
             <div className="relative">
-              <div className="executive-card p-12 bg-gradient-to-br from-electric/5 to-electric/10 border-electric/20">
+              <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl p-12 relative">
+                {/* Decorative elements */}
+                <div className="absolute -top-3 -left-3 w-6 h-6 bg-electric rounded-full opacity-60"></div>
+                <div className="absolute -bottom-3 -right-3 w-4 h-4 bg-electric/60 rounded-full opacity-80"></div>
+                
                 <div className="flex items-center justify-center mb-8">
-                  <Crown className="w-16 h-16 text-electric" />
+                  <div className="w-20 h-20 bg-gradient-to-br from-electric to-electric/70 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(59,130,246,0.3)]">
+                    <Crown className="w-10 h-10 text-white" />
+                  </div>
                 </div>
+                
                 <blockquote className="text-center">
-                  <p className="text-xl font-medium text-foreground mb-4">
-                    "At APEX, I've grown faster than in any role before."
+                  <div className="text-6xl text-electric/30 mb-4 font-bold">"</div>
+                  <p className="text-2xl font-medium text-white mb-6 leading-relaxed">
+                    At APEX, I've grown faster than in any role before.
                   </p>
-                  <footer className="text-muted-foreground">
-                    — Senior Team Member
+                  <footer className="text-white/70 text-lg">
+                    — Sarah Chen, Senior Team Member
                   </footer>
                 </blockquote>
               </div>
             </div>
             
-            {/* Right side - Benefits */}
-            <div className="space-y-8">
-              <div className="group cursor-pointer">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-electric/10 rounded-xl flex items-center justify-center group-hover:bg-electric/20 transition-all duration-300 group-hover:scale-110">
-                    <Target className="w-6 h-6 text-electric" />
+            {/* Right side - Enhanced benefits grid */}
+            <div className="grid grid-cols-1 gap-6">
+              <div className="group p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)]">
+                <div className="flex items-center space-x-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-electric/20 to-electric/30 rounded-2xl flex items-center justify-center group-hover:from-electric/30 group-hover:to-electric/40 transition-all duration-300 shadow-lg">
+                    <Target className="w-8 h-8 text-electric" />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2">Comprehensive Health</h3>
-                    <p className="text-muted-foreground">World-class medical, dental, and vision for you and your family.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group cursor-pointer">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-electric/10 rounded-xl flex items-center justify-center group-hover:bg-electric/20 transition-all duration-300 group-hover:scale-110">
-                    <Zap className="w-6 h-6 text-electric" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2">Flexible Work</h3>
-                    <p className="text-muted-foreground">Remote-first culture with flexible hours and unlimited PTO.</p>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-white mb-2">Comprehensive Health</h3>
+                    <p className="text-white/70 text-lg leading-relaxed">World-class medical, dental, and vision for you and your family.</p>
                   </div>
                 </div>
               </div>
 
-              <div className="group cursor-pointer">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-electric/10 rounded-xl flex items-center justify-center group-hover:bg-electric/20 transition-all duration-300 group-hover:scale-110">
-                    <Brain className="w-6 h-6 text-electric" />
+              <div className="group p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)]">
+                <div className="flex items-center space-x-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-electric/20 to-electric/30 rounded-2xl flex items-center justify-center group-hover:from-electric/30 group-hover:to-electric/40 transition-all duration-300 shadow-lg">
+                    <Zap className="w-8 h-8 text-electric" />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2">Growth & Learning</h3>
-                    <p className="text-muted-foreground">Annual learning budget, mentorship, and conference access.</p>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-white mb-2">Flexible Work</h3>
+                    <p className="text-white/70 text-lg leading-relaxed">Remote-first culture with flexible hours and unlimited PTO.</p>
                   </div>
                 </div>
               </div>
 
-              <div className="group cursor-pointer">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-electric/10 rounded-xl flex items-center justify-center group-hover:bg-electric/20 transition-all duration-300 group-hover:scale-110">
-                    <BarChart3 className="w-6 h-6 text-electric" />
+              <div className="group p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)]">
+                <div className="flex items-center space-x-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-electric/20 to-electric/30 rounded-2xl flex items-center justify-center group-hover:from-electric/30 group-hover:to-electric/40 transition-all duration-300 shadow-lg">
+                    <Brain className="w-8 h-8 text-electric" />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2">Equity & Impact</h3>
-                    <p className="text-muted-foreground">Equity participation and a chance to transform leadership.</p>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-white mb-2">Growth & Learning</h3>
+                    <p className="text-white/70 text-lg leading-relaxed">Annual learning budget, mentorship, and conference access.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="group p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)]">
+                <div className="flex items-center space-x-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-electric/20 to-electric/30 rounded-2xl flex items-center justify-center group-hover:from-electric/30 group-hover:to-electric/40 transition-all duration-300 shadow-lg">
+                    <BarChart3 className="w-8 h-8 text-electric" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-white mb-2">Equity & Impact</h3>
+                    <p className="text-white/70 text-lg leading-relaxed">Equity participation and a chance to transform leadership.</p>
                   </div>
                 </div>
               </div>
