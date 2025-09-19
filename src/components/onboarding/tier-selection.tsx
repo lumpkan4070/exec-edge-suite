@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { ArrowRight, Crown, Briefcase, Heart, Check } from "lucide-react";
+import apexLogo from "@/assets/apex-logo.png";
 
 interface TierSelectionProps {
   onNext: (tier: string) => void;
@@ -71,6 +72,13 @@ export default function TierSelection({ onNext }: TierSelectionProps) {
       <div className="max-w-4xl w-full space-y-8 animate-executive-slide-in">
         {/* Header */}
         <div className="text-center">
+          <div className="mb-8">
+            <img 
+              src={apexLogo} 
+              alt="APEX Executive Logo" 
+              className="h-20 mx-auto mb-6"
+            />
+          </div>
           <h1 className="text-3xl font-bold text-foreground mb-4">
             Choose Your Performance Edge
           </h1>
