@@ -36,24 +36,30 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6">
+      <section className="pt-32 pb-20 px-6 relative overflow-hidden">
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-electric/5 -z-10"></div>
+        <div className="absolute top-20 right-10 w-64 h-64 bg-electric/10 rounded-full blur-3xl -z-10"></div>
+        <div className="absolute bottom-10 left-10 w-48 h-48 bg-electric/5 rounded-full blur-2xl -z-10"></div>
+        
         <div className="max-w-7xl mx-auto text-center">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
-              Master Executive 
-              <span className="text-electric"> Presence</span>
+              Transform Leadership with
+              <span className="text-electric"> AI-Powered</span> Executive Training
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed">
-              AI-powered training platform that transforms professionals into confident, decisive leaders through immersive roleplay scenarios and personalized coaching.
+              <span className="text-electric font-semibold">89% of users report higher confidence in just 15 minutes a day.</span><br />
+              Master high-stakes scenarios through immersive roleplay and personalized AI coaching.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <ExecutiveButton onClick={onGetStarted} size="lg" variant="primary">
-                Start Your Journey
+              <ExecutiveButton onClick={onGetStarted} size="lg" variant="primary" className="shadow-electric/20 shadow-lg">
+                View Open Positions
                 <ArrowRight className="w-5 h-5 ml-2" />
               </ExecutiveButton>
               <ExecutiveButton size="lg" variant="outline" onClick={() => setShowDemo(true)}>
+                Learn More About APEX
                 <Play className="w-5 h-5 mr-2" />
-                Watch Demo
               </ExecutiveButton>
             </div>
           </div>
@@ -265,59 +271,100 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         </div>
       </section>
 
-      {/* About Section */}
+      {/* Why Work at APEX Section */}
       <section id="about" className="py-20 px-6 bg-muted/20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Built for Executives, by Executives
+              Why Work at APEX?
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              APEX combines decades of executive experience with cutting-edge AI to deliver training that actually works in the real world.
+              Join a team that's transforming leadership development with cutting-edge AI and executive expertise.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h3 className="text-3xl font-bold text-foreground mb-6">The Executive Edge</h3>
-              <div className="space-y-6">
-                <p className="text-muted-foreground leading-relaxed">
-                  Most leadership training fails because it's theoretical. APEX is different. We use advanced AI to create realistic, high-pressure scenarios that mirror the exact challenges you face as an executive.
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  Every interaction is designed to build the muscle memory of executive excellence - from how you pause before responding to objections, to how you command presence in a boardroom.
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  Used by Fortune 500 executives, startup founders, and senior leaders who demand training that delivers measurable results.
-                </p>
+            {/* Left side - Branded visual */}
+            <div className="relative">
+              <div className="executive-card p-12 bg-gradient-to-br from-electric/5 to-electric/10 border-electric/20">
+                <div className="flex items-center justify-center mb-8">
+                  <Crown className="w-16 h-16 text-electric" />
+                </div>
+                <blockquote className="text-center">
+                  <p className="text-xl font-medium text-foreground mb-4">
+                    "At APEX, I've grown faster than in any role before."
+                  </p>
+                  <footer className="text-muted-foreground">
+                    — Senior Team Member
+                  </footer>
+                </blockquote>
               </div>
             </div>
             
-            <div className="executive-card p-8">
-              <h4 className="text-xl font-bold text-foreground mb-6">Why APEX Works</h4>
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <CheckCircle className="w-5 h-5 text-electric mt-1 flex-shrink-0" />
-                  <div>
-                    <div className="font-medium text-foreground">Behavioral Science</div>
-                    <div className="text-sm text-muted-foreground">Evidence-based methods for rapid skill acquisition</div>
+            {/* Right side - Benefits */}
+            <div className="space-y-8">
+              <div className="group cursor-pointer">
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-electric/10 rounded-xl flex items-center justify-center group-hover:bg-electric/20 transition-all duration-300 group-hover:scale-110">
+                    <Target className="w-6 h-6 text-electric" />
                   </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <CheckCircle className="w-5 h-5 text-electric mt-1 flex-shrink-0" />
                   <div>
-                    <div className="font-medium text-foreground">Real-World Application</div>
-                    <div className="text-sm text-muted-foreground">Scenarios based on actual executive challenges</div>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <CheckCircle className="w-5 h-5 text-electric mt-1 flex-shrink-0" />
-                  <div>
-                    <div className="font-medium text-foreground">Personalized Learning</div>
-                    <div className="text-sm text-muted-foreground">AI adapts to your role, industry, and leadership style</div>
+                    <h3 className="text-xl font-bold text-foreground mb-2">Comprehensive Health</h3>
+                    <p className="text-muted-foreground">World-class medical, dental, and vision for you and your family.</p>
                   </div>
                 </div>
               </div>
+
+              <div className="group cursor-pointer">
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-electric/10 rounded-xl flex items-center justify-center group-hover:bg-electric/20 transition-all duration-300 group-hover:scale-110">
+                    <Zap className="w-6 h-6 text-electric" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground mb-2">Flexible Work</h3>
+                    <p className="text-muted-foreground">Remote-first culture with flexible hours and unlimited PTO.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="group cursor-pointer">
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-electric/10 rounded-xl flex items-center justify-center group-hover:bg-electric/20 transition-all duration-300 group-hover:scale-110">
+                    <Brain className="w-6 h-6 text-electric" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground mb-2">Growth & Learning</h3>
+                    <p className="text-muted-foreground">Annual learning budget, mentorship, and conference access.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="group cursor-pointer">
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-electric/10 rounded-xl flex items-center justify-center group-hover:bg-electric/20 transition-all duration-300 group-hover:scale-110">
+                    <BarChart3 className="w-6 h-6 text-electric" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground mb-2">Equity & Impact</h3>
+                    <p className="text-muted-foreground">Equity participation and a chance to transform leadership.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust & Social Proof Section */}
+      <section className="py-16 px-6 bg-muted/10">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-muted-foreground mb-8">Featured in</p>
+            <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
+              <div className="text-2xl font-bold text-muted-foreground">Forbes</div>
+              <div className="text-2xl font-bold text-muted-foreground">Inc.</div>
+              <div className="text-2xl font-bold text-muted-foreground">Fast Company</div>
+              <div className="text-2xl font-bold text-muted-foreground">Harvard Business Review</div>
             </div>
           </div>
         </div>
@@ -346,42 +393,47 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
       <footer className="border-t border-border py-12 px-6 bg-card">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
+            <div className="md:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
-                <Crown className="w-6 h-6 text-electric" />
-                <span className="text-xl font-bold text-foreground">APEX</span>
+                <Crown className="w-8 h-8 text-electric" />
+                <span className="text-2xl font-bold text-foreground">APEX</span>
               </div>
-              <p className="text-muted-foreground">
-                AI-powered executive presence training for the modern leader.
+              <p className="text-muted-foreground mb-4">
+                Transform leadership with AI-powered executive training.
               </p>
-            </div>
-            <div>
-              <h4 className="font-bold text-foreground mb-4">Product</h4>
-              <div className="space-y-2">
-                <a href="#features" className="block text-muted-foreground hover:text-foreground transition-colors">Features</a>
-                <a href="#pricing" className="block text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
-                <a href="#" className="block text-muted-foreground hover:text-foreground transition-colors">Demo</a>
+              <div className="flex space-x-4">
+                <a href="https://linkedin.com/company/apex-executive" className="text-muted-foreground hover:text-electric transition-colors" aria-label="LinkedIn">
+                  <Users className="w-5 h-5" />
+                </a>
+                <a href="https://twitter.com/apex_executive" className="text-muted-foreground hover:text-electric transition-colors" aria-label="Twitter">
+                  <Target className="w-5 h-5" />
+                </a>
               </div>
             </div>
+            
             <div>
-              <h4 className="font-bold text-foreground mb-4">Company</h4>
-              <div className="space-y-2">
-                <a href="/about" className="block text-muted-foreground hover:text-foreground transition-colors">About</a>
-                <a href="/blog" className="block text-muted-foreground hover:text-foreground transition-colors">Blog</a>
-                <a href="/careers" className="block text-muted-foreground hover:text-foreground transition-colors">Careers</a>
-              </div>
+              <h3 className="font-semibold text-foreground mb-4">Company</h3>
+              <ul className="space-y-2">
+                <li><a href="#about" className="text-muted-foreground hover:text-electric transition-colors">About</a></li>
+                <li><a href="/careers" className="text-muted-foreground hover:text-electric transition-colors">Careers</a></li>
+                <li><a href="/blog" className="text-muted-foreground hover:text-electric transition-colors">Blog</a></li>
+                <li><a href="#contact" className="text-muted-foreground hover:text-electric transition-colors">Contact</a></li>
+              </ul>
             </div>
+            
             <div>
-              <h4 className="font-bold text-foreground mb-4">Support</h4>
-              <div className="space-y-2">
-                <a href="/help" className="block text-muted-foreground hover:text-foreground transition-colors">Help Center</a>
-                <a href="/contact" className="block text-muted-foreground hover:text-foreground transition-colors">Contact</a>
-                <a href="/privacy" className="block text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</a>
-              </div>
+              <h3 className="font-semibold text-foreground mb-4">Legal</h3>
+              <ul className="space-y-2">
+                <li><a href="/privacy" className="text-muted-foreground hover:text-electric transition-colors">Privacy Policy</a></li>
+                <li><a href="/terms" className="text-muted-foreground hover:text-electric transition-colors">Terms of Service</a></li>
+              </ul>
             </div>
           </div>
-          <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
-            <p>&copy; 2025 APEX. All rights reserved.</p>
+          
+          <div className="border-t border-border mt-8 pt-8 text-center">
+            <p className="text-muted-foreground">
+              © 2024 APEX Executive. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>
