@@ -104,33 +104,36 @@ export default function StrategyCopilot({ onBack, userRole, userObjective }: Str
   };
 
   return (
-    <div className="min-h-screen bg-background dark:bg-primary flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="border-b border-border p-4 flex items-center justify-between">
-        <div className="flex items-center">
-          <button
-            onClick={onBack}
-            className="p-2 hover:bg-muted rounded-lg transition-colors mr-2"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <div>
-            <h1 className="font-semibold text-foreground">AI Strategy Co-pilot</h1>
-            <p className="text-sm text-muted-foreground">Executive performance insights</p>
+      <header className="border-b border-border p-6 bg-card shadow-sm">
+        <div className="flex items-center justify-between max-w-4xl mx-auto">
+          <div className="flex items-center">
+            <button
+              onClick={onBack}
+              className="mr-4 p-3 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-105"
+            >
+              <ArrowLeft className="w-6 h-6" />
+            </button>
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">AI Strategy Co-pilot</h1>
+              <p className="text-muted-foreground font-medium">Executive performance insights</p>
+            </div>
           </div>
+          <ExecutiveButton
+            variant="ghost"
+            size="sm"
+            onClick={handleExportNotes}
+            className="font-medium"
+          >
+            <Download className="w-5 h-5 mr-2" />
+            Export
+          </ExecutiveButton>
         </div>
-        <ExecutiveButton
-          variant="ghost"
-          size="sm"
-          onClick={handleExportNotes}
-        >
-          <Download className="w-4 h-4 mr-2" />
-          Export
-        </ExecutiveButton>
       </header>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-32">
+      <div className="flex-1 overflow-y-auto p-6 space-y-6 pb-32 max-w-4xl mx-auto w-full">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -141,15 +144,15 @@ export default function StrategyCopilot({ onBack, userRole, userObjective }: Str
           >
             <div
               className={cn(
-                "max-w-[80%] p-4 rounded-2xl animate-executive-slide-in",
+                "max-w-[80%] p-6 rounded-3xl animate-fade-in shadow-md",
                 message.type === 'user'
                   ? "bg-electric text-electric-foreground ml-4"
                   : "bg-card border border-border mr-4"
               )}
             >
-              <p className="text-sm leading-relaxed">{message.content}</p>
+              <p className="leading-relaxed font-medium">{message.content}</p>
               <p className={cn(
-                "text-xs mt-2 opacity-70",
+                "text-xs mt-3 opacity-70 font-medium",
                 message.type === 'user' ? "text-electric-foreground" : "text-muted-foreground"
               )}>
                 {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -173,44 +176,47 @@ export default function StrategyCopilot({ onBack, userRole, userObjective }: Str
       </div>
 
       {/* Input Area */}
-      <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border p-4">
-        {/* Suggested Prompts */}
-        <div className="flex space-x-2 mb-4 overflow-x-auto">
-          {suggestedPrompts.map((prompt) => {
-            const Icon = prompt.icon;
-            return (
-              <ExecutiveButton
-                key={prompt.text}
-                variant="outline"
-                size="sm"
-                onClick={() => handleSuggestedPrompt(prompt.text)}
-                className="flex-shrink-0"
-              >
-                <Icon className="w-4 h-4 mr-2" />
-                {prompt.text}
-              </ExecutiveButton>
-            );
-          })}
-        </div>
+      <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border p-6 shadow-lg backdrop-blur-sm">
+        <div className="max-w-4xl mx-auto">
+          {/* Suggested Prompts */}
+          <div className="flex space-x-3 mb-6 overflow-x-auto">
+            {suggestedPrompts.map((prompt) => {
+              const Icon = prompt.icon;
+              return (
+                <ExecutiveButton
+                  key={prompt.text}
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleSuggestedPrompt(prompt.text)}
+                  className="flex-shrink-0 font-medium"
+                >
+                  <Icon className="w-4 h-4 mr-2" />
+                  {prompt.text}
+                </ExecutiveButton>
+              );
+            })}
+          </div>
 
-        {/* Input */}
-        <div className="flex space-x-2">
-          <input
-            type="text"
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-            placeholder="Describe your leadership challenge..."
-            className="executive-input flex-1"
-          />
-          <ExecutiveButton
-            variant="primary"
-            size="icon"
-            onClick={handleSendMessage}
-            disabled={!inputText.trim()}
-          >
-            <Send className="w-4 h-4" />
-          </ExecutiveButton>
+          {/* Input */}
+          <div className="flex space-x-3">
+            <input
+              type="text"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              placeholder="Describe your leadership challenge..."
+              className="executive-input flex-1 h-12 text-base"
+            />
+            <ExecutiveButton
+              variant="primary"
+              size="icon"
+              onClick={handleSendMessage}
+              disabled={!inputText.trim()}
+              className="h-12 w-12"
+            >
+              <Send className="w-5 h-5" />
+            </ExecutiveButton>
+          </div>
         </div>
       </div>
     </div>

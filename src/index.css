@@ -6,37 +6,37 @@
 
 @layer base {
   :root {
-    /* Executive Color Palette */
-    --background: 0 0% 100%;
-    --foreground: 215 28% 17%; /* Charcoal Black for authority */
+    /* Executive Color Palette - Light Mode */
+    --background: 210 40% 98%;
+    --foreground: 215 25% 27%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 215 28% 17%;
+    --card: 220 15% 97%;
+    --card-foreground: 215 25% 27%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 28% 17%;
+    --popover: 220 15% 97%;
+    --popover-foreground: 215 25% 27%;
 
-    --primary: 215 28% 17%; /* Charcoal Black - Authority */
-    --primary-foreground: 0 0% 100%;
+    --primary: 215 28% 17%;
+    --primary-foreground: 210 40% 98%;
 
-    --electric: 217 91% 60%; /* Electric Blue - Performance */
-    --electric-foreground: 0 0% 100%;
+    --electric: 212 100% 50%;
+    --electric-foreground: 210 40% 98%;
 
-    --secondary: 220 14% 64%; /* Cool Gray - Subdued */
-    --secondary-foreground: 215 28% 17%;
+    --secondary: 210 40% 93%;
+    --secondary-foreground: 215 25% 27%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 220 9% 46%;
+    --muted: 210 40% 93%;
+    --muted-foreground: 215 15% 45%;
 
-    --accent: 217 91% 60%; /* Electric Blue */
-    --accent-foreground: 0 0% 100%;
+    --accent: 212 100% 50%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 210 40% 88%;
+    --input: 210 40% 88%;
+    --ring: 212 100% 50%;
 
     --radius: 0.5rem;
 
@@ -58,36 +58,36 @@
   }
 
   .dark {
-    --background: 215 28% 17%; /* Executive Charcoal */
-    --foreground: 0 0% 100%;
+    --background: 215 25% 7%;
+    --foreground: 210 40% 98%;
 
-    --card: 215 28% 17%;
-    --card-foreground: 0 0% 100%;
+    --card: 215 25% 9%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 215 28% 17%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 215 25% 9%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 0 0% 100%; /* White for dark mode */
-    --primary-foreground: 215 28% 17%;
+    --primary: 215 25% 7%;
+    --primary-foreground: 210 40% 98%;
 
-    --electric: 217 91% 60%; /* Electric Blue stays consistent */
-    --electric-foreground: 0 0% 100%;
+    --electric: 212 100% 50%;
+    --electric-foreground: 215 25% 7%;
 
-    --secondary: 220 9% 46%; /* Cool Gray darker */
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 215 25% 12%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 217 19% 27%;
-    --muted-foreground: 220 14% 71%;
+    --muted: 215 25% 12%;
+    --muted-foreground: 210 20% 65%;
 
-    --accent: 217 91% 60%; /* Electric Blue */
-    --accent-foreground: 0 0% 100%;
+    --accent: 212 100% 50%;
+    --accent-foreground: 215 25% 7%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 75% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 215 25% 15%;
+    --input: 215 25% 15%;
+    --ring: 212 100% 50%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

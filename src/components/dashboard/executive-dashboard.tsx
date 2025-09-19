@@ -30,107 +30,108 @@ export default function ExecutiveDashboard({ userName, role, objective, onNaviga
   };
 
   return (
-    <div className="min-h-screen bg-background dark:bg-primary">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border p-4">
-        <div className="flex items-center justify-between">
+      <header className="border-b border-border p-6 bg-card shadow-sm">
+        <div className="flex items-center justify-between max-w-4xl mx-auto">
           <div>
-            <h1 className="text-lg font-semibold text-foreground">
+            <h1 className="text-2xl font-bold text-foreground mb-1">
               {getTimeOfDay()}, {userName}
             </h1>
-            <p className="text-sm text-muted-foreground">Let's frame your day for success</p>
+            <p className="text-muted-foreground font-medium">Let's frame your day for executive success</p>
           </div>
           <button
             onClick={() => onNavigate('settings')}
-            className="p-2 hover:bg-muted rounded-lg transition-colors"
+            className="p-3 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-105"
           >
-            <Settings className="w-5 h-5 text-muted-foreground" />
+            <Settings className="w-6 h-6 text-muted-foreground" />
           </button>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="p-4 space-y-6">
+      <div className="p-6 space-y-8 max-w-4xl mx-auto">
         {/* Today's Executive Boost */}
-        <div className="executive-card p-6 animate-executive-slide-in">
-          <div className="flex items-center mb-4">
-            <div className="w-8 h-8 bg-electric rounded-lg flex items-center justify-center mr-3">
-              <Zap className="w-4 h-4 text-electric-foreground" />
+        <div className="executive-card p-8 animate-fade-in shadow-lg">
+          <div className="flex items-center mb-6">
+            <div className="w-12 h-12 bg-electric rounded-2xl flex items-center justify-center mr-4 shadow-md">
+              <Zap className="w-6 h-6 text-electric-foreground" />
             </div>
-            <h2 className="text-lg font-semibold text-foreground">Today's Executive Boost</h2>
+            <h2 className="text-2xl font-bold text-foreground">Today's Executive Boost</h2>
           </div>
-          <p className="text-foreground leading-relaxed">{getTodaysBoost()}</p>
+          <p className="text-foreground leading-relaxed text-lg font-medium">{getTodaysBoost()}</p>
         </div>
 
         {/* Confidence Meter */}
-        <div className="executive-card p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-foreground">Performance Confidence</h3>
-            <span className="metric-display text-2xl">{confidenceLevel}%</span>
+        <div className="executive-card p-8 shadow-lg">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-bold text-foreground">Performance Confidence</h3>
+            <span className="metric-display text-4xl font-mono font-bold text-electric">{confidenceLevel}%</span>
           </div>
-          <div className="w-full bg-muted rounded-full h-3 mb-2">
+          <div className="w-full bg-muted rounded-full h-4 mb-3 shadow-inner">
             <div 
-              className="confidence-meter h-3 transition-all duration-500 ease-out animate-confidence-pulse"
+              className="confidence-meter h-4 transition-all duration-700 ease-out rounded-full shadow-sm"
               style={{ width: `${confidenceLevel}%` }}
             />
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground font-medium">
             Peak executive performance zone: 80%+
           </p>
         </div>
 
         {/* Quick Actions */}
-        <div className="space-y-3">
-          <h3 className="font-semibold text-foreground">Executive Tools</h3>
+        <div className="space-y-4">
+          <h3 className="text-xl font-bold text-foreground">Executive Tools</h3>
           
           <ExecutiveButton
             variant="primary"
             onClick={() => onNavigate('ai-copilot')}
-            className="w-full h-16 justify-start"
+            className="w-full h-20 justify-start shadow-lg hover:shadow-xl transition-all duration-200"
           >
-            <MessageSquare className="mr-3 h-5 w-5" />
+            <MessageSquare className="mr-4 h-6 w-6" />
             <div className="text-left">
-              <div className="font-semibold">AI Strategy Co-pilot</div>
-              <div className="text-sm opacity-80">Get strategic insights and confidence boosts</div>
+              <div className="font-bold text-lg">AI Strategy Co-pilot</div>
+              <div className="text-sm opacity-90">Get strategic insights and confidence boosts</div>
             </div>
           </ExecutiveButton>
 
           <ExecutiveButton
             variant="secondary"
             onClick={() => onNavigate('scenarios')}
-            className="w-full h-16 justify-start"
+            className="w-full h-20 justify-start shadow-lg hover:shadow-xl transition-all duration-200"
           >
-            <Target className="mr-3 h-5 w-5" />
+            <Target className="mr-4 h-6 w-6" />
             <div className="text-left">
-              <div className="font-semibold">Scenario Library</div>
-              <div className="text-sm opacity-80">Practice high-stakes situations</div>
+              <div className="font-bold text-lg">Scenario Library</div>
+              <div className="text-sm opacity-90">Practice high-stakes situations</div>
             </div>
           </ExecutiveButton>
 
           <ExecutiveButton
             variant="secondary"
             onClick={() => onNavigate('habits')}
-            className="w-full h-16 justify-start"
+            className="w-full h-20 justify-start shadow-lg hover:shadow-xl transition-all duration-200"
           >
-            <BarChart3 className="mr-3 h-5 w-5" />
+            <BarChart3 className="mr-4 h-6 w-6" />
             <div className="text-left">
-              <div className="font-semibold">Executive Habits</div>
-              <div className="text-sm opacity-80">Track performance-critical behaviors</div>
+              <div className="font-bold text-lg">Executive Habits</div>
+              <div className="text-sm opacity-90">Track performance-critical behaviors</div>
             </div>
           </ExecutiveButton>
         </div>
 
         {/* Status */}
-        <div className="executive-card p-4">
+        <div className="executive-card p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-2 h-2 bg-electric rounded-full mr-2 animate-pulse" />
-              <span className="text-sm font-medium">Trial Active</span>
+              <div className="w-3 h-3 bg-electric rounded-full mr-3 animate-pulse shadow-sm" />
+              <span className="font-bold text-foreground">Trial Active</span>
             </div>
             <ExecutiveButton
               variant="outline"
               size="sm"
               onClick={() => onNavigate('subscription')}
+              className="font-bold"
             >
               Upgrade to Pro
             </ExecutiveButton>
@@ -139,27 +140,28 @@ export default function ExecutiveDashboard({ userName, role, objective, onNaviga
       </div>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border">
-        <div className="flex justify-around py-2">
+      <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg backdrop-blur-sm">
+        <div className="flex justify-around py-3 max-w-4xl mx-auto">
           {[
-            { icon: TrendingUp, label: "Home", active: true },
-            { icon: MessageSquare, label: "Chat", active: false },
-            { icon: BarChart3, label: "Habits", active: false },
-            { icon: Users, label: "Profile", active: false },
+            { icon: TrendingUp, label: "Home", active: true, action: () => {} },
+            { icon: MessageSquare, label: "Chat", active: false, action: () => onNavigate('ai-copilot') },
+            { icon: BarChart3, label: "Habits", active: false, action: () => onNavigate('habits') },
+            { icon: Users, label: "Profile", active: false, action: () => onNavigate('settings') },
           ].map((item) => {
             const Icon = item.icon;
             return (
               <button
                 key={item.label}
+                onClick={item.action}
                 className={cn(
-                  "flex flex-col items-center py-2 px-4 transition-colors",
+                  "flex flex-col items-center py-3 px-6 transition-all duration-200 rounded-xl",
                   item.active 
-                    ? "text-electric" 
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-electric bg-electric/10 scale-105" 
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}
               >
-                <Icon className="w-5 h-5 mb-1" />
-                <span className="text-xs">{item.label}</span>
+                <Icon className="w-6 h-6 mb-1" />
+                <span className="text-xs font-medium">{item.label}</span>
               </button>
             );
           })}
