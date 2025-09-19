@@ -33,12 +33,16 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log('Auth state change:', event, session?.user?.email);
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
           // User is authenticated, load their data from backend
           loadUserData(session.user.id);
+        } else if (event === 'SIGNED_OUT') {
+          // Reset to guest mode on sign out
+          setUserDataState({ isGuest: true });
         }
       }
     );

@@ -41,8 +41,14 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
 
         toast({
           title: "Account created! 🎉",
-          description: "Please check your email to verify your account.",
+          description: "Please check your email to verify your account, then sign in.",
         });
+        
+        // Switch to sign in mode after successful signup
+        setIsSignUp(false);
+        setEmail("");
+        setPassword("");
+        setName("");
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
@@ -55,9 +61,10 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
           title: "Welcome back! 👋",
           description: "You're now signed in.",
         });
+        
+        // Only call onSuccess for sign in (when user is actually authenticated)
+        onSuccess();
       }
-
-      onSuccess();
     } catch (error) {
       console.error('Auth error:', error);
       toast({

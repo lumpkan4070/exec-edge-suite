@@ -65,9 +65,10 @@ export default function PaymentHandler({ tier, priceId, amount, onSuccess, onErr
   const handleAuthSuccess = () => {
     setShowAuthModal(false);
     // After successful auth, automatically proceed to checkout
+    // Add a small delay to ensure the auth state is updated
     setTimeout(() => {
       handleStripeCheckout();
-    }, 500);
+    }, 1000);
   };
 
   const startFreeTrial = () => {
