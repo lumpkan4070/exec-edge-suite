@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { MessageSquare, Target, BarChart3, Settings, Zap, TrendingUp, Users, Brain, Trophy, Clock } from "lucide-react";
+import { MessageSquare, Target, BarChart3, Settings, Zap, TrendingUp, Users, Brain, Trophy, Clock, Crown } from "lucide-react";
 import StrategyCopilot from "@/components/ai-copilot/strategy-copilot";
 import SubscriptionScreen from "@/components/subscription/subscription-screen";
 import PerformanceHabits from "@/components/dashboard/performance-habits";
@@ -124,11 +124,20 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier }: Ex
       {/* Header */}
       <header className="border-b border-border p-6 bg-card shadow-sm">
         <div className="flex items-center justify-between max-w-4xl mx-auto">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground mb-1">
-              {getTimeOfDay()}, Executive
-            </h1>
-            <p className="text-muted-foreground font-medium">Let's frame your day for executive success</p>
+          <div className="flex items-center">
+            <button
+              onClick={() => window.location.href = '/'}
+              className="mr-4 p-3 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-105"
+              title="Back to Home"
+            >
+              <Crown className="w-6 h-6 text-electric" />
+            </button>
+            <div>
+              <h1 className="text-2xl font-bold text-foreground mb-1">
+                {getTimeOfDay()}, Executive
+              </h1>
+              <p className="text-muted-foreground font-medium">Let's frame your day for executive success</p>
+            </div>
           </div>
           <button
             onClick={() => setShowSubscription(true)}
