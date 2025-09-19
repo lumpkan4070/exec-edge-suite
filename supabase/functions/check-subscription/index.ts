@@ -37,7 +37,7 @@ serve(async (req) => {
     logStep("User authenticated", { userId: user.id, email: user.email });
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", { 
-      apiVersion: "2025-08-27" as any 
+      apiVersion: "2025-08-27.basil" as any 
     });
     
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });

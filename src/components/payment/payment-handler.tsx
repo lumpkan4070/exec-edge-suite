@@ -55,7 +55,19 @@ export default function PaymentHandler({ tier, priceId, amount, onSuccess, onErr
     } catch (error) {
       console.error('Stripe checkout error:', error);
       setPaymentStatus('error');
-      const errorMsg = error instanceof Error ? error.message : 'Payment failed';
+      
+      // Provide user-friendly error messages
+      let errorMsg = 'Payment could not be processed. Please try again.';
+      if (error instanceof Error) {
+        if (error.message.includes('network') || error.message.includes('timeout')) {
+          errorMsg = 'Network error. Please check your connection and try again.';
+        } else if (error.message.includes('Invalid') || error.message.includes('authentication')) {
+          errorMsg = 'Authentication error. Please sign in again and retry.';
+        } else if (error.message.includes('Edge Function')) {
+          errorMsg = 'Payment service temporarily unavailable. Please try again in a moment.';
+        }
+      }
+      
       setErrorMessage(errorMsg);
       setIsProcessing(false);
       onError(errorMsg);
