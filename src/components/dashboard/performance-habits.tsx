@@ -22,7 +22,7 @@ const getHabitsForRole = (role: string): Habit[] => {
       id: "morning-preparation",
       title: "Executive Preparation",
       description: "5-minute morning success visualization",
-      streak: 12,
+      streak: 0,
       completedToday: false,
       icon: Zap
     },
@@ -30,15 +30,15 @@ const getHabitsForRole = (role: string): Habit[] => {
       id: "strategic-thinking",
       title: "Strategic Thinking",
       description: "Ask 'What am I missing?' daily",
-      streak: 8,
-      completedToday: true,
+      streak: 0,
+      completedToday: false,
       icon: Target
     },
     {
       id: "authority-building",
       title: "Authority Building",
       description: "Practice decisive communication",
-      streak: 15,
+      streak: 0,
       completedToday: false,
       icon: Crown
     }
@@ -50,7 +50,7 @@ const getHabitsForRole = (role: string): Habit[] => {
       id: "prospecting",
       title: "Strategic Prospecting",
       description: "Identify 3 high-value prospects",
-      streak: 5,
+      streak: 0,
       completedToday: false,
       icon: Target
     });
@@ -59,7 +59,7 @@ const getHabitsForRole = (role: string): Habit[] => {
       id: "market-validation",
       title: "Market Validation",
       description: "One customer conversation daily",
-      streak: 9,
+      streak: 0,
       completedToday: false,
       icon: Zap
     });
@@ -68,8 +68,8 @@ const getHabitsForRole = (role: string): Habit[] => {
       id: "team-check",
       title: "Team Connection",
       description: "Meaningful team interaction",
-      streak: 7,
-      completedToday: true,
+      streak: 0,
+      completedToday: false,
       icon: Crown
     });
   }

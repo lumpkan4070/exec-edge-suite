@@ -26,12 +26,12 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier }: Ex
     }
   };
 
-  const [confidenceLevel, setConfidenceLevel] = useState(78);
+  const [confidenceLevel, setConfidenceLevel] = useState(0);
   const [performanceMetrics, setPerformanceMetrics] = useState({
-    meetingsPrepped: 12,
-    dealsAdvanced: 5,
-    teamInteractions: 8,
-    weeklyGrowth: 15
+    meetingsPrepped: 0,
+    dealsAdvanced: 0,
+    teamInteractions: 0,
+    weeklyGrowth: 0
   });
 
   const getTodaysBoost = () => {
