@@ -1,4 +1,4 @@
-import { X, ArrowLeft, ArrowRight } from "lucide-react";
+import { X, ArrowLeft, ArrowRight, Home } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 
 export default function PaymentCancel() {
@@ -10,9 +10,29 @@ export default function PaymentCancel() {
     window.location.href = '/';
   };
 
+  const goHome = () => {
+    window.location.href = '/';
+  };
+
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-6">
-      <div className="max-w-md w-full text-center">
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-border p-6 bg-card shadow-sm">
+        <div className="flex items-center max-w-4xl mx-auto">
+          <ExecutiveButton
+            variant="ghost"
+            size="sm"
+            onClick={goHome}
+            className="font-medium"
+          >
+            <Home className="w-5 h-5 mr-2" />
+            Home
+          </ExecutiveButton>
+        </div>
+      </header>
+
+      <div className="flex items-center justify-center px-6 py-20">
+        <div className="max-w-md w-full text-center">
         <div className="executive-card p-8 shadow-xl">
           <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <X className="w-12 h-12 text-red-500" />
@@ -50,6 +70,7 @@ export default function PaymentCancel() {
             <p className="text-sm text-muted-foreground">
               Questions? Contact our support team for assistance.
             </p>
+          </div>
           </div>
         </div>
       </div>

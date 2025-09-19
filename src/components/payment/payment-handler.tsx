@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { CreditCard, AlertCircle, CheckCircle, Clock } from "lucide-react";
+import { CreditCard, AlertCircle, CheckCircle, Clock, Home, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/contexts/user-context";
@@ -12,9 +12,10 @@ interface PaymentHandlerProps {
   amount: string;
   onSuccess: () => void;
   onError: (error: string) => void;
+  onBack?: () => void;
 }
 
-export default function PaymentHandler({ tier, priceId, amount, onSuccess, onError }: PaymentHandlerProps) {
+export default function PaymentHandler({ tier, priceId, amount, onSuccess, onError, onBack }: PaymentHandlerProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -88,86 +89,159 @@ export default function PaymentHandler({ tier, priceId, amount, onSuccess, onErr
     onSuccess();
   };
 
+  const goHome = () => {
+    window.location.href = '/';
+  };
+
+  const goBack = () => {
+    if (onBack) {
+      onBack();
+    } else {
+      window.location.href = '/#pricing';
+    }
+  };
+
   if (paymentStatus === 'success') {
     return (
-      <div className="text-center p-6">
-        <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-        <h3 className="text-xl font-bold text-foreground mb-2">Payment Successful!</h3>
-        <p className="text-muted-foreground">
-          Welcome to the {tier} tier. Your executive transformation starts now.
-        </p>
+      <div className="min-h-screen bg-background">
+        {/* Header */}
+        <header className="border-b border-border p-6 bg-card shadow-sm">
+          <div className="flex items-center justify-between max-w-4xl mx-auto">
+            <div className="flex items-center space-x-4">
+              <ExecutiveButton
+                variant="ghost"
+                size="sm"
+                onClick={goBack}
+                className="font-medium"
+              >
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Back
+              </ExecutiveButton>
+              <ExecutiveButton
+                variant="ghost"
+                size="sm"
+                onClick={goHome}
+                className="font-medium"
+              >
+                <Home className="w-5 h-5 mr-2" />
+                Home
+              </ExecutiveButton>
+            </div>
+          </div>
+        </header>
+
+        <div className="text-center p-6">
+          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+          <h3 className="text-xl font-bold text-foreground mb-2">Payment Successful!</h3>
+          <p className="text-muted-foreground">
+            Welcome to the {tier} tier. Your executive transformation starts now.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h3 className="text-2xl font-bold text-foreground mb-2">
-          Start Your {tier} Transformation
-        </h3>
-        <p className="text-lg text-electric font-semibold">{amount}</p>
-        <p className="text-sm text-muted-foreground mt-2">
-          3-day free trial • Cancel anytime
-        </p>
-      </div>
-
-      {paymentStatus === 'error' && (
-        <div className="bg-destructive/10 border border-destructive text-destructive p-4 rounded-lg">
-          <div className="flex items-center">
-            <AlertCircle className="w-5 h-5 mr-2" />
-            <span className="font-medium">{errorMessage}</span>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-border p-6 bg-card shadow-sm">
+        <div className="flex items-center justify-between max-w-4xl mx-auto">
+          <div className="flex items-center space-x-4">
+            <ExecutiveButton
+              variant="ghost"
+              size="sm"
+              onClick={goBack}
+              className="font-medium"
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              Back
+            </ExecutiveButton>
+            <ExecutiveButton
+              variant="ghost"
+              size="sm"
+              onClick={goHome}
+              className="font-medium"
+            >
+              <Home className="w-5 h-5 mr-2" />
+              Home
+            </ExecutiveButton>
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Subscribe to {tier}</h1>
+            <p className="text-muted-foreground font-medium">Complete your subscription</p>
           </div>
         </div>
-      )}
+      </header>
 
-      <div className="space-y-4">
-        {/* Free Trial */}
-        <ExecutiveButton
-          variant="hero"
-          onClick={startFreeTrial}
-          disabled={isProcessing}
-          className="w-full"
-        >
-          {isProcessing && paymentStatus === 'processing' ? (
-            <>
-              <Clock className="w-5 h-5 mr-2 animate-spin" />
-              Processing...
-            </>
-          ) : (
-            `Start 3-Day Free Trial`
+      <div className="p-6 space-y-8 max-w-4xl mx-auto">
+        <div className="space-y-6">
+          <div className="text-center">
+            <h3 className="text-2xl font-bold text-foreground mb-2">
+              Start Your {tier} Transformation
+            </h3>
+            <p className="text-lg text-electric font-semibold">{amount}</p>
+            <p className="text-sm text-muted-foreground mt-2">
+              3-day free trial • Cancel anytime
+            </p>
+          </div>
+
+          {paymentStatus === 'error' && (
+            <div className="bg-destructive/10 border border-destructive text-destructive p-4 rounded-lg">
+              <div className="flex items-center">
+                <AlertCircle className="w-5 h-5 mr-2" />
+                <span className="font-medium">{errorMessage}</span>
+              </div>
+            </div>
           )}
-        </ExecutiveButton>
 
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-border" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">Or pay now</span>
+          <div className="space-y-4">
+            {/* Free Trial */}
+            <ExecutiveButton
+              variant="hero"
+              onClick={startFreeTrial}
+              disabled={isProcessing}
+              className="w-full"
+            >
+              {isProcessing && paymentStatus === 'processing' ? (
+                <>
+                  <Clock className="w-5 h-5 mr-2 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                `Start 3-Day Free Trial`
+              )}
+            </ExecutiveButton>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-border" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">Or pay now</span>
+              </div>
+            </div>
+
+            {/* Payment Options */}
+            <div className="grid grid-cols-1 gap-3">
+              <ExecutiveButton
+                variant="outline"
+                onClick={handleStripeCheckout}
+                disabled={isProcessing}
+                className="w-full h-12"
+              >
+                <CreditCard className="w-5 h-5 mr-2" />
+                {user ? 'Subscribe with Stripe' : 'Sign In & Subscribe'}
+              </ExecutiveButton>
+            </div>
           </div>
         </div>
 
-        {/* Payment Options */}
-        <div className="grid grid-cols-1 gap-3">
-          <ExecutiveButton
-            variant="outline"
-            onClick={handleStripeCheckout}
-            disabled={isProcessing}
-          className="w-full h-12"
-        >
-          <CreditCard className="w-5 h-5 mr-2" />
-          {user ? 'Subscribe with Stripe' : 'Sign In & Subscribe'}
-        </ExecutiveButton>
-      </div>
-
-      {/* Auth Modal */}
-      <AuthModal 
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        onSuccess={handleAuthSuccess}
-      />
-
+        {/* Auth Modal */}
+        <AuthModal 
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={handleAuthSuccess}
+        />
       </div>
     </div>
   );
