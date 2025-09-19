@@ -64,8 +64,17 @@ serve(async (req) => {
         },
       ],
       mode: "subscription",
-      success_url: `${req.headers.get("origin")}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/cancel`,
+      subscription_data: {
+        trial_period_days: 3,
+        trial_settings: {
+          end_behavior: {
+            missing_payment_method: "cancel"
+          }
+        }
+      },
+      payment_method_collection: "always",
+      success_url: `${req.headers.get("origin")}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.headers.get("origin")}/payment-cancel`,
     });
 
     logStep("Checkout session created", { sessionId: session.id, url: session.url });

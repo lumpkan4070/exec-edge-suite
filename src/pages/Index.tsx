@@ -29,8 +29,8 @@ export default function Index() {
   // Show payment screen for specific tier
   if (showPayment && selectedTier) {
     const tierData = {
-      personal: { amount: "$29/month", priceId: "price_1S96pUBgt7hUXmS2RLzRcB4X" },
-      professional: { amount: "$99/month", priceId: "price_1S96ptBgt7hUXmS228ZIhjUD" }
+      personal: { amount: "$29/month", priceId: "price_1S97NyBgt7hUXmS2a8tpOW6I" },
+      professional: { amount: "$99/month", priceId: "price_1S97ORBgt7hUXmS2JXVMb0tu" }
     };
     
     const currentTierData = tierData[selectedTier as keyof typeof tierData];
