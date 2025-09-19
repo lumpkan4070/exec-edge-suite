@@ -111,7 +111,20 @@ export default function Contact() {
                 <h3 className="text-xl font-bold text-foreground mb-2">{method.title}</h3>
                 <p className="text-muted-foreground mb-3">{method.description}</p>
                 <p className="text-electric font-medium mb-4">{method.contact}</p>
-                <ExecutiveButton variant="outline" className="w-full">
+                <ExecutiveButton variant="outline" className="w-full" onClick={() => {
+                  if (method.action === "Send Email") {
+                    window.open('mailto:hello@apex-executive.com?subject=General Inquiry&body=Hi APEX team,%0A%0A', '_blank');
+                  } else if (method.action === "Call Now") {
+                    window.open('tel:+15551234567', '_self');
+                  } else if (method.action === "Start Chat") {
+                    // Open live chat widget  
+                    if (typeof window !== 'undefined' && (window as any).Intercom) {
+                      (window as any).Intercom('show');
+                    } else {
+                      window.open('mailto:support@apex-executive.com?subject=Live Chat Request', '_blank');
+                    }
+                  }
+                }}>
                   {method.action}
                 </ExecutiveButton>
               </div>
@@ -283,7 +296,7 @@ export default function Contact() {
             <Crown className="w-6 h-6 text-electric" />
             <span className="text-xl font-bold text-foreground">APEX</span>
           </Link>
-          <p className="text-muted-foreground">&copy; 2024 APEX. All rights reserved.</p>
+          <p className="text-muted-foreground">&copy; 2025 APEX. All rights reserved.</p>
         </div>
       </footer>
     </div>

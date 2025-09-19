@@ -202,7 +202,14 @@ export default function HelpCenter() {
               <MessageCircle className="w-12 h-12 text-electric mx-auto mb-4" />
               <h3 className="text-lg font-bold text-foreground mb-2">Live Chat</h3>
               <p className="text-muted-foreground mb-4">Get instant help from our support team</p>
-              <ExecutiveButton variant="outline" className="w-full">
+              <ExecutiveButton variant="outline" className="w-full" onClick={() => {
+                // Open live chat widget
+                if (typeof window !== 'undefined' && (window as any).Intercom) {
+                  (window as any).Intercom('show');
+                } else {
+                  window.open('mailto:support@apex-executive.com?subject=Live Chat Request', '_blank');
+                }
+              }}>
                 Start Chat
               </ExecutiveButton>
             </div>
@@ -210,7 +217,9 @@ export default function HelpCenter() {
               <Book className="w-12 h-12 text-electric mx-auto mb-4" />
               <h3 className="text-lg font-bold text-foreground mb-2">Email Support</h3>
               <p className="text-muted-foreground mb-4">Send us your questions and we'll respond within 24 hours</p>
-              <ExecutiveButton variant="outline" className="w-full">
+              <ExecutiveButton variant="outline" className="w-full" onClick={() => {
+                window.open('mailto:support@apex-executive.com?subject=Support Request&body=Hi APEX team,%0A%0APlease describe your question or issue:%0A%0A', '_blank');
+              }}>
                 Send Email
               </ExecutiveButton>
             </div>
@@ -233,7 +242,7 @@ export default function HelpCenter() {
             <Crown className="w-6 h-6 text-electric" />
             <span className="text-xl font-bold text-foreground">APEX</span>
           </Link>
-          <p className="text-muted-foreground">&copy; 2024 APEX. All rights reserved.</p>
+          <p className="text-muted-foreground">&copy; 2025 APEX. All rights reserved.</p>
         </div>
       </footer>
     </div>

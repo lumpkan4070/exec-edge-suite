@@ -176,7 +176,7 @@ export default function About() {
             <Crown className="w-6 h-6 text-electric" />
             <span className="text-xl font-bold text-foreground">APEX</span>
           </Link>
-          <p className="text-muted-foreground">&copy; 2024 APEX. All rights reserved.</p>
+          <p className="text-muted-foreground">&copy; 2025 APEX. All rights reserved.</p>
         </div>
       </footer>
     </div>
