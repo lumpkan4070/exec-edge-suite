@@ -9,12 +9,12 @@ interface TierSelectionProps {
 
 const tiers = [
   {
-    id: "executive",
-    name: "Executive Edition",
-    price: "$49-$99",
+    id: "professional",
+    name: "Professional Edition",
+    price: "$99",
     period: "/month",
     tagline: "Your Executive Edge",
-    description: "ROI-focused for high-level professionals",
+    description: "Advanced training for senior leaders and executives",
     features: [
       "AI Strategy Co-pilot",
       "Executive Dashboard & Analytics", 
@@ -23,49 +23,31 @@ const tiers = [
       "Weekly Executive Briefings"
     ],
     icon: Crown,
-    theme: "executive-theme",
+    theme: "professional-theme",
     popular: true
   },
   {
-    id: "professional", 
-    name: "Professional Edition",
-    price: "$19-$29",
+    id: "personal", 
+    name: "Personal Plan",
+    price: "$29",
     period: "/month",
-    tagline: "Level Up Your Career",
-    description: "Growth tools for career-driven professionals",
+    tagline: "Build Your Leadership Foundation",
+    description: "Perfect for individual professionals building their leadership foundation",
     features: [
-      "AI Growth Coach",
-      "Daily Confidence Boosts",
-      "Performance Dashboard",
-      "Mini-Scenarios (Interview, Client)",
-      "Career-Oriented Habits"
+      "Basic AI Strategy Co-pilot",
+      "5 scenario simulations/month",
+      "Performance habit tracking",
+      "Basic analytics",
+      "Email support"
     ],
     icon: Briefcase,
-    theme: "professional-theme",
-    popular: false
-  },
-  {
-    id: "personal",
-    name: "Personal Growth Edition", 
-    price: "$9-$15",
-    period: "/month",
-    tagline: "Grow Your Confidence Daily",
-    description: "Motivational and gamified for broad appeal",
-    features: [
-      "AI Daily Motivation Coach",
-      "Confidence Tracker & Streaks",
-      "Gamified Challenges",
-      "Social Sharing",
-      "Affirmations & Journaling"
-    ],
-    icon: Heart,
     theme: "personal-theme",
     popular: false
   }
 ];
 
 export default function TierSelection({ onNext }: TierSelectionProps) {
-  const [selectedTier, setSelectedTier] = useState<string>("executive");
+  const [selectedTier, setSelectedTier] = useState<string>("professional");
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4 py-8">

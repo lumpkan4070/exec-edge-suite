@@ -1,69 +1,66 @@
 import { useState } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { CreditCard, AlertCircle, CheckCircle, Clock } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface PaymentHandlerProps {
   tier: string;
-  planId: string;
+  priceId: string;
   amount: string;
   onSuccess: () => void;
   onError: (error: string) => void;
 }
 
-export default function PaymentHandler({ tier, planId, amount, onSuccess, onError }: PaymentHandlerProps) {
+export default function PaymentHandler({ tier, priceId, amount, onSuccess, onError }: PaymentHandlerProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const { toast } = useToast();
 
-  // PAY-001 to PAY-007: Payment flow simulation
-  const handleStripePayment = async (cardValid: boolean = true) => {
+  // Real Stripe payment integration
+  const handleStripeCheckout = async () => {
     setIsProcessing(true);
     setPaymentStatus('processing');
     
-    // Simulate payment processing
-    setTimeout(() => {
-      if (cardValid) {
+    try {
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { priceId }
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (data?.url) {
+        // Redirect to Stripe Checkout
+        window.open(data.url, '_blank');
         setPaymentStatus('success');
         setIsProcessing(false);
         onSuccess();
       } else {
-        setPaymentStatus('error');
-        setErrorMessage('Payment failed. Please check your card details and try again.');
-        setIsProcessing(false);
-        onError('Invalid card details');
+        throw new Error('No checkout URL received');
       }
-    }, 2000);
-  };
-
-  const handleApplePayment = async () => {
-    setIsProcessing(true);
-    setPaymentStatus('processing');
-    
-    // Simulate Apple Pay
-    setTimeout(() => {
-      setPaymentStatus('success');
+    } catch (error) {
+      console.error('Stripe checkout error:', error);
+      setPaymentStatus('error');
+      const errorMsg = error instanceof Error ? error.message : 'Payment failed';
+      setErrorMessage(errorMsg);
       setIsProcessing(false);
-      onSuccess();
-    }, 1500);
-  };
-
-  const handleGooglePayment = async () => {
-    setIsProcessing(true);
-    setPaymentStatus('processing');
-    
-    // Simulate Google Pay
-    setTimeout(() => {
-      setPaymentStatus('success');
-      setIsProcessing(false);
-      onSuccess();
-    }, 1500);
+      onError(errorMsg);
+    }
   };
 
   const startFreeTrial = () => {
-    // PAY-001: Free trial starts correctly
-    console.log(`Starting 3-day free trial for ${tier} tier`);
+    // For demo purposes - in production, this would create a trial subscription
+    console.log(`Starting free trial for ${tier} tier`);
     
-    // Set trial expiration (3 days from now)
+    toast({
+      title: "Free Trial Started! 🎉",
+      description: `Your ${tier} trial is now active. You'll have full access for 3 days.`,
+    });
+    
+    // Set trial data in localStorage for demo
     const trialEnd = new Date();
     trialEnd.setDate(trialEnd.getDate() + 3);
     localStorage.setItem('trialEnd', trialEnd.toISOString());
@@ -137,45 +134,15 @@ export default function PaymentHandler({ tier, planId, amount, onSuccess, onErro
         <div className="grid grid-cols-1 gap-3">
           <ExecutiveButton
             variant="outline"
-            onClick={() => handleStripePayment(true)}
+            onClick={handleStripeCheckout}
             disabled={isProcessing}
             className="w-full h-12"
           >
             <CreditCard className="w-5 h-5 mr-2" />
-            Credit Card
-          </ExecutiveButton>
-
-          <ExecutiveButton
-            variant="outline"
-            onClick={handleApplePayment}
-            disabled={isProcessing}
-            className="w-full h-12"
-          >
-            Apple Pay
-          </ExecutiveButton>
-
-          <ExecutiveButton
-            variant="outline"
-            onClick={handleGooglePayment}
-            disabled={isProcessing}
-            className="w-full h-12"
-          >
-            Google Pay
+            Subscribe with Stripe
           </ExecutiveButton>
         </div>
 
-        {/* Test Invalid Card */}
-        <div className="pt-4 border-t border-border">
-          <p className="text-xs text-muted-foreground mb-2">QA Testing:</p>
-          <ExecutiveButton
-            variant="ghost"
-            size="sm"
-            onClick={() => handleStripePayment(false)}
-            disabled={isProcessing}
-          >
-            Test Invalid Card
-          </ExecutiveButton>
-        </div>
       </div>
     </div>
   );

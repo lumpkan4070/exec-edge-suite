@@ -29,8 +29,8 @@ export default function Index() {
   // Show payment screen for specific tier
   if (showPayment && selectedTier) {
     const tierData = {
-      personal: { amount: "$29/month", planId: "personal_monthly" },
-      professional: { amount: "$99/month", planId: "professional_monthly" }
+      personal: { amount: "$29/month", priceId: "price_1S96pUBgt7hUXmS2RLzRcB4X" },
+      professional: { amount: "$99/month", priceId: "price_1S96ptBgt7hUXmS228ZIhjUD" }
     };
     
     const currentTierData = tierData[selectedTier as keyof typeof tierData];
@@ -38,7 +38,7 @@ export default function Index() {
     return (
       <PaymentHandler
         tier={selectedTier}
-        planId={currentTierData.planId}
+        priceId={currentTierData.priceId}
         amount={currentTierData.amount}
         onSuccess={handlePaymentSuccess}
         onError={handlePaymentError}

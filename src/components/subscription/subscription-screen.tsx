@@ -8,107 +8,41 @@ interface SubscriptionScreenProps {
 }
 
 const tierPlans = {
-  executive: [
+  professional: [
     {
-      id: "pro",
-      name: "Pro",
-      price: "$49.99",
+      id: "professional",
+      name: "Professional",
+      price: "$99",
       period: "/month",
-      description: "Core executive coaching + habits",
+      description: "Advanced training for senior leaders and executives",
       features: [
         "AI Strategy Co-pilot",
-        "Executive Dashboard & Analytics",
-        "Daily confidence boosts",
-        "Performance habits tracker",
-        "Email support",
-      ],
-      icon: Zap,
-      popular: false,
-    },
-    {
-      id: "executive",
-      name: "Executive",
-      price: "$99.99", 
-      period: "/month",
-      description: "Complete executive transformation suite",
-      features: [
-        "Everything in Pro",
-        "Scenario library & simulations",
-        "Weekly AI performance report",
-        "Voice coaching mode",
-        "Team leadership tools",
+        "Unlimited scenario simulations",
+        "Voice coaching & analysis",
+        "Advanced performance analytics",
+        "Weekly AI coaching reports",
         "Priority support",
       ],
       icon: Crown,
-      popular: true,
-    },
-  ],
-  professional: [
-    {
-      id: "core",
-      name: "Core",
-      price: "$19.99",
-      period: "/month", 
-      description: "Essential career growth tools",
-      features: [
-        "AI Growth Coach",
-        "Daily confidence boosts",
-        "Performance dashboard",
-        "Career habits tracker",
-        "Email support",
-      ],
-      icon: Briefcase,
-      popular: false,
-    },
-    {
-      id: "advanced",
-      name: "Advanced",
-      price: "$29.99",
-      period: "/month",
-      description: "Complete professional development",
-      features: [
-        "Everything in Core",
-        "Mini-scenarios (Interview, Client)",
-        "Weekly progress reports",
-        "Advanced analytics",
-        "Priority support",
-      ],
-      icon: TrendingUp,
       popular: true,
     },
   ],
   personal: [
     {
-      id: "basic",
-      name: "Basic",
-      price: "$9.99",
+      id: "personal",
+      name: "Personal",
+      price: "$29",
       period: "/month",
-      description: "Daily motivation and confidence",
+      description: "Perfect for individual professionals building their leadership foundation",
       features: [
-        "AI Daily Motivation Coach",
-        "Confidence tracker & streaks",
-        "Daily affirmations",
-        "Basic journaling",
-        "Community support",
+        "Basic AI Strategy Co-pilot",
+        "5 scenario simulations/month",
+        "Performance habit tracking",
+        "Basic analytics",
+        "Email support",
       ],
-      icon: Heart,
+      icon: Briefcase,
       popular: false,
-    },
-    {
-      id: "premium",
-      name: "Premium", 
-      price: "$14.99",
-      period: "/month",
-      description: "Complete personal growth experience",
-      features: [
-        "Everything in Basic",
-        "Gamified challenges",
-        "Social sharing",
-        "Advanced affirmations",
-        "Personal insights",
-      ],
-      icon: Crown,
-      popular: true,
     },
   ],
 };
@@ -120,7 +54,7 @@ const roiMetrics = [
 ];
 
 export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }: SubscriptionScreenProps) {
-  const tiers = tierPlans[currentTier as keyof typeof tierPlans] || tierPlans.executive;
+  const tiers = tierPlans[currentTier as keyof typeof tierPlans] || tierPlans.professional;
   
   const getTierTheme = () => {
     switch (currentTier) {
