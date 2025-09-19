@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, CheckCircle, Target, Brain, Zap, Crown, Users, BarChart3, Mic, Play } from "lucide-react";
+import { ArrowRight, CheckCircle, Target, Brain, Zap, Crown, Users, BarChart3, Mic, Play, X } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { useUser } from "@/contexts/user-context";
 
@@ -9,6 +9,7 @@ interface LandingProps {
 
 export default function Landing({ onGetStarted }: LandingProps) {
   const { userData } = useUser();
+  const [showDemo, setShowDemo] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
@@ -49,7 +50,7 @@ export default function Landing({ onGetStarted }: LandingProps) {
                 Start Your Journey
                 <ArrowRight className="w-5 h-5 ml-2" />
               </ExecutiveButton>
-              <ExecutiveButton size="lg" variant="outline">
+              <ExecutiveButton size="lg" variant="outline" onClick={() => setShowDemo(true)}>
                 <Play className="w-5 h-5 mr-2" />
                 Watch Demo
               </ExecutiveButton>
@@ -375,6 +376,61 @@ export default function Landing({ onGetStarted }: LandingProps) {
           </div>
         </div>
       </footer>
+
+      {/* Demo Video Modal */}
+      {showDemo && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+          <div className="bg-background rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-border">
+              <h3 className="text-xl font-bold text-foreground">APEX Executive Demo</h3>
+              <button
+                onClick={() => setShowDemo(false)}
+                className="p-2 hover:bg-muted rounded-lg transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6">
+              <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
+                <div className="text-center">
+                  <Play className="w-16 h-16 text-electric mx-auto mb-4" />
+                  <h4 className="text-lg font-semibold text-foreground mb-2">Experience Executive Presence Training</h4>
+                  <p className="text-muted-foreground mb-6 max-w-md">
+                    See how APEX transforms professionals into confident leaders through AI-powered scenarios and real-time coaching.
+                  </p>
+                  <div className="space-y-4 text-left max-w-md mx-auto">
+                    <div className="flex items-start space-x-3">
+                      <CheckCircle className="w-5 h-5 text-electric mt-0.5 flex-shrink-0" />
+                      <div>
+                        <div className="font-medium text-foreground">AI Strategy Co-pilot</div>
+                        <div className="text-sm text-muted-foreground">Real-time strategic guidance for high-stakes decisions</div>
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <CheckCircle className="w-5 h-5 text-electric mt-0.5 flex-shrink-0" />
+                      <div>
+                        <div className="font-medium text-foreground">Immersive Roleplay</div>
+                        <div className="text-sm text-muted-foreground">Practice investor pitches, negotiations, and crisis management</div>
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <CheckCircle className="w-5 h-5 text-electric mt-0.5 flex-shrink-0" />
+                      <div>
+                        <div className="font-medium text-foreground">Voice Analysis</div>
+                        <div className="text-sm text-muted-foreground">AI-powered feedback on tone, pace, and authority</div>
+                      </div>
+                    </div>
+                  </div>
+                  <ExecutiveButton onClick={onGetStarted} className="mt-6" variant="primary">
+                    Start Your Free Trial
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </ExecutiveButton>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
