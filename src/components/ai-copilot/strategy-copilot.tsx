@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { ArrowLeft, Send, Zap, Target, Briefcase, Download, DollarSign, Crown, Lightbulb } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
   id: string;
@@ -57,56 +58,27 @@ export default function StrategyCopilot({ onBack, userRole, userObjective, tier 
     scrollToBottom();
   }, [messages]);
 
-  const generateAIResponse = (userMessage: string): string => {
-    const message = userMessage.toLowerCase();
-    
-    // Pre-Meeting Boosts
-    if (message.includes('meeting') || message.includes('boost')) {
-      const boosts = [
-        "🎯 PRE-MEETING POWER PROTOCOL: Use the 5-4-3-2-1 confidence technique: 5 deep breaths, 4 power affirmations, 3 key objectives, 2 power poses, 1 victory visualization. Your presence will command the room.",
-        "⚡ MEETING MASTERY: Enter with the mindset 'I'm here to add value.' Frame every response around outcomes and ROI. This positions you as a strategic partner, not just another participant.",
-        "🚀 CONFIDENCE AMPLIFIER: Before speaking, pause for 2 seconds. This creates gravitas and gives you time to frame responses with executive authority. Slow down to speed up your impact."
-      ];
-      return boosts[Math.floor(Math.random() * boosts.length)];
+  const generateAIResponse = async (userMessage: string): Promise<string> => {
+    try {
+      const response = await supabase.functions.invoke('ai-strategy-chat', {
+        body: {
+          message: userMessage,
+          userRole,
+          userObjective,
+          conversationHistory: messages
+        }
+      });
+
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
+
+      return response.data.response;
+    } catch (error) {
+      console.error('Error generating AI response:', error);
+      // Fallback to a generic executive response
+      return "🎯 I understand your challenge. Let me analyze this strategically and provide you with a more detailed response. Could you provide a bit more context about the specific situation you're facing?";
     }
-    
-    // Negotiation Tactics
-    if (message.includes('negotiate') || message.includes('deal') || message.includes('price')) {
-      const tactics = [
-        "💎 NEGOTIATION POWER MOVE: After stating your position, use strategic silence. Count to 7 before speaking again. This psychological pressure creates urgency and often yields immediate concessions.",
-        "🎯 THE EXECUTIVE EDGE: Frame every negotiation around mutual value creation. Ask: 'What would a win-win look like here?' This shifts the dynamic from adversarial to collaborative.",
-        "⚡ AUTHORITY POSITIONING: Use the 'Executive Summary' technique: State your position in 30 seconds or less, then ask for their perspective. Brevity equals authority."
-      ];
-      return tactics[Math.floor(Math.random() * tactics.length)];
-    }
-    
-    // Team Leadership
-    if (message.includes('team') || message.includes('lead') || message.includes('manage')) {
-      const leadership = [
-        "👑 LEADERSHIP PRESENCE: Start team interactions with psychological safety: 'What questions are we not asking?' This drives innovation and positions you as a thought leader.",
-        "🔥 TEAM ACTIVATION: Use the 'Executive Stakes' framework: Clearly state the outcome, the timeline, and the impact. Teams perform 40% better with clear executive context.",
-        "⚡ AUTHORITY BUILDER: In team meetings, speak last on decisions but first on vision. This demonstrates both humility and leadership strength."
-      ];
-      return leadership[Math.floor(Math.random() * leadership.length)];
-    }
-    
-    // Role-specific responses
-    if (userRole === "sales-leader" && (message.includes('close') || message.includes('sales'))) {
-      return "💰 SALES EXECUTIVE EDGE: Use the 'Executive Urgency' close: 'Based on what we've discussed, I see three paths forward. Which aligns best with your Q4 objectives?' This creates choice architecture while maintaining executive authority.";
-    }
-    
-    if (userRole === "entrepreneur" && (message.includes('pitch') || message.includes('investor'))) {
-      return "🚀 FOUNDER AUTHORITY: Start investor meetings with market validation, not product features. 'We've identified a $X billion market inefficiency that we're uniquely positioned to solve.' Lead with the problem size, not the solution features.";
-    }
-    
-    // General executive insights
-    const generalInsights = [
-      "🎯 EXECUTIVE MINDSET: High-performers think in systems, not tasks. Before any decision, ask: 'What second and third-order effects am I not seeing?' This elevates your strategic thinking.",
-      "💡 STRATEGIC ADVANTAGE: Frame all communication around business outcomes. Replace 'I think' with 'The data suggests' or 'Based on our objectives.' This builds executive credibility.",
-      "⚡ CONFIDENCE MULTIPLIER: Executive presence = Preparation × Authenticity × Decisive Action. You control all three variables. Master them to dominate any situation."
-    ];
-    
-    return generalInsights[Math.floor(Math.random() * generalInsights.length)];
   };
 
   const handleSendMessage = async () => {
@@ -123,18 +95,22 @@ export default function StrategyCopilot({ onBack, userRole, userObjective, tier 
     setInputText("");
     setIsTyping(true);
 
-    // Simulate AI thinking time (AIC-005: <2s avg, <3s 95th percentile)
-    setTimeout(() => {
+    try {
+      const aiResponse = await generateAIResponse(inputText);
+      
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: 'ai',
-        content: generateAIResponse(inputText),
+        content: aiResponse,
         timestamp: new Date(),
       };
       
       setMessages(prev => [...prev, aiMessage]);
+    } catch (error) {
+      console.error('Error in AI response:', error);
+    } finally {
       setIsTyping(false);
-    }, Math.random() * 1500 + 500); // 0.5-2s response time
+    }
   };
 
   const handleSuggestedPrompt = (prompt: string) => {
