@@ -366,17 +366,17 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             <div>
               <h4 className="font-bold text-foreground mb-4">Company</h4>
               <div className="space-y-2">
-                <a href="#about" className="block text-muted-foreground hover:text-foreground transition-colors">About</a>
-                <a href="#" className="block text-muted-foreground hover:text-foreground transition-colors">Blog</a>
-                <a href="#" className="block text-muted-foreground hover:text-foreground transition-colors">Careers</a>
+                <a href="/about" className="block text-muted-foreground hover:text-foreground transition-colors">About</a>
+                <a href="/blog" className="block text-muted-foreground hover:text-foreground transition-colors">Blog</a>
+                <a href="/careers" className="block text-muted-foreground hover:text-foreground transition-colors">Careers</a>
               </div>
             </div>
             <div>
               <h4 className="font-bold text-foreground mb-4">Support</h4>
               <div className="space-y-2">
-                <a href="#" className="block text-muted-foreground hover:text-foreground transition-colors">Help Center</a>
-                <a href="#" className="block text-muted-foreground hover:text-foreground transition-colors">Contact</a>
-                <a href="#" className="block text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</a>
+                <a href="/help" className="block text-muted-foreground hover:text-foreground transition-colors">Help Center</a>
+                <a href="/contact" className="block text-muted-foreground hover:text-foreground transition-colors">Contact</a>
+                <a href="/privacy" className="block text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</a>
               </div>
             </div>
           </div>
