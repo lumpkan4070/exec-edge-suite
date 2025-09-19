@@ -1,27 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useUser } from "@/contexts/user-context";
 import TierSelection from "@/components/onboarding/tier-selection";
 import WelcomeScreen from "@/components/onboarding/welcome-screen";
 import ObjectiveScreen from "@/components/onboarding/objective-screen";
 import ExecutiveDashboard from "@/components/dashboard/executive-dashboard";
 
 export default function Index() {
+  const { userData, setUserData } = useUser();
   const [currentStep, setCurrentStep] = useState<"tier" | "welcome" | "objective" | "dashboard">("tier");
-  const [userTier, setUserTier] = useState<string>("");
-  const [userRole, setUserRole] = useState<string>("");
-  const [userObjective, setUserObjective] = useState<string>("");
+
+  // Load existing user data on mount
+  useEffect(() => {
+    if (userData.tier && userData.role && userData.objective) {
+      setCurrentStep("dashboard");
+    } else if (userData.tier && userData.role) {
+      setCurrentStep("objective");
+    } else if (userData.tier) {
+      setCurrentStep("welcome");
+    }
+  }, [userData]);
 
   const handleTierSelection = (tier: string) => {
-    setUserTier(tier);
+    setUserData({ tier });
     setCurrentStep("welcome");
   };
 
   const handleRoleSelection = (role: string) => {
-    setUserRole(role);
+    setUserData({ role });
     setCurrentStep("objective");
   };
 
   const handleObjectiveSelection = (objective: string) => {
-    setUserObjective(objective);
+    setUserData({ objective });
     setCurrentStep("dashboard");
   };
 
@@ -30,12 +40,12 @@ export default function Index() {
   }
 
   if (currentStep === "welcome") {
-    return <WelcomeScreen onNext={handleRoleSelection} tier={userTier} />;
+    return <WelcomeScreen onNext={handleRoleSelection} tier={userData.tier || ""} />;
   }
 
   if (currentStep === "objective") {
-    return <ObjectiveScreen role={userRole} tier={userTier} onComplete={handleObjectiveSelection} />;
+    return <ObjectiveScreen role={userData.role || ""} tier={userData.tier || ""} onComplete={handleObjectiveSelection} />;
   }
 
-  return <ExecutiveDashboard userRole={userRole} userObjective={userObjective} tier={userTier} />;
+  return <ExecutiveDashboard userRole={userData.role || ""} userObjective={userData.objective || ""} tier={userData.tier || ""} />;
 }
