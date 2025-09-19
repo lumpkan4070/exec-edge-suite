@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { MessageSquare, Target, BarChart3, Settings, Zap, TrendingUp, Users } from "lucide-react";
+import { MessageSquare, Target, BarChart3, Settings, Zap, TrendingUp, Users, Brain, Trophy, Clock } from "lucide-react";
 
 interface DashboardProps {
   userName: string;
@@ -10,17 +10,49 @@ interface DashboardProps {
 }
 
 export default function ExecutiveDashboard({ userName, role, objective, onNavigate }: DashboardProps) {
-  const [confidenceLevel] = useState(78);
+  const [confidenceLevel, setConfidenceLevel] = useState(78);
+  const [performanceMetrics, setPerformanceMetrics] = useState({
+    meetingsPrepped: 12,
+    dealsAdvanced: 5,
+    teamInteractions: 8,
+    weeklyGrowth: 15
+  });
 
   const getTodaysBoost = () => {
-    const boosts = [
-      "Your negotiation power increases 40% when you pause before responding. Use this in today's meetings.",
-      "High performers visualize success 3x more than average. Spend 2 minutes visualizing your ideal outcome before big conversations.",
-      "Executive presence is 67% body language. Stand tall, make eye contact, and own your space today.",
-      "The most successful leaders ask 'What would this look like if it were easy?' Try this framework in your next challenge.",
-    ];
+    const roleSpecificBoosts = {
+      "sales-leader": [
+        "💰 SALES EDGE: Your closing power increases 40% when you pause 3 seconds before responding to objections. Use this in today's negotiations.",
+        "🎯 REVENUE BOOST: High-performing sales leaders visualize the signed contract 3x more than average. Spend 2 minutes seeing today's deal closed.",
+        "⚡ AUTHORITY MOVE: Frame every client interaction around their Q4 objectives. Ask: 'How does this impact your year-end goals?' Instant executive credibility."
+      ],
+      "entrepreneur": [
+        "🚀 FOUNDER POWER: Investor confidence increases 60% when you lead with market size, not product features. Start every pitch with the billion-dollar opportunity.",
+        "💡 STRATEGIC EDGE: The most successful entrepreneurs ask 'What would this look like if it were easy?' Apply this framework to today's biggest challenge.",
+        "🎯 EXECUTION BOOST: Executive presence is 67% decisive communication. Make statements, not suggestions. Own your space and decisions today."
+      ],
+      "executive": [
+        "👑 LEADERSHIP EDGE: Team performance increases 45% when you create psychological safety first. Start today's interactions with: 'What are we not seeing?'",
+        "⚡ STRATEGIC POWER: High-impact executives think in systems, not tasks. Before any decision, ask: 'What second-order effects am I missing?'",
+        "🎯 AUTHORITY BUILDER: Executive presence = Preparation × Authenticity × Decisive Action. You control all three. Master them today."
+      ]
+    };
+    
+    const boosts = roleSpecificBoosts[role as keyof typeof roleSpecificBoosts] || roleSpecificBoosts.executive;
     return boosts[Math.floor(Math.random() * boosts.length)];
   };
+
+  // Simulate confidence growth over time
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setConfidenceLevel(prev => {
+        const growth = Math.random() * 2 - 1; // -1 to +1
+        const newLevel = Math.max(65, Math.min(95, prev + growth));
+        return Math.round(newLevel);
+      });
+    }, 30000); // Update every 30 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   const getTimeOfDay = () => {
     const hour = new Date().getHours();
@@ -62,21 +94,49 @@ export default function ExecutiveDashboard({ userName, role, objective, onNaviga
           <p className="text-foreground leading-relaxed text-lg font-medium">{getTodaysBoost()}</p>
         </div>
 
-        {/* Confidence Meter */}
-        <div className="executive-card p-8 shadow-lg">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold text-foreground">Performance Confidence</h3>
-            <span className="metric-display text-4xl font-mono font-bold text-electric">{confidenceLevel}%</span>
+        {/* Performance Analytics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Confidence Meter */}
+          <div className="executive-card p-6 shadow-lg">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center">
+                <Brain className="w-6 h-6 text-electric mr-3" />
+                <h3 className="text-lg font-bold text-foreground">Confidence Level</h3>
+              </div>
+              <span className="metric-display text-3xl font-mono font-bold text-electric">{confidenceLevel}%</span>
+            </div>
+            <div className="w-full bg-muted rounded-full h-3 mb-3 shadow-inner">
+              <div 
+                className="confidence-meter h-3 transition-all duration-700 ease-out rounded-full shadow-sm"
+                style={{ width: `${confidenceLevel}%` }}
+              />
+            </div>
+            <p className="text-sm text-muted-foreground font-medium">
+              Peak zone: 80%+ • Growing: +{performanceMetrics.weeklyGrowth}% this week
+            </p>
           </div>
-          <div className="w-full bg-muted rounded-full h-4 mb-3 shadow-inner">
-            <div 
-              className="confidence-meter h-4 transition-all duration-700 ease-out rounded-full shadow-sm"
-              style={{ width: `${confidenceLevel}%` }}
-            />
+
+          {/* Weekly Performance */}
+          <div className="executive-card p-6 shadow-lg">
+            <div className="flex items-center mb-4">
+              <Trophy className="w-6 h-6 text-electric mr-3" />
+              <h3 className="text-lg font-bold text-foreground">This Week's Impact</h3>
+            </div>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground font-medium">Meetings Prepped</span>
+                <span className="text-2xl font-bold text-electric">{performanceMetrics.meetingsPrepped}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground font-medium">Deals Advanced</span>
+                <span className="text-2xl font-bold text-electric">{performanceMetrics.dealsAdvanced}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground font-medium">Team Interactions</span>
+                <span className="text-2xl font-bold text-electric">{performanceMetrics.teamInteractions}</span>
+              </div>
+            </div>
           </div>
-          <p className="text-muted-foreground font-medium">
-            Peak executive performance zone: 80%+
-          </p>
         </div>
 
         {/* Quick Actions */}

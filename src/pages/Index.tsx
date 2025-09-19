@@ -4,6 +4,8 @@ import ObjectiveScreen from "@/components/onboarding/objective-screen";
 import ExecutiveDashboard from "@/components/dashboard/executive-dashboard";
 import StrategyCopilot from "@/components/ai-copilot/strategy-copilot";
 import SubscriptionScreen from "@/components/subscription/subscription-screen";
+import PerformanceHabits from "@/components/dashboard/performance-habits";
+import ScenarioLibrary from "@/components/dashboard/scenario-library";
 
 type AppScreen = 'welcome' | 'objective' | 'dashboard' | 'ai-copilot' | 'subscription' | 'scenarios' | 'habits' | 'settings';
 
@@ -95,6 +97,22 @@ const Index = () => {
         <SubscriptionScreen
           onBack={() => setCurrentScreen('dashboard')}
           onSubscribe={handleSubscribe}
+        />
+      );
+    
+    case 'habits':
+      return (
+        <PerformanceHabits
+          onBack={() => setCurrentScreen('dashboard')}
+          userRole={userProfile.role}
+        />
+      );
+    
+    case 'scenarios':
+      return (
+        <ScenarioLibrary
+          onBack={() => setCurrentScreen('dashboard')}
+          userRole={userProfile.role}
         />
       );
     

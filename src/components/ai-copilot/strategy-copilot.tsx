@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { ArrowLeft, Send, Zap, Target, Briefcase, Download } from "lucide-react";
+import { ArrowLeft, Send, Zap, Target, Briefcase, Download, DollarSign, Crown, Lightbulb } from "lucide-react";
 
 interface Message {
   id: string;
@@ -15,11 +15,24 @@ interface StrategyCopilotProps {
   userObjective: string;
 }
 
-const suggestedPrompts = [
-  { text: "Pre-Meeting Boost", icon: Zap },
-  { text: "Negotiate with Confidence", icon: Target },
-  { text: "Lead Team Meeting", icon: Briefcase },
-];
+const getCoachingCategories = (role: string, objective: string) => {
+  const baseCategories = [
+    { text: "Pre-Meeting Boost", icon: Zap, category: "confidence" },
+    { text: "Negotiation Tactics", icon: Target, category: "negotiation" },
+    { text: "Team Leadership", icon: Briefcase, category: "leadership" },
+  ];
+  
+  // Add role-specific categories
+  if (role === "sales-leader") {
+    baseCategories.push({ text: "Close Deals Faster", icon: DollarSign, category: "sales" });
+  } else if (role === "entrepreneur") {
+    baseCategories.push({ text: "Investor Pitch Prep", icon: Crown, category: "fundraising" });
+  } else if (role === "executive") {
+    baseCategories.push({ text: "Strategic Decision", icon: Lightbulb, category: "strategy" });
+  }
+  
+  return baseCategories;
+};
 
 export default function StrategyCopilot({ onBack, userRole, userObjective }: StrategyCopilotProps) {
   const [messages, setMessages] = useState<Message[]>([
@@ -33,6 +46,7 @@ export default function StrategyCopilot({ onBack, userRole, userObjective }: Str
   const [inputText, setInputText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const coachingCategories = getCoachingCategories(userRole, userObjective);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -43,15 +57,55 @@ export default function StrategyCopilot({ onBack, userRole, userObjective }: Str
   }, [messages]);
 
   const generateAIResponse = (userMessage: string): string => {
-    const responses = [
-      `Here's your strategic advantage: ${userMessage.toLowerCase().includes('meeting') ? 'Before any high-stakes meeting, use the 3-2-1 confidence protocol: 3 deep breaths, 2 power poses, 1 victory visualization. This primes your executive presence.' : 'Remember, executive leadership is about making others feel confident in your decisions. Frame your communication around outcomes, not processes.'}`,
-      
-      `Executive insight: ${userMessage.toLowerCase().includes('negotiate') ? 'The most powerful negotiation tactic is strategic silence. After making your offer, count to 7 before speaking again. This psychological pressure often yields immediate concessions.' : 'High-performers think in systems, not tasks. Ask yourself: "What pattern am I missing?" This question elevates your strategic thinking.'}`,
-      
-      `Strategic boost: ${userMessage.toLowerCase().includes('team') ? 'Great leaders create psychological safety first. Start your next team interaction with: "What questions are we not asking?" This drives innovative thinking.' : 'Executive confidence comes from preparation multiplied by presence. You control both variables.'}`,
+    const message = userMessage.toLowerCase();
+    
+    // Pre-Meeting Boosts
+    if (message.includes('meeting') || message.includes('boost')) {
+      const boosts = [
+        "🎯 PRE-MEETING POWER PROTOCOL: Use the 5-4-3-2-1 confidence technique: 5 deep breaths, 4 power affirmations, 3 key objectives, 2 power poses, 1 victory visualization. Your presence will command the room.",
+        "⚡ MEETING MASTERY: Enter with the mindset 'I'm here to add value.' Frame every response around outcomes and ROI. This positions you as a strategic partner, not just another participant.",
+        "🚀 CONFIDENCE AMPLIFIER: Before speaking, pause for 2 seconds. This creates gravitas and gives you time to frame responses with executive authority. Slow down to speed up your impact."
+      ];
+      return boosts[Math.floor(Math.random() * boosts.length)];
+    }
+    
+    // Negotiation Tactics
+    if (message.includes('negotiate') || message.includes('deal') || message.includes('price')) {
+      const tactics = [
+        "💎 NEGOTIATION POWER MOVE: After stating your position, use strategic silence. Count to 7 before speaking again. This psychological pressure creates urgency and often yields immediate concessions.",
+        "🎯 THE EXECUTIVE EDGE: Frame every negotiation around mutual value creation. Ask: 'What would a win-win look like here?' This shifts the dynamic from adversarial to collaborative.",
+        "⚡ AUTHORITY POSITIONING: Use the 'Executive Summary' technique: State your position in 30 seconds or less, then ask for their perspective. Brevity equals authority."
+      ];
+      return tactics[Math.floor(Math.random() * tactics.length)];
+    }
+    
+    // Team Leadership
+    if (message.includes('team') || message.includes('lead') || message.includes('manage')) {
+      const leadership = [
+        "👑 LEADERSHIP PRESENCE: Start team interactions with psychological safety: 'What questions are we not asking?' This drives innovation and positions you as a thought leader.",
+        "🔥 TEAM ACTIVATION: Use the 'Executive Stakes' framework: Clearly state the outcome, the timeline, and the impact. Teams perform 40% better with clear executive context.",
+        "⚡ AUTHORITY BUILDER: In team meetings, speak last on decisions but first on vision. This demonstrates both humility and leadership strength."
+      ];
+      return leadership[Math.floor(Math.random() * leadership.length)];
+    }
+    
+    // Role-specific responses
+    if (userRole === "sales-leader" && (message.includes('close') || message.includes('sales'))) {
+      return "💰 SALES EXECUTIVE EDGE: Use the 'Executive Urgency' close: 'Based on what we've discussed, I see three paths forward. Which aligns best with your Q4 objectives?' This creates choice architecture while maintaining executive authority.";
+    }
+    
+    if (userRole === "entrepreneur" && (message.includes('pitch') || message.includes('investor'))) {
+      return "🚀 FOUNDER AUTHORITY: Start investor meetings with market validation, not product features. 'We've identified a $X billion market inefficiency that we're uniquely positioned to solve.' Lead with the problem size, not the solution features.";
+    }
+    
+    // General executive insights
+    const generalInsights = [
+      "🎯 EXECUTIVE MINDSET: High-performers think in systems, not tasks. Before any decision, ask: 'What second and third-order effects am I not seeing?' This elevates your strategic thinking.",
+      "💡 STRATEGIC ADVANTAGE: Frame all communication around business outcomes. Replace 'I think' with 'The data suggests' or 'Based on our objectives.' This builds executive credibility.",
+      "⚡ CONFIDENCE MULTIPLIER: Executive presence = Preparation × Authenticity × Decisive Action. You control all three variables. Master them to dominate any situation."
     ];
     
-    return responses[Math.floor(Math.random() * responses.length)];
+    return generalInsights[Math.floor(Math.random() * generalInsights.length)];
   };
 
   const handleSendMessage = async () => {
@@ -178,20 +232,20 @@ export default function StrategyCopilot({ onBack, userRole, userObjective }: Str
       {/* Input Area */}
       <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border p-6 shadow-lg backdrop-blur-sm">
         <div className="max-w-4xl mx-auto">
-          {/* Suggested Prompts */}
+          {/* Coaching Categories */}
           <div className="flex space-x-3 mb-6 overflow-x-auto">
-            {suggestedPrompts.map((prompt) => {
-              const Icon = prompt.icon;
+            {coachingCategories.map((category) => {
+              const Icon = category.icon;
               return (
                 <ExecutiveButton
-                  key={prompt.text}
+                  key={category.text}
                   variant="outline"
                   size="sm"
-                  onClick={() => handleSuggestedPrompt(prompt.text)}
-                  className="flex-shrink-0 font-medium"
+                  onClick={() => handleSuggestedPrompt(category.text)}
+                  className="flex-shrink-0 font-medium hover:bg-electric/10 hover:border-electric"
                 >
                   <Icon className="w-4 h-4 mr-2" />
-                  {prompt.text}
+                  {category.text}
                 </ExecutiveButton>
               );
             })}
