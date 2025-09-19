@@ -6,28 +6,45 @@
 
 @layer base {
   :root {
-    /* Executive Edition - Charcoal + Executive Blue + White */
-    --background: 210 40% 98%;
-    --foreground: 215 25% 27%;
-    --card: 220 15% 97%;
-    --card-foreground: 215 25% 27%;
-    --popover: 220 15% 97%;
-    --popover-foreground: 215 25% 27%;
-    --primary: 215 28% 17%;
-    --primary-foreground: 210 40% 98%;
-    --electric: 212 100% 50%;
-    --electric-foreground: 210 40% 98%;
-    --secondary: 210 40% 93%;
-    --secondary-foreground: 215 25% 27%;
-    --muted: 210 40% 93%;
-    --muted-foreground: 215 15% 45%;
-    --accent: 212 100% 50%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    /* APEX Executive Edition - Premium Design System */
+    /* Primary Colors */
+    --charcoal-black: 210 4% 17%;         /* #2C2C2C */
+    --electric-blue: 217 100% 50%;        /* #0066FF */
+    --pure-white: 0 0% 100%;              /* #FFFFFF */
+    
+    /* Secondary Colors */
+    --slate-gray: 215 16% 47%;            /* #64748B */
+    --light-gray: 210 40% 95%;            /* #F1F5F9 */
+    --success-green: 153 60% 53%;         /* #10B981 */
+    --warning-amber: 38 92% 50%;          /* #F59E0B */
+    --error-red: 0 84% 60%;               /* #EF4444 */
+    
+    /* Design System Tokens */
+    --background: var(--pure-white);
+    --foreground: var(--charcoal-black);
+    --card: var(--pure-white);
+    --card-foreground: var(--charcoal-black);
+    --popover: var(--pure-white);
+    --popover-foreground: var(--charcoal-black);
+    --primary: var(--charcoal-black);
+    --primary-foreground: var(--pure-white);
+    --electric: var(--electric-blue);
+    --electric-foreground: var(--pure-white);
+    --secondary: var(--light-gray);
+    --secondary-foreground: var(--charcoal-black);
+    --muted: var(--light-gray);
+    --muted-foreground: var(--slate-gray);
+    --accent: var(--electric-blue);
+    --accent-foreground: var(--pure-white);
+    --destructive: var(--error-red);
+    --destructive-foreground: var(--pure-white);
+    --success: var(--success-green);
+    --success-foreground: var(--pure-white);
+    --warning: var(--warning-amber);
+    --warning-foreground: var(--charcoal-black);
     --border: 210 40% 88%;
     --input: 210 40% 88%;
-    --ring: 212 100% 50%;
+    --ring: var(--electric-blue);
     --radius: 0.5rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -90,27 +107,28 @@
   }
 
   .dark {
-    --background: 215 25% 7%;
-    --foreground: 210 40% 98%;
-    --card: 215 25% 9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 215 25% 9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 215 25% 7%;
-    --primary-foreground: 210 40% 98%;
-    --electric: 212 100% 50%;
-    --electric-foreground: 215 25% 7%;
-    --secondary: 215 25% 12%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 215 25% 12%;
-    --muted-foreground: 210 20% 65%;
-    --accent: 212 100% 50%;
-    --accent-foreground: 215 25% 7%;
-    --destructive: 0 75% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 215 25% 15%;
-    --input: 215 25% 15%;
-    --ring: 212 100% 50%;
+    /* APEX Executive Dark Mode */
+    --background: var(--charcoal-black);
+    --foreground: var(--pure-white);
+    --card: 210 4% 12%;
+    --card-foreground: var(--pure-white);
+    --popover: 210 4% 12%;
+    --popover-foreground: var(--pure-white);
+    --primary: var(--pure-white);
+    --primary-foreground: var(--charcoal-black);
+    --electric: var(--electric-blue);
+    --electric-foreground: var(--pure-white);
+    --secondary: 210 4% 12%;
+    --secondary-foreground: var(--pure-white);
+    --muted: 210 4% 12%;
+    --muted-foreground: 215 16% 60%;
+    --accent: var(--electric-blue);
+    --accent-foreground: var(--pure-white);
+    --destructive: var(--error-red);
+    --destructive-foreground: var(--pure-white);
+    --border: 210 4% 20%;
+    --input: 210 4% 20%;
+    --ring: var(--electric-blue);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -158,12 +176,53 @@
   }
 }
 
-/* Executive Typography System */
+/* APEX Executive Typography System */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
-/* Executive Components */
+/* Typography Classes */
+.display-large {
+  @apply text-[32px] leading-[40px] font-bold;
+}
+
+.display-medium {
+  @apply text-[24px] leading-[32px] font-semibold;
+}
+
+.heading-large {
+  @apply text-[20px] leading-[28px] font-semibold;
+}
+
+.heading-medium {
+  @apply text-[18px] leading-[24px] font-medium;
+}
+
+.body-large {
+  @apply text-[16px] leading-[24px] font-normal;
+}
+
+.body-medium {
+  @apply text-[14px] leading-[20px] font-normal;
+}
+
+.body-small {
+  @apply text-[12px] leading-[16px] font-normal;
+}
+
+.button-text {
+  @apply text-[16px] leading-[20px] font-medium;
+}
+
+/* APEX Executive Components */
 .executive-card {
-  @apply bg-card border border-border rounded-lg shadow-sm hover:shadow-md transition-all duration-200;
+  @apply bg-card border border-border rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-all duration-200;
+}
+
+.feature-card {
+  @apply bg-gradient-to-br from-charcoal-black to-electric text-white rounded-2xl p-8 shadow-[0_8px_24px_rgba(0,102,255,0.2)];
+}
+
+.primary-card {
+  @apply bg-white rounded-xl p-6 shadow-[0_4px_16px_rgba(0,0,0,0.08)] border border-light-gray;
 }
 
 .metric-display {
@@ -174,20 +233,52 @@
   @apply bg-gradient-to-r from-secondary to-electric rounded-full;
 }
 
+/* Button System */
 .executive-button {
-  @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  @apply inline-flex items-center justify-center rounded-lg button-text ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
 }
 
 .executive-button-primary {
-  @apply executive-button bg-electric text-electric-foreground hover:bg-electric/90 shadow-sm hover:shadow-md;
+  @apply executive-button bg-electric text-electric-foreground hover:bg-[#0052CC] active:bg-[#003D99] shadow-[0_2px_8px_rgba(0,102,255,0.2)] hover:shadow-[0_4px_12px_rgba(0,102,255,0.3)];
 }
 
 .executive-button-secondary {
-  @apply executive-button bg-secondary text-secondary-foreground hover:bg-secondary/80;
+  @apply executive-button bg-transparent text-electric border border-electric hover:bg-electric hover:text-electric-foreground;
 }
 
+.executive-button-ghost {
+  @apply executive-button bg-transparent text-slate-gray hover:text-charcoal-black;
+}
+
+/* Input System */
 .executive-input {
-  @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  @apply flex h-12 w-full rounded-lg border border-input bg-background px-4 py-3 body-large ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-gray focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric focus-visible:ring-offset-2 focus-visible:shadow-[0_0_0_3px_rgba(0,102,255,0.1)] disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.search-input {
+  @apply executive-input bg-light-gray border-none rounded-xl pl-11;
+}
+
+/* Navigation Components */
+.nav-tab-active {
+  @apply text-electric border-b-2 border-electric;
+}
+
+.nav-tab-inactive {
+  @apply text-slate-gray hover:text-charcoal-black;
+}
+
+/* Gradients */
+.gradient-primary {
+  background: linear-gradient(135deg, hsl(var(--charcoal-black)) 0%, hsl(var(--electric-blue)) 100%);
+}
+
+.gradient-subtle-blue {
+  background: linear-gradient(135deg, hsl(var(--electric-blue)) 0%, #3B82F6 100%);
+}
+
+.gradient-dark-overlay {
+  background: linear-gradient(180deg, rgba(44,44,44,0.8) 0%, rgba(44,44,44,0.95) 100%);
 }
 
 /* Animations - Executive Speed (<300ms) */

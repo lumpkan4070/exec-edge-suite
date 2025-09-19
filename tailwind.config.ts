@@ -23,6 +23,21 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        
+        // APEX Executive Primary Colors
+        "charcoal-black": "hsl(var(--charcoal-black))",
+        "electric-blue": "hsl(var(--electric-blue))",
+        "electric": "hsl(var(--electric))",
+        "pure-white": "hsl(var(--pure-white))",
+        
+        // APEX Executive Secondary Colors
+        "slate-gray": "hsl(var(--slate-gray))",
+        "light-gray": "hsl(var(--light-gray))",
+        "success-green": "hsl(var(--success-green))",
+        "warning-amber": "hsl(var(--warning-amber))",
+        "error-red": "hsl(var(--error-red))",
+        
+        // Design System Tokens
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -38,6 +53,14 @@ export default {
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -107,6 +130,31 @@ export default {
             transform: "scale(1)",
             opacity: "1"
           }
+        },
+        "button-press": {
+          "0%": {
+            transform: "scale(1)"
+          },
+          "50%": {
+            transform: "scale(0.95)"
+          },
+          "100%": {
+            transform: "scale(1)"
+          }
+        },
+        "success-check": {
+          "0%": {
+            transform: "scale(0)",
+            opacity: "0"
+          },
+          "50%": {
+            transform: "scale(1.1)",
+            opacity: "1"
+          },
+          "100%": {
+            transform: "scale(1)",
+            opacity: "1"
+          }
         }
       },
       animation: {
@@ -114,6 +162,20 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.3s ease-out",
         "scale-in": "scale-in 0.2s ease-out",
+        "button-press": "button-press 0.1s ease-out",
+        "success-check": "success-check 0.3s ease-out",
+        "pulse-slow": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      },
+      spacing: {
+        '18': '4.5rem',
+        '88': '22rem',
+      },
+      boxShadow: {
+        'executive': '0 4px 16px rgba(0, 0, 0, 0.08)',
+        'executive-hover': '0 8px 24px rgba(0, 0, 0, 0.12)',
+        'electric': '0 2px 8px rgba(0, 102, 255, 0.2)',
+        'electric-hover': '0 4px 12px rgba(0, 102, 255, 0.3)',
+        'feature-card': '0 8px 24px rgba(0, 102, 255, 0.2)',
       },
     },
   },
