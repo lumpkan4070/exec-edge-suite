@@ -133,125 +133,186 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Contact Form */}
-      <section className="py-16 px-6 bg-muted/30">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div>
-              <h2 className="text-3xl font-bold text-foreground mb-6">Send Us a Message</h2>
-              <p className="text-lg text-muted-foreground mb-8">
-                Fill out the form and we'll get back to you within 24 hours. For urgent inquiries, please call or use our live chat.
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <Clock className="w-5 h-5 text-electric" />
-                  <span className="text-muted-foreground">Response time: Within 24 hours</span>
+      {/* Contact Form - Attention Grabbing Design */}
+      <section className="py-20 px-6 bg-gradient-to-br from-electric/20 via-primary/10 to-electric/30 relative overflow-hidden">
+        {/* Background Decorations */}
+        <div className="absolute top-10 right-10 w-32 h-32 bg-electric/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 left-10 w-40 h-40 bg-primary/15 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-electric/10 rounded-full blur-2xl"></div>
+        
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-foreground mb-4">
+              Ready to Transform Your
+              <span className="text-electric block">Leadership Journey?</span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Get personalized guidance from our team. We'll help you choose the perfect plan and answer any questions about APEX Executive.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+            {/* Left Content */}
+            <div className="lg:col-span-2 space-y-8">
+              <div className="bg-background/80 backdrop-blur-sm rounded-2xl p-8 border border-electric/20">
+                <h3 className="text-2xl font-bold text-foreground mb-6">Why Contact Us?</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-electric rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Personalized Demo</h4>
+                      <p className="text-muted-foreground text-sm">See APEX in action with scenarios tailored to your role</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-electric rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Custom Pricing</h4>
+                      <p className="text-muted-foreground text-sm">Enterprise solutions and volume discounts available</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-electric rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Implementation Support</h4>
+                      <p className="text-muted-foreground text-sm">White-glove onboarding for teams and organizations</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <MessageCircle className="w-5 h-5 text-electric" />
-                  <span className="text-muted-foreground">Live chat: 9 AM - 5 PM PT</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-electric" />
-                  <span className="text-muted-foreground">Phone support: 9 AM - 6 PM PT</span>
+              </div>
+
+              <div className="bg-background/80 backdrop-blur-sm rounded-2xl p-8 border border-electric/20">
+                <h3 className="text-xl font-bold text-foreground mb-4">Response Times</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Live Chat</span>
+                    <span className="text-electric font-medium">Instant</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Email</span>
+                    <span className="text-electric font-medium">&lt; 4 hours</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Phone</span>
+                    <span className="text-electric font-medium">&lt; 1 hour</span>
+                  </div>
                 </div>
               </div>
             </div>
             
-            <form onSubmit={handleSubmit} className="bg-background p-8 rounded-xl border border-border">
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                      Full Name *
+            {/* Contact Form */}
+            <div className="lg:col-span-3">
+              <div className="bg-background rounded-3xl p-8 shadow-2xl border border-electric/10">
+                <div className="mb-6">
+                  <h3 className="text-2xl font-bold text-foreground mb-2">Send Us a Message</h3>
+                  <p className="text-muted-foreground">We'll get back to you within 4 hours</p>
+                </div>
+                
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label htmlFor="name" className="block text-sm font-semibold text-foreground">
+                        Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-4 rounded-xl border-2 border-muted bg-background text-foreground focus:outline-none focus:border-electric focus:ring-2 focus:ring-electric/20 transition-all"
+                        placeholder="Your full name"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="email" className="block text-sm font-semibold text-foreground">
+                        Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-4 rounded-xl border-2 border-muted bg-background text-foreground focus:outline-none focus:border-electric focus:ring-2 focus:ring-electric/20 transition-all"
+                        placeholder="your.email@company.com"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label htmlFor="company" className="block text-sm font-semibold text-foreground">
+                      Company
                     </label>
                     <input
                       type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formData.name}
+                      id="company"
+                      name="company"
+                      value={formData.company}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-electric"
-                      placeholder="Your full name"
+                      className="w-full px-4 py-4 rounded-xl border-2 border-muted bg-background text-foreground focus:outline-none focus:border-electric focus:ring-2 focus:ring-electric/20 transition-all"
+                      placeholder="Your company name"
                     />
                   </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                      Email Address *
+
+                  <div className="space-y-2">
+                    <label htmlFor="subject" className="block text-sm font-semibold text-foreground">
+                      What can we help you with? *
                     </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
+                    <select
+                      id="subject"
+                      name="subject"
                       required
-                      value={formData.email}
+                      value={formData.subject}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-electric"
-                      placeholder="your.email@company.com"
+                      className="w-full px-4 py-4 rounded-xl border-2 border-muted bg-background text-foreground focus:outline-none focus:border-electric focus:ring-2 focus:ring-electric/20 transition-all"
+                    >
+                      <option value="">Select a topic</option>
+                      <option value="demo">Schedule a Demo</option>
+                      <option value="enterprise">Enterprise Solutions</option>
+                      <option value="support">Technical Support</option>
+                      <option value="sales">Sales Question</option>
+                      <option value="partnership">Partnership Opportunities</option>
+                      <option value="general">General Inquiry</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="message" className="block text-sm font-semibold text-foreground">
+                      Message *
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      required
+                      rows={5}
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-4 rounded-xl border-2 border-muted bg-background text-foreground focus:outline-none focus:border-electric focus:ring-2 focus:ring-electric/20 transition-all resize-none"
+                      placeholder="Tell us about your goals and how we can help..."
                     />
                   </div>
-                </div>
-                
-                <div>
-                  <label htmlFor="company" className="block text-sm font-medium text-foreground mb-2">
-                    Company
-                  </label>
-                  <input
-                    type="text"
-                    id="company"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-electric"
-                    placeholder="Your company name"
-                  />
-                </div>
 
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-2">
-                    Subject *
-                  </label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    required
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-electric"
-                  >
-                    <option value="">Select a topic</option>
-                    <option value="general">General Inquiry</option>
-                    <option value="sales">Sales Question</option>
-                    <option value="support">Technical Support</option>
-                    <option value="enterprise">Enterprise Solutions</option>
-                    <option value="partnership">Partnership Opportunities</option>
-                    <option value="press">Press & Media</option>
-                  </select>
-                </div>
+                  <div className="pt-4">
+                    <ExecutiveButton type="submit" variant="primary" className="w-full h-14 text-lg font-semibold rounded-xl bg-electric hover:bg-electric/90 transform hover:scale-[1.02] transition-all duration-200">
+                      Send Message
+                      <Send className="w-5 h-5 ml-2" />
+                    </ExecutiveButton>
+                  </div>
 
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                    Message *
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={5}
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-electric resize-none"
-                    placeholder="Tell us how we can help you..."
-                  />
-                </div>
-
-                <ExecutiveButton type="submit" variant="primary" className="w-full">
-                  Send Message
-                  <Send className="w-4 h-4 ml-2" />
-                </ExecutiveButton>
+                  <div className="text-center">
+                    <p className="text-sm text-muted-foreground">
+                      Or reach out directly: 
+                      <a href="mailto:hello@apex-executive.com" className="text-electric hover:underline ml-1">
+                        hello@apex-executive.com
+                      </a>
+                    </p>
+                  </div>
+                </form>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </section>
