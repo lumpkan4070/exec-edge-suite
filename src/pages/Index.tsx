@@ -1,14 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUser } from "@/contexts/user-context";
+import { useLocation } from "react-router-dom";
 import Landing from "./Landing";
 import Dashboard from "./Dashboard";
 import PaymentHandler from "@/components/payment/payment-handler";
 
 export default function Index() {
   const { userData, setUserData } = useUser();
+  const location = useLocation();
   const [showDashboard, setShowDashboard] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [selectedTier, setSelectedTier] = useState<string>("");
+
+  // Reset to landing page when user navigates directly to home
+  useEffect(() => {
+    if (location.pathname === "/" && !location.search) {
+      setShowDashboard(false);
+      setShowPayment(false);
+    }
+  }, [location]);
 
   const handlePlanSelection = (tier: string) => {
     setSelectedTier(tier);
