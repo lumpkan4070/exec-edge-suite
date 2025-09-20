@@ -6,6 +6,7 @@ import executiveBoardroom from "@/assets/executive-boardroom.jpg";
 import aiCoaching from "@/assets/ai-coaching.jpg";
 import executivePresentation from "@/assets/executive-presentation.jpg";
 import realisticAnalytics from "@/assets/realistic-analytics.jpg";
+import apexLogo from "@/assets/apex-logo-new.png";
 
 interface LandingProps {
   onGetStarted: () => void;
@@ -23,8 +24,11 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Crown className="w-8 h-8 text-vivid-indigo" />
-              <span className="text-2xl font-bold text-charcoal font-playfair">APEX</span>
+              <img 
+                src={apexLogo} 
+                alt="APEX Executive Logo" 
+                className="h-8 w-auto"
+              />
             </div>
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Features</a>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { ArrowRight, Crown, Briefcase, Heart, Check, Home } from "lucide-react";
 import { Link } from "react-router-dom";
-import apexLogo from "@/assets/apex-logo.png";
+import apexLogo from "@/assets/apex-logo-new.png";
 
 interface TierSelectionProps {
   onNext: (tier: string) => void;
@@ -57,8 +57,11 @@ export default function TierSelection({ onNext }: TierSelectionProps) {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center space-x-2">
-              <Crown className="w-8 h-8 text-electric" />
-              <span className="text-2xl font-bold text-foreground">APEX</span>
+              <img 
+                src={apexLogo} 
+                alt="APEX Executive Logo" 
+                className="h-8 w-auto"
+              />
             </Link>
             <Link to="/">
               <ExecutiveButton variant="outline">Back to Home</ExecutiveButton>
