@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { ArrowRight, DollarSign, Zap, Crown } from "lucide-react";
+import { ArrowRight, DollarSign, Zap, Crown, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ObjectiveScreenProps {
   role: string;
@@ -104,17 +105,33 @@ export default function ObjectiveScreen({ role, tier, onComplete }: ObjectiveScr
   };
 
   return (
-    <div className={cn("min-h-screen bg-background flex items-center justify-center px-4", getTierTheme())}>
-      <div className="max-w-md w-full space-y-8 animate-executive-slide-in">
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-foreground mb-2">
-            Perfect, {getRoleTitle(role)}
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            What's your primary objective?
-          </p>
+    <div className={cn("min-h-screen bg-background", getTierTheme())}>
+      {/* Header */}
+      <header className="border-b border-border bg-card">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center space-x-2">
+              <Crown className="w-8 h-8 text-electric" />
+              <span className="text-2xl font-bold text-foreground">APEX</span>
+            </Link>
+            <Link to="/">
+              <ExecutiveButton variant="outline">Back to Home</ExecutiveButton>
+            </Link>
+          </div>
         </div>
+      </header>
+
+      <div className="flex items-center justify-center px-4 py-8">
+        <div className="max-w-md w-full space-y-8 animate-executive-slide-in">
+          {/* Header */}
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-foreground mb-2">
+              Perfect, {getRoleTitle(role)}
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              What's your primary objective?
+            </p>
+          </div>
 
         {/* Objective Selection */}
         <div className="space-y-3">
@@ -159,10 +176,11 @@ export default function ObjectiveScreen({ role, tier, onComplete }: ObjectiveScr
           <ArrowRight className="ml-2 h-5 w-5" />
         </ExecutiveButton>
 
-        <div className="text-center">
-          <p className="text-sm text-muted-foreground">
-            Tailored AI coaching starts immediately
-          </p>
+          <div className="text-center">
+            <p className="text-sm text-muted-foreground">
+              Tailored AI coaching starts immediately
+            </p>
+          </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { ArrowRight, Crown, Briefcase, Heart, Check } from "lucide-react";
+import { ArrowRight, Crown, Briefcase, Heart, Check, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 import apexLogo from "@/assets/apex-logo.png";
 
 interface TierSelectionProps {
@@ -50,24 +51,40 @@ export default function TierSelection({ onNext }: TierSelectionProps) {
   const [selectedTier, setSelectedTier] = useState<string>("professional");
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4 py-8">
-      <div className="max-w-4xl w-full space-y-8 animate-executive-slide-in">
-        {/* Header */}
-        <div className="text-center">
-          <div className="mb-8">
-            <img 
-              src={apexLogo} 
-              alt="APEX Executive Logo" 
-              className="h-20 mx-auto mb-6"
-            />
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-border bg-card">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center space-x-2">
+              <Crown className="w-8 h-8 text-electric" />
+              <span className="text-2xl font-bold text-foreground">APEX</span>
+            </Link>
+            <Link to="/">
+              <ExecutiveButton variant="outline">Back to Home</ExecutiveButton>
+            </Link>
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-4">
-            Choose Your Performance Edge
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Three tiers designed for different career stages and goals
-          </p>
         </div>
+      </header>
+
+      <div className="flex items-center justify-center px-4 py-8">
+        <div className="max-w-4xl w-full space-y-8 animate-executive-slide-in">
+          {/* Header */}
+          <div className="text-center">
+            <div className="mb-8">
+              <img 
+                src={apexLogo} 
+                alt="APEX Executive Logo" 
+                className="h-20 mx-auto mb-6"
+              />
+            </div>
+            <h1 className="text-3xl font-bold text-foreground mb-4">
+              Choose Your Performance Edge
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              Three tiers designed for different career stages and goals
+            </p>
+          </div>
 
         {/* Tier Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -146,9 +163,10 @@ export default function TierSelection({ onNext }: TierSelectionProps) {
             <ArrowRight className="ml-2 h-5 w-5" />
           </ExecutiveButton>
           
-          <p className="text-sm text-muted-foreground">
-            Free trial included • Switch tiers anytime • Cancel easily
-          </p>
+            <p className="text-sm text-muted-foreground">
+              Free trial included • Switch tiers anytime • Cancel easily
+            </p>
+          </div>
         </div>
       </div>
     </div>

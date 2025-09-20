@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { ArrowRight, Target, TrendingUp, Users } from "lucide-react";
+import { ArrowRight, Target, TrendingUp, Users, Crown, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface WelcomeScreenProps {
   onNext: (role: string) => void;
@@ -50,20 +51,36 @@ export default function WelcomeScreen({ onNext, tier }: WelcomeScreenProps) {
   };
 
   return (
-    <div className={cn("min-h-screen bg-background flex items-center justify-center px-4", getTierTheme())}>
-      <div className="max-w-md w-full space-y-8 animate-executive-slide-in">
-        {/* Logo/Brand */}
-        <div className="text-center">
-          <div className="w-16 h-16 bg-electric rounded-xl mx-auto mb-6 flex items-center justify-center">
-            <Target className="w-8 h-8 text-electric-foreground" />
+    <div className={cn("min-h-screen bg-background", getTierTheme())}>
+      {/* Header */}
+      <header className="border-b border-border bg-card">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center space-x-2">
+              <Crown className="w-8 h-8 text-electric" />
+              <span className="text-2xl font-bold text-foreground">APEX</span>
+            </Link>
+            <Link to="/">
+              <ExecutiveButton variant="outline">Back to Home</ExecutiveButton>
+            </Link>
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            AI Executive Performance Coach
-          </h1>
-          <p className="text-xl text-electric font-semibold">
-            {getTierTagline()}
-          </p>
         </div>
+      </header>
+
+      <div className="flex items-center justify-center px-4 py-8">
+        <div className="max-w-md w-full space-y-8 animate-executive-slide-in">
+          {/* Logo/Brand */}
+          <div className="text-center">
+            <div className="w-16 h-16 bg-electric rounded-xl mx-auto mb-6 flex items-center justify-center">
+              <Target className="w-8 h-8 text-electric-foreground" />
+            </div>
+            <h1 className="text-3xl font-bold text-foreground mb-2">
+              AI Executive Performance Coach
+            </h1>
+            <p className="text-xl text-electric font-semibold">
+              {getTierTagline()}
+            </p>
+          </div>
 
         {/* Role Selection - ONB-005: Block without selection */}
         <div className="space-y-4">
@@ -124,9 +141,10 @@ export default function WelcomeScreen({ onNext, tier }: WelcomeScreenProps) {
           <ArrowRight className="ml-2 h-5 w-5" />
         </ExecutiveButton>
 
-        <p className="text-xs text-center text-muted-foreground">
-          3-day trial • No commitment • Premium results
-        </p>
+          <p className="text-xs text-center text-muted-foreground">
+            3-day trial • No commitment • Premium results
+          </p>
+        </div>
       </div>
     </div>
   );

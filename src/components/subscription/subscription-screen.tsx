@@ -1,5 +1,6 @@
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { ArrowLeft, Check, Crown, Zap, TrendingUp, Users, Target, Briefcase, Heart } from "lucide-react";
+import { ArrowLeft, Check, Crown, Zap, TrendingUp, Users, Target, Briefcase, Heart, Home } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface SubscriptionScreenProps {
   onBack: () => void;
@@ -71,8 +72,23 @@ export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }:
   return (
     <div className={cn("min-h-screen bg-background", getTierTheme())}>
       {/* Header */}
-      <header className="border-b border-border p-6 bg-card shadow-sm">
-        <div className="flex items-center max-w-4xl mx-auto">
+      <header className="border-b border-border bg-card">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center space-x-2">
+              <Crown className="w-8 h-8 text-electric" />
+              <span className="text-2xl font-bold text-foreground">APEX</span>
+            </Link>
+            <Link to="/">
+              <ExecutiveButton variant="outline">Back to Home</ExecutiveButton>
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      <div className="p-6 space-y-10 max-w-4xl mx-auto">
+        {/* Header Content */}
+        <div className="flex items-center">
           <button
             onClick={onBack}
             className="mr-4 p-3 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-105"
@@ -86,9 +102,6 @@ export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }:
             </p>
           </div>
         </div>
-      </header>
-
-      <div className="p-6 space-y-10 max-w-4xl mx-auto">
         {/* ROI Section */}
         <div className="text-center space-y-6">
           <h2 className="text-3xl font-bold text-foreground">

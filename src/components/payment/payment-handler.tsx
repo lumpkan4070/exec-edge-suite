@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { CreditCard, AlertCircle, CheckCircle, Clock, Home, ArrowLeft, Shield, Star } from "lucide-react";
+import { CreditCard, AlertCircle, CheckCircle, Clock, Home, ArrowLeft, Shield, Star, Crown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/contexts/user-context";
 import AuthModal from "@/components/auth/auth-modal";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Link } from "react-router-dom";
 
 interface PaymentHandlerProps {
   tier: string;
@@ -176,19 +177,26 @@ export default function PaymentHandler({ tier, priceId, amount, onSuccess, onErr
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800">
+      {/* Header */}
+      <header className="border-b border-border bg-card">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center space-x-2">
+              <Crown className="w-8 h-8 text-electric" />
+              <span className="text-2xl font-bold text-foreground">APEX</span>
+            </Link>
+            <Link to="/">
+              <ExecutiveButton variant="outline">Back to Home</ExecutiveButton>
+            </Link>
+          </div>
+        </div>
+      </header>
+
       <div className="flex min-h-screen">
         {/* Left Side - Preview */}
         <div className="hidden lg:flex lg:w-2/5 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-purple-600/90 via-purple-700/90 to-indigo-800/90" />
           <div className="relative z-10 flex flex-col justify-center p-12 text-white">
-            {/* Back Button */}
-            <button
-              onClick={goBack}
-              className="absolute top-6 left-6 flex items-center text-white/80 hover:text-white transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              Back
-            </button>
 
             {/* Amount Display */}
             <div className="text-center mb-12">
@@ -245,20 +253,15 @@ export default function PaymentHandler({ tier, priceId, amount, onSuccess, onErr
             {/* Header with Steps */}
             <div className="border-b border-gray-200 p-6">
               <div className="flex items-center justify-between mb-6">
-                <button
-                  onClick={goBack}
-                  className="lg:hidden flex items-center text-gray-600 hover:text-gray-900"
-                >
-                  <ArrowLeft className="w-5 h-5 mr-2" />
-                  Back
-                </button>
-                <button
-                  onClick={goHome}
-                  className="flex items-center text-gray-600 hover:text-gray-900"
-                >
-                  <Home className="w-5 h-5 mr-2" />
-                  Home
-                </button>
+                {onBack && (
+                  <button
+                    onClick={onBack}
+                    className="lg:hidden flex items-center text-gray-600 hover:text-gray-900"
+                  >
+                    <ArrowLeft className="w-5 h-5 mr-2" />
+                    Back
+                  </button>
+                )}
               </div>
 
               {/* Steps */}
