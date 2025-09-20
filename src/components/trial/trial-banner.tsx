@@ -1,16 +1,34 @@
 import { useUser } from "@/contexts/user-context";
 import { Card } from "@/components/ui/card";
 import { Clock, Sparkles } from "lucide-react";
+import { useMemo } from "react";
 
 export default function TrialBanner() {
-  const { userData, getTrialDaysRemaining, user } = useUser();
+  const { userData, user } = useUser();
   
   // Don't show banner if user is authenticated or not in trial
   if (user || !userData.isGuest || !userData.trialStartDate) return null;
 
-  const daysRemaining = getTrialDaysRemaining();
+  const timeRemaining = useMemo(() => {
+    if (!userData.trialStartDate) return null;
+    const startDate = new Date(userData.trialStartDate);
+    const currentDate = new Date();
+    const hoursElapsed = (currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60);
+    const hoursRemaining = Math.max(0, 72 - hoursElapsed);
+    
+    if (hoursRemaining <= 0) return null;
+    
+    const days = Math.floor(hoursRemaining / 24);
+    const hours = Math.floor(hoursRemaining % 24);
+    
+    if (days > 0) {
+      return `${days} day${days !== 1 ? 's' : ''} ${hours}h`;
+    } else {
+      return `${hours} hour${hours !== 1 ? 's' : ''}`;
+    }
+  }, [userData.trialStartDate]);
   
-  if (daysRemaining === 0) return null; // Trial expired, handled elsewhere
+  if (!timeRemaining) return null;
 
   return (
     <Card className="mx-4 mb-4 p-4 border-primary/20 bg-gradient-to-r from-primary/5 to-secondary/5">
@@ -32,7 +50,7 @@ export default function TrialBanner() {
           <Clock className="h-4 w-4 text-primary" />
           <div>
             <div className="font-bold text-primary">
-              {daysRemaining} day{daysRemaining !== 1 ? 's' : ''} left
+              {timeRemaining} left
             </div>
             <div className="text-xs text-muted-foreground">
               in your trial

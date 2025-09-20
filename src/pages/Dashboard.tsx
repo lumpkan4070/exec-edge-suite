@@ -7,6 +7,7 @@ import ExecutiveDashboard from "@/components/dashboard/executive-dashboard";
 import PaymentHandler from "@/components/payment/payment-handler";
 import TrialBanner from "@/components/trial/trial-banner";
 import TrialExpiredModal from "@/components/trial/trial-expired-modal";
+import TrialNotifications from "@/components/trial/trial-notifications";
 
 export default function Dashboard() {
   const { userData, setUserData } = useUser();
@@ -91,6 +92,7 @@ export default function Dashboard() {
 
   return (
     <>
+      <TrialNotifications />
       <TrialBanner />
       <ExecutiveDashboard 
         userRole={userData.role || ""} 

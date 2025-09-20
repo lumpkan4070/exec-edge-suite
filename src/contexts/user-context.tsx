@@ -72,9 +72,22 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
   const loadGuestData = () => {
     const guestData = localStorage.getItem('apex_guest_data');
+    const deviceTrialData = localStorage.getItem('apex_device_trial');
+    
     if (guestData) {
       const parsed = JSON.parse(guestData);
       setUserDataState({ ...parsed, isGuest: true });
+    }
+    
+    // Auto-restore trial if exists
+    if (deviceTrialData) {
+      const trialData = JSON.parse(deviceTrialData);
+      setUserDataState(prev => ({ 
+        ...prev, 
+        trialStartDate: trialData.trialStartDate,
+        trialUsed: true,
+        userId: trialData.userId || prev.userId || crypto.randomUUID()
+      }));
     }
   };
 
@@ -137,12 +150,17 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     if (!userData.trialStartDate) return 3;
     const startDate = new Date(userData.trialStartDate);
     const currentDate = new Date();
-    const daysPassed = Math.floor((currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-    return Math.max(0, 3 - daysPassed);
+    const hoursElapsed = (currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60);
+    const hoursRemaining = Math.max(0, 72 - hoursElapsed);
+    return Math.ceil(hoursRemaining / 24); // Convert to days for display
   };
 
   const isTrialExpired = () => {
-    return getTrialDaysRemaining() === 0;
+    if (!userData.trialStartDate) return false;
+    const startDate = new Date(userData.trialStartDate);
+    const currentDate = new Date();
+    const hoursElapsed = (currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60);
+    return hoursElapsed >= 72;
   };
 
   // Check trial expiration every minute
