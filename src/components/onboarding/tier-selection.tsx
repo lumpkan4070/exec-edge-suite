@@ -60,7 +60,7 @@ export default function TierSelection({ onNext }: TierSelectionProps) {
               <img 
                 src={apexLogo} 
                 alt="APEX Executive Logo" 
-                className="h-8 w-auto"
+                className="h-12 w-auto"
               />
             </Link>
             <Link to="/">
