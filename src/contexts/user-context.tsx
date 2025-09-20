@@ -8,6 +8,8 @@ interface UserData {
   objective?: string;
   isGuest: boolean;
   userId?: string;
+  trialStartDate?: string;
+  trialUsed?: boolean;
 }
 
 interface UserContextType {
@@ -18,6 +20,10 @@ interface UserContextType {
   continueAsGuest: () => void;
   signOut: () => Promise<void>;
   migrateGuestData: () => Promise<void>;
+  startTrial: () => void;
+  getTrialDaysRemaining: () => number;
+  isTrialExpired: () => boolean;
+  hasTrialExpired: boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -28,6 +34,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [userData, setUserDataState] = useState<UserData>({
     isGuest: true
   });
+  const [hasTrialExpired, setHasTrialExpired] = useState(false);
 
   useEffect(() => {
     // Set up auth state listener
@@ -99,6 +106,60 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     setUserDataState({ isGuest: true });
   };
 
+  const startTrial = () => {
+    const deviceTrialData = localStorage.getItem('apex_device_trial');
+    if (deviceTrialData) {
+      const parsed = JSON.parse(deviceTrialData);
+      setUserData({ 
+        isGuest: true, 
+        trialStartDate: parsed.trialStartDate,
+        trialUsed: true,
+        userId: parsed.userId || crypto.randomUUID()
+      });
+    } else {
+      const trialStartDate = new Date().toISOString();
+      const userId = crypto.randomUUID();
+      localStorage.setItem('apex_device_trial', JSON.stringify({ 
+        trialStartDate, 
+        userId,
+        trialUsed: true 
+      }));
+      setUserData({ 
+        isGuest: true, 
+        trialStartDate,
+        trialUsed: true,
+        userId
+      });
+    }
+  };
+
+  const getTrialDaysRemaining = () => {
+    if (!userData.trialStartDate) return 3;
+    const startDate = new Date(userData.trialStartDate);
+    const currentDate = new Date();
+    const daysPassed = Math.floor((currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+    return Math.max(0, 3 - daysPassed);
+  };
+
+  const isTrialExpired = () => {
+    return getTrialDaysRemaining() === 0;
+  };
+
+  // Check trial expiration every minute
+  useEffect(() => {
+    const checkTrialExpiration = () => {
+      if (userData.trialStartDate && userData.isGuest && !user) {
+        const expired = isTrialExpired();
+        setHasTrialExpired(expired);
+      }
+    };
+
+    checkTrialExpiration();
+    const interval = setInterval(checkTrialExpiration, 60000); // Check every minute
+
+    return () => clearInterval(interval);
+  }, [userData.trialStartDate, userData.isGuest, user]);
+
   const migrateGuestData = async () => {
     if (!userData.isGuest || !user) return;
     
@@ -118,7 +179,11 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       setUserData,
       continueAsGuest,
       signOut,
-      migrateGuestData
+      migrateGuestData,
+      startTrial,
+      getTrialDaysRemaining,
+      isTrialExpired,
+      hasTrialExpired
     }}>
       {children}
     </UserContext.Provider>

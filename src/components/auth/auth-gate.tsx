@@ -2,6 +2,7 @@ import React from 'react';
 import { useUser } from '@/contexts/user-context';
 import { ExecutiveButton } from '@/components/ui/executive-button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Sparkles, Clock } from "lucide-react";
 import apexLogo from '@/assets/apex-logo.png';
 
 interface AuthGateProps {
@@ -9,10 +10,10 @@ interface AuthGateProps {
 }
 
 export function AuthGate({ children }: AuthGateProps) {
-  const { user, userData, continueAsGuest } = useUser();
+  const { user, userData, startTrial, hasTrialExpired } = useUser();
 
-  // If user is authenticated or is a guest, show the app
-  if (user || userData.userId) {
+  // Allow access if user is authenticated, has trial access, or trial hasn't expired
+  if (user || (userData.userId && !hasTrialExpired)) {
     return <>{children}</>;
   }
 
@@ -39,23 +40,27 @@ export function AuthGate({ children }: AuthGateProps) {
         </CardHeader>
         
         <CardContent className="space-y-4">
+          <Card className="p-4 bg-white/5 border-white/20">
+            <div className="flex items-center gap-3 mb-3">
+              <Sparkles className="h-5 w-5 text-white" />
+              <span className="font-semibold text-white">3-Day Free Trial</span>
+            </div>
+            <p className="text-sm text-white/80 text-left">
+              Experience the full platform with no sign-up required until day 3.
+            </p>
+          </Card>
+          
           <ExecutiveButton 
-            onClick={continueAsGuest}
+            onClick={startTrial}
             className="w-full"
           >
-            Continue Without Account
+            <Clock className="h-4 w-4 mr-2" />
+            Start Free Trial
           </ExecutiveButton>
           
           <div className="text-center">
             <p className="text-sm text-white/60">
-              Get started instantly. Create an account later to sync across devices.
-            </p>
-          </div>
-          
-          <div className="pt-4 border-t border-white/20">
-            <p className="text-xs text-white/50 text-center">
-              Phase 1: Guest access with local storage<br/>
-              Coming soon: Account creation & cloud sync
+              All your progress will be saved when you create an account
             </p>
           </div>
         </CardContent>

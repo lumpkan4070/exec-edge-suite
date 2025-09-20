@@ -5,6 +5,8 @@ import WelcomeScreen from "@/components/onboarding/welcome-screen";
 import ObjectiveScreen from "@/components/onboarding/objective-screen";
 import ExecutiveDashboard from "@/components/dashboard/executive-dashboard";
 import PaymentHandler from "@/components/payment/payment-handler";
+import TrialBanner from "@/components/trial/trial-banner";
+import TrialExpiredModal from "@/components/trial/trial-expired-modal";
 
 export default function Dashboard() {
   const { userData, setUserData } = useUser();
@@ -87,10 +89,16 @@ export default function Dashboard() {
     );
   }
 
-  return <ExecutiveDashboard 
-    userRole={userData.role || ""} 
-    userObjective={userData.objective || ""} 
-    tier={userData.tier || ""} 
-    onUpgrade={handleUpgrade}
-  />;
+  return (
+    <>
+      <TrialBanner />
+      <ExecutiveDashboard 
+        userRole={userData.role || ""} 
+        userObjective={userData.objective || ""} 
+        tier={userData.tier || ""} 
+        onUpgrade={handleUpgrade}
+      />
+      <TrialExpiredModal />
+    </>
+  );
 }
