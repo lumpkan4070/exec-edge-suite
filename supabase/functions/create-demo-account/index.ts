@@ -12,58 +12,77 @@ serve(async (req) => {
   }
 
   try {
-    // Initialize Supabase client with service role key for admin operations
-    const supabaseAdmin = createClient(
+    console.log("Creating demo account for Apple App Store reviewers");
+
+    // Create admin Supabase client
+    const supabase = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
-      { auth: { persistSession: false } }
+      {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false
+        }
+      }
     );
 
-    console.log("Creating demo account for Apple App Store review...");
+    const demoEmail = "demo@apexexecutive.com";
+    const demoPassword = "AppleReview2024!";
 
     // Check if demo account already exists
-    const { data: existingUser } = await supabaseAdmin.auth.admin.listUsers();
-    const demoExists = existingUser?.users?.some(user => user.email === "demo@apexexecutive.com");
+    const { data: existingUsers, error: checkError } = await supabase.auth.admin.listUsers();
+    
+    if (checkError) {
+      console.error("Error checking existing users:", checkError);
+      throw checkError;
+    }
 
-    if (demoExists) {
+    const existingDemo = existingUsers.users.find(user => user.email === demoEmail);
+    
+    if (existingDemo) {
       console.log("Demo account already exists");
       return new Response(JSON.stringify({ 
+        success: true, 
         message: "Demo account already exists",
-        email: "demo@apexexecutive.com",
-        password: "AppleReview2024!"
+        credentials: {
+          email: demoEmail,
+          password: demoPassword
+        }
       }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
       });
     }
 
-    // Create demo user using admin auth
-    const { data: newUser, error: signUpError } = await supabaseAdmin.auth.admin.createUser({
-      email: "demo@apexexecutive.com",
-      password: "AppleReview2024!",
+    // Create demo account
+    const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
+      email: demoEmail,
+      password: demoPassword,
       email_confirm: true,
       user_metadata: {
-        name: "Demo Executive User",
+        name: "Demo User",
         role: "executive",
         tier: "premium",
-        objective: "executive_presence",
+        objective: "Enhance executive presence and strategic decision-making",
         demo_account: true
       }
     });
 
-    if (signUpError) {
-      console.error("Error creating demo user:", signUpError);
-      throw signUpError;
+    if (createError) {
+      console.error("Error creating demo account:", createError);
+      throw createError;
     }
 
     console.log("Demo account created successfully:", newUser.user?.id);
 
     return new Response(JSON.stringify({ 
+      success: true,
       message: "Demo account created successfully",
-      email: "demo@apexexecutive.com",
-      password: "AppleReview2024!",
-      userId: newUser.user?.id,
-      note: "This account has premium tier access and sample executive data for App Store review"
+      credentials: {
+        email: demoEmail,
+        password: demoPassword
+      },
+      user_id: newUser.user?.id
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
@@ -71,12 +90,12 @@ serve(async (req) => {
 
   } catch (error) {
     console.error("Error in create-demo-account function:", error);
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      }
-    );
+    return new Response(JSON.stringify({ 
+      error: error.message || "Failed to create demo account",
+      success: false
+    }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500,
+    });
   }
 });

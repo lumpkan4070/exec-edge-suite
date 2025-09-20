@@ -17,6 +17,7 @@ import HelpCenter from "./pages/HelpCenter";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import Audit from "./pages/Audit";
+import DemoAdmin from "./pages/DemoAdmin";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/audit" element={<Audit />} />
+              <Route path="/demo-admin" element={<DemoAdmin />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

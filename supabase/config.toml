@@ -36,3 +36,6 @@ enable_signup = true
 
 [functions.text-to-speech]
 verify_jwt = false
+
+[functions.create-demo-account]
+verify_jwt = false
