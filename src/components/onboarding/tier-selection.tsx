@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { ArrowRight, Crown, Briefcase, Heart, Check, Home } from "lucide-react";
 import { Link } from "react-router-dom";
-import apexLogo from "@/assets/apex-logo-new.png";
+import apexLogo from "@/assets/apex-logo-final.png";
 
 interface TierSelectionProps {
   onNext: (tier: string) => void;

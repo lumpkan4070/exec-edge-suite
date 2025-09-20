@@ -6,7 +6,7 @@ import executiveBoardroom from "@/assets/executive-boardroom.jpg";
 import aiCoaching from "@/assets/ai-coaching.jpg";
 import executivePresentation from "@/assets/executive-presentation.jpg";
 import realisticAnalytics from "@/assets/realistic-analytics.jpg";
-import apexLogo from "@/assets/apex-logo-new.png";
+import apexLogo from "@/assets/apex-logo-final.png";
 
 interface LandingProps {
   onGetStarted: () => void;
