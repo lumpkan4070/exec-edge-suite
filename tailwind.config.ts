@@ -14,6 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
+        'playfair': ['Playfair Display', 'serif'],
+        'lato': ['Lato', 'sans-serif'],
         'inter': ['Inter', 'sans-serif'],
         'mono': ['IBM Plex Mono', 'monospace'],
       },
@@ -24,7 +26,14 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         
-        // APEX Executive Primary Colors
+        // WRD Color Palette
+        "midnight-blue": "hsl(var(--midnight-blue))",
+        "light-gray": "hsl(var(--light-gray))",
+        "vivid-indigo": "hsl(var(--vivid-indigo))",
+        "charcoal": "hsl(var(--charcoal))",
+        "silver": "hsl(var(--silver))",
+        
+        // APEX Executive Colors (updated to WRD)
         "charcoal-black": "hsl(var(--charcoal-black))",
         "electric-blue": "hsl(var(--electric-blue))",
         "electric": "hsl(var(--electric))",
@@ -32,7 +41,6 @@ export default {
         
         // APEX Executive Secondary Colors
         "slate-gray": "hsl(var(--slate-gray))",
-        "light-gray": "hsl(var(--light-gray))",
         "success-green": "hsl(var(--success-green))",
         "warning-amber": "hsl(var(--warning-amber))",
         "error-red": "hsl(var(--error-red))",

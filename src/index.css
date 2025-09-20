@@ -6,35 +6,41 @@
 
 @layer base {
   :root {
-    /* APEX Executive Edition - Premium Design System */
-    /* Primary Colors */
-    --charcoal-black: 210 4% 17%;         /* #2C2C2C */
-    --electric-blue: 217 100% 50%;        /* #0066FF */
+    /* WRD Color Palette - Professional APEX Design System */
+    --midnight-blue: 210 84% 14%;         /* #0A2540 - Primary */
+    --light-gray: 210 40% 98%;            /* #F6F9FC - Secondary */
+    --vivid-indigo: 242 89% 67%;          /* #635BFF - Accent */
+    --charcoal: 0 0% 20%;                 /* #333333 - Text */
+    --silver: 0 0% 90%;                   /* #E6E6E6 - Subtle Accent */
+    
+    /* Legacy colors for compatibility */
+    --charcoal-black: 210 84% 14%;        /* Updated to midnight blue */
+    --electric-blue: 242 89% 67%;         /* Updated to vivid indigo */
+    --electric: 242 89% 67%;              /* Updated to vivid indigo */
     --pure-white: 0 0% 100%;              /* #FFFFFF */
     
     /* Secondary Colors */
     --slate-gray: 215 16% 47%;            /* #64748B */
-    --light-gray: 210 40% 95%;            /* #F1F5F9 */
     --success-green: 153 60% 53%;         /* #10B981 */
     --warning-amber: 38 92% 50%;          /* #F59E0B */
     --error-red: 0 84% 60%;               /* #EF4444 */
     
-    /* Design System Tokens */
+    /* Design System Tokens - WRD Compliant */
     --background: var(--pure-white);
-    --foreground: var(--charcoal-black);
+    --foreground: var(--charcoal);
     --card: var(--pure-white);
-    --card-foreground: var(--charcoal-black);
+    --card-foreground: var(--charcoal);
     --popover: var(--pure-white);
-    --popover-foreground: var(--charcoal-black);
-    --primary: var(--charcoal-black);
+    --popover-foreground: var(--charcoal);
+    --primary: var(--vivid-indigo);
     --primary-foreground: var(--pure-white);
-    --electric: var(--electric-blue);
+    --electric: var(--vivid-indigo);
     --electric-foreground: var(--pure-white);
     --secondary: var(--light-gray);
-    --secondary-foreground: var(--charcoal-black);
+    --secondary-foreground: var(--charcoal);
     --muted: var(--light-gray);
     --muted-foreground: var(--slate-gray);
-    --accent: var(--electric-blue);
+    --accent: var(--vivid-indigo);
     --accent-foreground: var(--pure-white);
     --destructive: var(--error-red);
     --destructive-foreground: var(--pure-white);
@@ -176,28 +182,28 @@
   }
 
   body {
-    @apply bg-background text-foreground font-inter;
+    @apply bg-background text-foreground font-lato;
   }
 }
 
-/* APEX Executive Typography System */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+/* WRD Typography System */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
-/* Typography Classes */
+/* Typography Classes - WRD Compliant */
 .display-large {
-  @apply text-[32px] leading-[40px] font-bold;
+  @apply text-[32px] leading-[40px] font-bold font-playfair;
 }
 
 .display-medium {
-  @apply text-[24px] leading-[32px] font-semibold;
+  @apply text-[24px] leading-[32px] font-semibold font-playfair;
 }
 
 .heading-large {
-  @apply text-[20px] leading-[28px] font-semibold;
+  @apply text-[20px] leading-[28px] font-semibold font-playfair;
 }
 
 .heading-medium {
-  @apply text-[18px] leading-[24px] font-medium;
+  @apply text-[18px] leading-[24px] font-medium font-playfair;
 }
 
 .body-large {

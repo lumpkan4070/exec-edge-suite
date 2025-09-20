@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, CheckCircle, Target, Brain, Zap, Crown, Users, BarChart3, Mic, Play, X } from "lucide-react";
+import { ArrowRight, CheckCircle, Target, Brain, Zap, Crown, Users, BarChart3, Mic, Play, X, Star, Shield, Briefcase, Heart, Clock, Globe, Award } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { useUser } from "@/contexts/user-context";
 
@@ -15,17 +15,17 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="border-b border-border bg-card/50 backdrop-blur-sm fixed w-full top-0 z-50">
+      <nav className="border-b border-silver bg-card/80 backdrop-blur-sm fixed w-full top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Crown className="w-8 h-8 text-electric" />
-              <span className="text-2xl font-bold text-foreground">APEX</span>
+              <Crown className="w-8 h-8 text-vivid-indigo" />
+              <span className="text-2xl font-bold text-charcoal font-playfair">APEX</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors scroll-smooth">Features</a>
-              <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors scroll-smooth">Pricing</a>
-              <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors scroll-smooth">About</a>
+              <a href="#features" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Features</a>
+              <a href="#pricing" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Pricing</a>
+              <a href="#about" className="text-slate-gray hover:text-charcoal transition-colors font-lato">About</a>
             </div>
             <ExecutiveButton onClick={onGetStarted} variant="primary">
               Get Started
@@ -35,232 +35,232 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 relative overflow-hidden bg-gradient-to-br from-background via-background to-electric/5">
-        {/* Background elements */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--electric-blue)_0%,_transparent_50%)] opacity-10"></div>
-        <div className="absolute top-20 right-10 w-64 h-64 bg-electric/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-10 left-10 w-48 h-48 bg-electric/5 rounded-full blur-2xl"></div>
-        <div className="absolute top-1/2 left-1/4 w-2 h-2 bg-electric rounded-full animate-pulse"></div>
-        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-electric/60 rounded-full animate-pulse delay-1000"></div>
+      {/* Hero Section - WRD Compliant */}
+      <section className="pt-32 pb-20 px-6 relative overflow-hidden bg-gradient-to-br from-midnight-blue via-midnight-blue to-midnight-blue/90">
+        {/* Professional background image overlay */}
+        <div className="absolute inset-0 opacity-20" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23635BFF' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }}></div>
+        <div className="absolute top-20 right-10 w-64 h-64 bg-vivid-indigo/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 left-10 w-48 h-48 bg-vivid-indigo/5 rounded-full blur-2xl"></div>
         
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight font-playfair">
               Transform Leadership with
-              <span className="text-electric bg-gradient-to-r from-electric to-electric-blue bg-clip-text text-transparent"> AI-Powered</span> Executive Training
+              <span className="text-vivid-indigo bg-gradient-to-r from-vivid-indigo to-vivid-indigo/80 bg-clip-text text-transparent"> AI-Powered</span> Executive Training
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed">
-              <span className="text-electric font-semibold">89% of users report higher confidence in just 15 minutes a day.</span><br />
+            <p className="text-xl md:text-2xl text-white/80 mb-8 leading-relaxed font-lato">
+              <span className="text-vivid-indigo font-semibold">89% of users report higher confidence in just 15 minutes a day.</span><br />
               Master high-stakes scenarios through immersive roleplay and personalized AI coaching.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <ExecutiveButton onClick={onGetStarted} size="lg" variant="primary" className="shadow-electric/30 shadow-xl hover:shadow-electric/40 hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-                View Open Positions
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </ExecutiveButton>
-              <ExecutiveButton size="lg" variant="outline" onClick={() => setShowDemo(true)} className="hover:bg-electric/5 border-electric/40">
-                Learn More About APEX
-                <Play className="w-5 h-5 mr-2" />
+            
+            {/* Single prominent CTA as per WRD */}
+            <div className="flex justify-center mb-12">
+              <ExecutiveButton 
+                onClick={onGetStarted} 
+                size="hero" 
+                variant="primary" 
+                className="bg-vivid-indigo hover:bg-vivid-indigo/90 text-white text-xl font-semibold px-12 py-6 shadow-2xl hover:shadow-vivid-indigo/30 transform hover:scale-105 transition-all duration-300"
+              >
+                Start Your 14-Day Free Trial
+                <ArrowRight className="w-6 h-6 ml-3" />
               </ExecutiveButton>
             </div>
           </div>
 
           {/* Hero Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mt-16">
-            <div className="executive-card p-6 text-center">
-              <div className="text-3xl font-bold text-electric mb-2">89%</div>
-              <div className="text-muted-foreground">Confidence Increase</div>
+            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center">
+              <div className="text-3xl font-bold text-vivid-indigo mb-2 font-playfair">89%</div>
+              <div className="text-white/70 font-lato">Confidence Increase</div>
             </div>
-            <div className="executive-card p-6 text-center">
-              <div className="text-3xl font-bold text-electric mb-2">15min</div>
-              <div className="text-muted-foreground">Daily Practice</div>
+            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center">
+              <div className="text-3xl font-bold text-vivid-indigo mb-2 font-playfair">15min</div>
+              <div className="text-white/70 font-lato">Daily Practice</div>
             </div>
-            <div className="executive-card p-6 text-center">
-              <div className="text-3xl font-bold text-electric mb-2">2x</div>
-              <div className="text-muted-foreground">Leadership Impact</div>
+            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center">
+              <div className="text-3xl font-bold text-vivid-indigo mb-2 font-playfair">2x</div>
+              <div className="text-white/70 font-lato">Leadership Impact</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-20 px-6 bg-gradient-to-br from-charcoal-black via-charcoal-black to-electric/20 text-white relative overflow-hidden">
-        {/* Background pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--electric-blue)_0%,_transparent_70%)] opacity-5"></div>
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-electric/50 to-transparent"></div>
-        <div className="max-w-7xl mx-auto relative z-10">
+      {/* Features Section - Redesigned to 2-column layout as per WRD */}
+      <section id="features" className="py-20 px-6 bg-light-gray">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-charcoal mb-6 font-playfair">
               Executive-Grade Training
             </h2>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-gray max-w-3xl mx-auto font-lato">
               Advanced AI technology meets executive expertise to deliver personalized training that adapts to your leadership style and challenges.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-card/10 backdrop-blur-sm border border-white/10 p-8 rounded-xl hover:bg-card/20 transition-all duration-300 group">
-              <div className="w-16 h-16 bg-electric/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-electric/30 transition-colors">
-                <Brain className="w-8 h-8 text-electric" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Feature 1 */}
+            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group border border-silver">
+              <div className="flex items-start space-x-6">
+                <div className="w-16 h-16 bg-vivid-indigo/10 rounded-xl flex items-center justify-center group-hover:bg-vivid-indigo/20 transition-colors flex-shrink-0">
+                  <Brain className="w-8 h-8 text-vivid-indigo" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-charcoal mb-4 font-playfair">AI Strategy Co-pilot</h3>
+                  <p className="text-slate-gray leading-relaxed font-lato">
+                    Real-time strategic guidance powered by advanced AI. Get instant insights, decision frameworks, and leadership strategies tailored to your specific challenges.
+                  </p>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-4">AI Strategy Co-pilot</h3>
-              <p className="text-white/70 leading-relaxed">
-                Real-time strategic guidance powered by advanced AI. Get instant insights, decision frameworks, and leadership strategies tailored to your specific challenges.
-              </p>
             </div>
 
-            <div className="bg-card/10 backdrop-blur-sm border border-white/10 p-8 rounded-xl hover:bg-card/20 transition-all duration-300 group">
-              <div className="w-16 h-16 bg-electric/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-electric/30 transition-colors">
-                <Target className="w-8 h-8 text-electric" />
+            {/* Feature 2 */}
+            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group border border-silver">
+              <div className="flex items-start space-x-6">
+                <div className="w-16 h-16 bg-vivid-indigo/10 rounded-xl flex items-center justify-center group-hover:bg-vivid-indigo/20 transition-colors flex-shrink-0">
+                  <Target className="w-8 h-8 text-vivid-indigo" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-charcoal mb-4 font-playfair">Immersive Scenarios</h3>
+                  <p className="text-slate-gray leading-relaxed font-lato">
+                    Practice high-stakes situations in a safe environment. From investor pitches to crisis management, master every scenario that matters.
+                  </p>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-4">Immersive Scenarios</h3>
-              <p className="text-white/70 leading-relaxed">
-                Practice high-stakes situations in a safe environment. From investor pitches to crisis management, master every scenario that matters.
-              </p>
             </div>
 
-            <div className="bg-card/10 backdrop-blur-sm border border-white/10 p-8 rounded-xl hover:bg-card/20 transition-all duration-300 group">
-              <div className="w-16 h-16 bg-electric/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-electric/30 transition-colors">
-                <Mic className="w-8 h-8 text-electric" />
+            {/* Feature 3 */}
+            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group border border-silver">
+              <div className="flex items-start space-x-6">
+                <div className="w-16 h-16 bg-vivid-indigo/10 rounded-xl flex items-center justify-center group-hover:bg-vivid-indigo/20 transition-colors flex-shrink-0">
+                  <Mic className="w-8 h-8 text-vivid-indigo" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-charcoal mb-4 font-playfair">Voice & Presence</h3>
+                  <p className="text-slate-gray leading-relaxed font-lato">
+                    Advanced voice AI analyzes your communication style and provides real-time feedback to enhance your executive presence and authority.
+                  </p>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-4">Voice & Presence</h3>
-              <p className="text-white/70 leading-relaxed">
-                Advanced voice AI analyzes your communication style and provides real-time feedback to enhance your executive presence and authority.
-              </p>
             </div>
 
-            <div className="bg-card/10 backdrop-blur-sm border border-white/10 p-8 rounded-xl hover:bg-card/20 transition-all duration-300 group">
-              <div className="w-16 h-16 bg-electric/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-electric/30 transition-colors">
-                <BarChart3 className="w-8 h-8 text-electric" />
+            {/* Feature 4 */}
+            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group border border-silver">
+              <div className="flex items-start space-x-6">
+                <div className="w-16 h-16 bg-vivid-indigo/10 rounded-xl flex items-center justify-center group-hover:bg-vivid-indigo/20 transition-colors flex-shrink-0">
+                  <BarChart3 className="w-8 h-8 text-vivid-indigo" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-charcoal mb-4 font-playfair">Performance Analytics</h3>
+                  <p className="text-slate-gray leading-relaxed font-lato">
+                    Track your leadership growth with detailed analytics. Measure confidence, decision-making speed, and communication effectiveness.
+                  </p>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-4">Performance Analytics</h3>
-              <p className="text-white/70 leading-relaxed">
-                Track your leadership growth with detailed analytics. Measure confidence, decision-making speed, and communication effectiveness.
-              </p>
-            </div>
-
-            <div className="bg-card/10 backdrop-blur-sm border border-white/10 p-8 rounded-xl hover:bg-card/20 transition-all duration-300 group">
-              <div className="w-16 h-16 bg-electric/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-electric/30 transition-colors">
-                <Zap className="w-8 h-8 text-electric" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-4">Habit Formation</h3>
-              <p className="text-white/70 leading-relaxed">
-                Build mission-critical daily behaviors that compound into executive excellence. Science-backed habit tracking and reinforcement.
-              </p>
-            </div>
-
-            <div className="bg-card/10 backdrop-blur-sm border border-white/10 p-8 rounded-xl hover:bg-card/20 transition-all duration-300 group">
-              <div className="w-16 h-16 bg-electric/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-electric/30 transition-colors">
-                <Users className="w-8 h-8 text-electric" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-4">Leadership Coaching</h3>
-              <p className="text-white/70 leading-relaxed">
-                Personalized coaching that adapts to your role, industry, and leadership challenges. From entrepreneur to C-suite executive.
-              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 px-6">
+      {/* Pricing Section - Alternating background */}
+      <section id="pricing" className="py-20 px-6 bg-background">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-charcoal mb-6 font-playfair">
               Choose Your Path
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-xl text-slate-gray max-w-3xl mx-auto font-lato">
               Flexible plans designed for every stage of your leadership journey. Start building executive presence today.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Personal Plan */}
-            <div className="executive-card p-8 hover:shadow-xl transition-all duration-300">
+            <div className="bg-white border border-silver rounded-xl p-8 hover:shadow-xl transition-all duration-300">
               <div className="mb-8">
-                <h3 className="text-2xl font-bold text-foreground mb-2">Personal</h3>
-                <p className="text-muted-foreground mb-6">Perfect for individual professionals building their leadership foundation</p>
-                <div className="text-4xl font-bold text-foreground mb-2">
-                  $29<span className="text-lg text-muted-foreground">/month</span>
+                <h3 className="text-2xl font-bold text-charcoal mb-2 font-playfair">Personal</h3>
+                <p className="text-slate-gray mb-6 font-lato">Perfect for individual professionals building their leadership foundation</p>
+                <div className="text-4xl font-bold text-charcoal mb-2 font-playfair">
+                  $29<span className="text-lg text-slate-gray font-lato">/month</span>
                 </div>
-                <p className="text-sm text-muted-foreground">Billed monthly</p>
+                <p className="text-sm text-slate-gray font-lato">Billed monthly</p>
               </div>
 
               <div className="space-y-4 mb-8">
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-electric" />
-                  <span className="text-muted-foreground">Basic AI Strategy Co-pilot</span>
+                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
+                  <span className="text-slate-gray font-lato">Basic AI Strategy Co-pilot</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-electric" />
-                  <span className="text-muted-foreground">5 scenario simulations/month</span>
+                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
+                  <span className="text-slate-gray font-lato">5 scenario simulations/month</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-electric" />
-                  <span className="text-muted-foreground">Performance habit tracking</span>
+                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
+                  <span className="text-slate-gray font-lato">Performance habit tracking</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-electric" />
-                  <span className="text-muted-foreground">Basic analytics</span>
+                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
+                  <span className="text-slate-gray font-lato">Basic analytics</span>
                 </div>
               </div>
 
               <ExecutiveButton 
                 onClick={() => onSelectPlan ? onSelectPlan('personal') : onGetStarted()} 
                 variant="outline" 
-                className="w-full"
+                className="w-full border-vivid-indigo text-vivid-indigo hover:bg-vivid-indigo hover:text-white"
               >
                 Start Personal Plan
               </ExecutiveButton>
             </div>
 
             {/* Professional Plan */}
-            <div className="executive-card p-8 hover:shadow-xl transition-all duration-300 relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-electric text-electric-foreground px-4 py-1 text-sm font-medium">
+            <div className="bg-white border border-silver rounded-xl p-8 hover:shadow-xl transition-all duration-300 relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-vivid-indigo text-white px-4 py-1 text-sm font-medium font-lato">
                 RECOMMENDED
               </div>
               
               <div className="mb-8">
-                <h3 className="text-2xl font-bold text-foreground mb-2">Professional</h3>
-                <p className="text-muted-foreground mb-6">Advanced training for senior leaders and executives</p>
-                <div className="text-4xl font-bold text-foreground mb-2">
-                  $99<span className="text-lg text-muted-foreground">/month</span>
+                <h3 className="text-2xl font-bold text-charcoal mb-2 font-playfair">Professional</h3>
+                <p className="text-slate-gray mb-6 font-lato">Advanced training for senior leaders and executives</p>
+                <div className="text-4xl font-bold text-charcoal mb-2 font-playfair">
+                  $99<span className="text-lg text-slate-gray font-lato">/month</span>
                 </div>
-                <p className="text-sm text-muted-foreground">Billed monthly</p>
+                <p className="text-sm text-slate-gray font-lato">Billed monthly</p>
               </div>
 
               <div className="space-y-4 mb-8">
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-electric" />
-                  <span className="text-muted-foreground">Advanced AI Strategy Co-pilot</span>
+                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
+                  <span className="text-slate-gray font-lato">Advanced AI Strategy Co-pilot</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-electric" />
-                  <span className="text-muted-foreground">Unlimited scenario simulations</span>
+                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
+                  <span className="text-slate-gray font-lato">Unlimited scenario simulations</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-electric" />
-                  <span className="text-muted-foreground">Voice coaching & analysis</span>
+                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
+                  <span className="text-slate-gray font-lato">Voice coaching & analysis</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-electric" />
-                  <span className="text-muted-foreground">Advanced performance analytics</span>
+                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
+                  <span className="text-slate-gray font-lato">Advanced performance analytics</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-electric" />
-                  <span className="text-muted-foreground">Weekly AI coaching reports</span>
+                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
+                  <span className="text-slate-gray font-lato">Weekly AI coaching reports</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-electric" />
-                  <span className="text-muted-foreground">Priority support</span>
+                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
+                  <span className="text-slate-gray font-lato">Priority support</span>
                 </div>
               </div>
 
               <ExecutiveButton 
                 onClick={() => onSelectPlan ? onSelectPlan('professional') : onGetStarted()} 
                 variant="primary" 
-                className="w-full"
+                className="w-full bg-vivid-indigo hover:bg-vivid-indigo/90"
               >
                 Start Professional Plan
               </ExecutiveButton>
@@ -268,243 +268,228 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
           </div>
 
           <div className="text-center mt-12">
-            <p className="text-muted-foreground mb-4">All plans include a 14-day free trial. No credit card required.</p>
-            <p className="text-sm text-muted-foreground">
-              Need enterprise solutions? <a href="#contact" className="text-electric hover:underline">Contact our team</a>
+            <p className="text-slate-gray mb-4 font-lato">All plans include a 14-day free trial. No credit card required.</p>
+            <p className="text-sm text-slate-gray font-lato">
+              Need enterprise solutions? <a href="#contact" className="text-vivid-indigo hover:underline">Contact our team</a>
             </p>
           </div>
         </div>
       </section>
 
-      {/* Why Work at APEX Section */}
-      <section id="about" className="py-20 px-6 bg-gradient-to-br from-background via-background to-electric/5 relative overflow-hidden">
-        {/* Background elements */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--electric-blue)_0%,_transparent_80%)] opacity-5"></div>
-        <div className="absolute -top-20 -right-20 w-80 h-80 bg-electric/5 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-electric/10 rounded-full blur-2xl"></div>
-        
-        <div className="max-w-7xl mx-auto relative z-10">
+      {/* Why Work at APEX Section - Alternating background */}
+      <section id="about" className="py-20 px-6 bg-light-gray">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
+            <h2 className="text-4xl md:text-6xl font-bold text-charcoal mb-6 font-playfair">
               Why Work at APEX?
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-slate-gray max-w-3xl mx-auto leading-relaxed font-lato">
               Join a team that's transforming leadership development with cutting-edge AI and executive expertise.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            {/* Left side - Enhanced testimonial */}
+            {/* Left side - Professional testimonial */}
             <div className="relative">
-              <div className="executive-card p-12 bg-gradient-to-br from-electric/5 to-electric/10 border-electric/20 relative">
-                {/* Decorative elements */}
-                <div className="absolute -top-3 -left-3 w-6 h-6 bg-electric rounded-full opacity-60"></div>
-                <div className="absolute -bottom-3 -right-3 w-4 h-4 bg-electric/60 rounded-full opacity-80"></div>
-                
+              <div className="bg-white rounded-xl p-12 shadow-lg border border-silver relative">
                 <div className="flex items-center justify-center mb-8">
-                  <div className="w-20 h-20 bg-gradient-to-br from-electric to-electric/70 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(59,130,246,0.3)]">
+                  <div className="w-20 h-20 bg-gradient-to-br from-vivid-indigo to-vivid-indigo/70 rounded-2xl flex items-center justify-center shadow-lg">
                     <Crown className="w-10 h-10 text-white" />
                   </div>
                 </div>
                 
                 <blockquote className="text-center">
-                  <div className="text-6xl text-electric/30 mb-4 font-bold">"</div>
-                  <p className="text-2xl font-medium text-foreground mb-6 leading-relaxed">
-                    At APEX, I've grown faster than in any role before.
+                  <div className="text-6xl text-vivid-indigo/30 mb-4 font-bold font-playfair">"</div>
+                  <p className="text-2xl font-medium text-charcoal mb-6 leading-relaxed font-lato">
+                    At APEX, I've grown faster than in any role before. The technology we're building is genuinely transforming how leaders develop.
                   </p>
-                  <footer className="text-muted-foreground text-lg">
-                    — Sarah Chen, Senior Team Member
+                  <footer className="text-slate-gray font-lato">
+                    <cite className="not-italic font-semibold text-charcoal">Sarah Chen</cite>
+                    <div className="text-sm">Senior AI Engineer</div>
                   </footer>
                 </blockquote>
               </div>
             </div>
-            
-            {/* Right side - Enhanced benefits grid */}
-            <div className="grid grid-cols-1 gap-6">
-              <div className="group p-6 executive-card hover:shadow-electric/20 hover:shadow-xl transition-all duration-500 hover:scale-105">
-                <div className="flex items-center space-x-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-electric/10 to-electric/20 rounded-2xl flex items-center justify-center group-hover:from-electric/20 group-hover:to-electric/30 transition-all duration-300 shadow-lg">
-                    <Target className="w-8 h-8 text-electric" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-foreground mb-2">Comprehensive Health</h3>
-                    <p className="text-muted-foreground text-lg leading-relaxed">World-class medical, dental, and vision for you and your family.</p>
-                  </div>
+
+            {/* Right side - Benefits grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-silver group">
+                <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-vivid-indigo/20 transition-colors">
+                  <Heart className="w-6 h-6 text-vivid-indigo" />
                 </div>
+                <h3 className="font-semibold text-charcoal mb-2 font-playfair">Health & Wellness</h3>
+                <p className="text-sm text-slate-gray font-lato">Comprehensive health coverage and wellness programs</p>
               </div>
 
-              <div className="group p-6 executive-card hover:shadow-electric/20 hover:shadow-xl transition-all duration-500 hover:scale-105">
-                <div className="flex items-center space-x-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-electric/10 to-electric/20 rounded-2xl flex items-center justify-center group-hover:from-electric/20 group-hover:to-electric/30 transition-all duration-300 shadow-lg">
-                    <Zap className="w-8 h-8 text-electric" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-foreground mb-2">Flexible Work</h3>
-                    <p className="text-muted-foreground text-lg leading-relaxed">Remote-first culture with flexible hours and unlimited PTO.</p>
-                  </div>
+              <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-silver group">
+                <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-vivid-indigo/20 transition-colors">
+                  <Clock className="w-6 h-6 text-vivid-indigo" />
                 </div>
+                <h3 className="font-semibold text-charcoal mb-2 font-playfair">Flexible Schedule</h3>
+                <p className="text-sm text-slate-gray font-lato">Work-life balance with flexible hours and remote options</p>
               </div>
 
-              <div className="group p-6 executive-card hover:shadow-electric/20 hover:shadow-xl transition-all duration-500 hover:scale-105">
-                <div className="flex items-center space-x-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-electric/10 to-electric/20 rounded-2xl flex items-center justify-center group-hover:from-electric/20 group-hover:to-electric/30 transition-all duration-300 shadow-lg">
-                    <Brain className="w-8 h-8 text-electric" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-foreground mb-2">Growth & Learning</h3>
-                    <p className="text-muted-foreground text-lg leading-relaxed">Annual learning budget, mentorship, and conference access.</p>
-                  </div>
+              <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-silver group">
+                <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-vivid-indigo/20 transition-colors">
+                  <Award className="w-6 h-6 text-vivid-indigo" />
                 </div>
+                <h3 className="font-semibold text-charcoal mb-2 font-playfair">Growth Opportunities</h3>
+                <p className="text-sm text-slate-gray font-lato">Continuous learning and career development programs</p>
               </div>
 
-              <div className="group p-6 executive-card hover:shadow-electric/20 hover:shadow-xl transition-all duration-500 hover:scale-105">
-                <div className="flex items-center space-x-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-electric/10 to-electric/20 rounded-2xl flex items-center justify-center group-hover:from-electric/20 group-hover:to-electric/30 transition-all duration-300 shadow-lg">
-                    <BarChart3 className="w-8 h-8 text-electric" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-foreground mb-2">Equity & Impact</h3>
-                    <p className="text-muted-foreground text-lg leading-relaxed">Equity participation and a chance to transform leadership.</p>
-                  </div>
+              <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-silver group">
+                <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-vivid-indigo/20 transition-colors">
+                  <Globe className="w-6 h-6 text-vivid-indigo" />
                 </div>
+                <h3 className="font-semibold text-charcoal mb-2 font-playfair">Global Impact</h3>
+                <p className="text-sm text-slate-gray font-lato">Shape the future of leadership development worldwide</p>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-silver group">
+                <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-vivid-indigo/20 transition-colors">
+                  <Shield className="w-6 h-6 text-vivid-indigo" />
+                </div>
+                <h3 className="font-semibold text-charcoal mb-2 font-playfair">Job Security</h3>
+                <p className="text-sm text-slate-gray font-lato">Stable growth company with long-term vision</p>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-silver group">
+                <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-vivid-indigo/20 transition-colors">
+                  <Briefcase className="w-6 h-6 text-vivid-indigo" />
+                </div>
+                <h3 className="font-semibold text-charcoal mb-2 font-playfair">Stock Options</h3>
+                <p className="text-sm text-slate-gray font-lato">Equity participation in company success</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Trust & Social Proof Section */}
-      <section className="py-16 px-6 bg-gradient-to-r from-electric/5 via-background to-electric/5">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-muted-foreground mb-8 font-medium">Featured in</p>
-            <div className="flex flex-wrap justify-center items-center gap-12 opacity-70">
-              <div className="text-2xl font-bold text-muted-foreground hover:text-electric transition-colors cursor-pointer">Forbes</div>
-              <div className="text-2xl font-bold text-muted-foreground hover:text-electric transition-colors cursor-pointer">Inc.</div>
-              <div className="text-2xl font-bold text-muted-foreground hover:text-electric transition-colors cursor-pointer">Fast Company</div>
-              <div className="text-2xl font-bold text-muted-foreground hover:text-electric transition-colors cursor-pointer">Harvard Business Review</div>
-            </div>
+      {/* Trust and CTA Section */}
+      <section className="py-16 px-6 bg-background">
+        <div className="max-w-7xl mx-auto text-center">
+          <h3 className="text-2xl font-bold text-charcoal mb-8 font-playfair">Featured In</h3>
+          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60 mb-12">
+            <span className="text-lg font-semibold text-slate-gray font-lato">TechCrunch</span>
+            <span className="text-lg font-semibold text-slate-gray font-lato">Forbes</span>
+            <span className="text-lg font-semibold text-slate-gray font-lato">Harvard Business Review</span>
+            <span className="text-lg font-semibold text-slate-gray font-lato">Wired</span>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Ready to Master Executive Presence?
-          </h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            Join thousands of leaders who've transformed their executive presence with APEX.
-          </p>
-          <ExecutiveButton onClick={onGetStarted} size="lg" variant="primary">
-            Start Your 14-Day Free Trial
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </ExecutiveButton>
-          <p className="text-sm text-muted-foreground mt-4">
-            No credit card required. Cancel anytime.
-          </p>
+          
+          <div className="max-w-2xl mx-auto">
+            <h3 className="text-3xl font-bold text-charcoal mb-6 font-playfair">Ready to Transform Your Leadership?</h3>
+            <p className="text-lg text-slate-gray mb-8 font-lato">
+              Join thousands of executives who are already using APEX to build unshakeable confidence and accelerate their careers.
+            </p>
+            <ExecutiveButton 
+              onClick={onGetStarted} 
+              variant="primary" 
+              size="lg"
+              className="bg-vivid-indigo hover:bg-vivid-indigo/90 text-white px-8 py-4 text-lg"
+            >
+              Start Your 14-Day Free Trial
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </ExecutiveButton>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border py-12 px-6 bg-card">
+      <footer className="py-16 px-6 bg-midnight-blue text-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="md:col-span-2">
-              <div className="flex items-center space-x-2 mb-4">
-                <Crown className="w-8 h-8 text-electric" />
-                <span className="text-2xl font-bold text-foreground">APEX</span>
+            <div className="col-span-1 md:col-span-2">
+              <div className="flex items-center space-x-2 mb-6">
+                <Crown className="w-8 h-8 text-vivid-indigo" />
+                <span className="text-2xl font-bold font-playfair">APEX</span>
               </div>
-              <p className="text-muted-foreground mb-4">
-                Transform leadership with AI-powered executive training.
+              <p className="text-white/70 mb-6 max-w-md font-lato">
+                AI-powered executive coaching for the modern leader. Build confidence, master high-stakes scenarios, and accelerate your career growth.
               </p>
               <div className="flex space-x-4">
-                <a href="https://linkedin.com/company/apex-executive" className="text-muted-foreground hover:text-electric transition-colors" aria-label="LinkedIn">
-                  <Users className="w-5 h-5" />
-                </a>
-                <a href="https://twitter.com/apex_executive" className="text-muted-foreground hover:text-electric transition-colors" aria-label="Twitter">
-                  <Target className="w-5 h-5" />
-                </a>
+                <a href="#" className="text-white/70 hover:text-vivid-indigo transition-colors">LinkedIn</a>
+                <a href="#" className="text-white/70 hover:text-vivid-indigo transition-colors">Twitter</a>
+                <a href="#" className="text-white/70 hover:text-vivid-indigo transition-colors">YouTube</a>
               </div>
             </div>
-            
+
             <div>
-              <h3 className="font-semibold text-foreground mb-4">Company</h3>
-              <ul className="space-y-2">
-                <li><a href="#about" className="text-muted-foreground hover:text-electric transition-colors">About</a></li>
-                <li><a href="/careers" className="text-muted-foreground hover:text-electric transition-colors">Careers</a></li>
-                <li><a href="/blog" className="text-muted-foreground hover:text-electric transition-colors">Blog</a></li>
-                <li><a href="#contact" className="text-muted-foreground hover:text-electric transition-colors">Contact</a></li>
-              </ul>
+              <h4 className="font-semibold mb-4 font-playfair">Product</h4>
+              <div className="space-y-2 font-lato">
+                <a href="#features" className="block text-white/70 hover:text-white transition-colors">Features</a>
+                <a href="#pricing" className="block text-white/70 hover:text-white transition-colors">Pricing</a>
+                <a href="#" className="block text-white/70 hover:text-white transition-colors">Enterprise</a>
+                <a href="#" className="block text-white/70 hover:text-white transition-colors">Security</a>
+              </div>
             </div>
-            
+
             <div>
-              <h3 className="font-semibold text-foreground mb-4">Legal</h3>
-              <ul className="space-y-2">
-                <li><a href="/privacy" className="text-muted-foreground hover:text-electric transition-colors">Privacy Policy</a></li>
-                <li><a href="/terms" className="text-muted-foreground hover:text-electric transition-colors">Terms of Service</a></li>
-              </ul>
+              <h4 className="font-semibold mb-4 font-playfair">Company</h4>
+              <div className="space-y-2 font-lato">
+                <a href="#about" className="block text-white/70 hover:text-white transition-colors">About</a>
+                <a href="#" className="block text-white/70 hover:text-white transition-colors">Careers</a>
+                <a href="#" className="block text-white/70 hover:text-white transition-colors">Contact</a>
+                <a href="#" className="block text-white/70 hover:text-white transition-colors">Privacy</a>
+              </div>
             </div>
           </div>
-          
-          <div className="border-t border-border mt-8 pt-8 text-center">
-            <p className="text-muted-foreground">
-              © 2024 APEX Executive. All rights reserved.
-            </p>
+
+          <div className="border-t border-white/20 mt-12 pt-8 text-center text-white/60 font-lato">
+            <p>&copy; 2024 APEX Executive. All rights reserved.</p>
           </div>
         </div>
       </footer>
 
-      {/* Demo Video Modal */}
+      {/* Demo Modal */}
       {showDemo && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-background rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b border-border">
-              <h3 className="text-xl font-bold text-foreground">APEX Executive Demo</h3>
-              <button
-                onClick={() => setShowDemo(false)}
-                className="p-2 hover:bg-muted rounded-lg transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="p-6">
-              <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
+        <div className="fixed inset-0 bg-midnight-blue/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-8">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-2xl font-bold text-charcoal font-playfair">Experience APEX</h3>
+                <button 
+                  onClick={() => setShowDemo(false)}
+                  className="text-slate-gray hover:text-charcoal transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              
+              <div className="aspect-video bg-light-gray rounded-xl mb-6 flex items-center justify-center">
+                <Play className="w-16 h-16 text-vivid-indigo" />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div className="text-center">
-                  <Play className="w-16 h-16 text-electric mx-auto mb-4" />
-                  <h4 className="text-lg font-semibold text-foreground mb-2">Experience Executive Presence Training</h4>
-                  <p className="text-muted-foreground mb-6 max-w-md">
-                    See how APEX transforms professionals into confident leaders through AI-powered scenarios and real-time coaching.
-                  </p>
-                  <div className="space-y-4 text-left max-w-md mx-auto">
-                    <div className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-electric mt-0.5 flex-shrink-0" />
-                      <div>
-                        <div className="font-medium text-foreground">AI Strategy Co-pilot</div>
-                        <div className="text-sm text-muted-foreground">Real-time strategic guidance for high-stakes decisions</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-electric mt-0.5 flex-shrink-0" />
-                      <div>
-                        <div className="font-medium text-foreground">Immersive Roleplay</div>
-                        <div className="text-sm text-muted-foreground">Practice investor pitches, negotiations, and crisis management</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-electric mt-0.5 flex-shrink-0" />
-                      <div>
-                        <div className="font-medium text-foreground">Voice Analysis</div>
-                        <div className="text-sm text-muted-foreground">AI-powered feedback on tone, pace, and authority</div>
-                      </div>
-                    </div>
-                  </div>
-                  <ExecutiveButton onClick={onGetStarted} className="mt-6" variant="primary">
-                    Start Your Free Trial
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </ExecutiveButton>
+                  <Target className="w-8 h-8 text-vivid-indigo mx-auto mb-3" />
+                  <h4 className="font-semibold text-charcoal mb-2 font-playfair">Scenario Training</h4>
+                  <p className="text-sm text-slate-gray font-lato">Practice investor pitches, board meetings, and crisis situations</p>
                 </div>
+                <div className="text-center">
+                  <Brain className="w-8 h-8 text-vivid-indigo mx-auto mb-3" />
+                  <h4 className="font-semibold text-charcoal mb-2 font-playfair">AI Coaching</h4>
+                  <p className="text-sm text-slate-gray font-lato">Real-time feedback and personalized improvement strategies</p>
+                </div>
+                <div className="text-center">
+                  <BarChart3 className="w-8 h-8 text-vivid-indigo mx-auto mb-3" />
+                  <h4 className="font-semibold text-charcoal mb-2 font-playfair">Progress Tracking</h4>
+                  <p className="text-sm text-slate-gray font-lato">Detailed analytics on your leadership development journey</p>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <ExecutiveButton 
+                  onClick={() => {
+                    setShowDemo(false);
+                    onGetStarted();
+                  }}
+                  variant="primary"
+                  size="lg"
+                  className="bg-vivid-indigo hover:bg-vivid-indigo/90"
+                >
+                  Start Your 14-Day Free Trial
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </ExecutiveButton>
               </div>
             </div>
           </div>
