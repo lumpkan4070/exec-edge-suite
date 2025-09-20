@@ -1,15 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { ArrowLeft, CheckCircle2, Circle, Zap, Target, Crown, Home } from "lucide-react";
-
-interface Habit {
-  id: string;
-  title: string;
-  description: string;
-  streak: number;
-  completedToday: boolean;
-  icon: any;
-}
+import { ArrowLeft, Home, Zap, Target, Crown, Brain, Users, TrendingUp, Lightbulb, Eye, MessageSquare } from "lucide-react";
+import { HabitCategory } from "./habit-category";
+import { Habit } from "./types";
 
 interface PerformanceHabitsProps {
   onBack: () => void;
@@ -17,31 +10,107 @@ interface PerformanceHabitsProps {
   userRole: string;
 }
 
+const microPrompts = {
+  mindset: [
+    "Ask yourself: What assumption might be wrong today?",
+    "Visualize overcoming one challenge you'll face today.",
+    "Practice the 5-4-3-2-1 grounding technique when stressed.",
+    "Write down 3 things you're grateful for this morning.",
+    "Spend 2 minutes breathing deeply before important meetings."
+  ],
+  strategic: [
+    "Ask: What am I missing in this situation?",
+    "Identify the one decision that could change everything today.",
+    "Challenge yourself: What would I do with unlimited resources?",
+    "Review yesterday's decisions - what would you do differently?",
+    "Think 3 steps ahead in your current major project."
+  ],
+  leadership: [
+    "State your next point in one sentence without qualifiers.",
+    "Ask one team member: 'How can I better support you?'",
+    "Practice active listening in your next conversation.",
+    "Give specific, actionable feedback to someone today.",
+    "Make one difficult decision without seeking approval."
+  ]
+};
+
+const getRandomPrompt = (category: keyof typeof microPrompts): string => {
+  const prompts = microPrompts[category];
+  return prompts[Math.floor(Math.random() * prompts.length)];
+};
+
 const getHabitsForRole = (role: string): Habit[] => {
-  const baseHabits = [
+  const baseHabits: Habit[] = [
+    // Mindset Habits
     {
       id: "morning-preparation",
       title: "Executive Preparation",
-      description: "5-minute morning success visualization",
-      streak: 0,
+      actionStep: "Visualize 3 wins for today in 5 minutes",
+      microPrompt: getRandomPrompt('mindset'),
+      streak: 4,
+      weeklyProgress: 2,
       completedToday: false,
-      icon: Zap
+      icon: Zap,
+      category: 'mindset'
     },
+    {
+      id: "mindfulness-practice",
+      title: "Mindful Leadership",
+      actionStep: "Practice 5-minute focused breathing before key decisions",
+      microPrompt: getRandomPrompt('mindset'),
+      streak: 8,
+      weeklyProgress: 3,
+      completedToday: true,
+      icon: Brain,
+      category: 'mindset'
+    },
+    
+    // Strategic Habits
     {
       id: "strategic-thinking",
       title: "Strategic Thinking",
-      description: "Ask 'What am I missing?' daily",
-      streak: 0,
+      actionStep: "Ask 'What am I missing?' and record 1 insight",
+      microPrompt: getRandomPrompt('strategic'),
+      streak: 12,
+      weeklyProgress: 3,
       completedToday: false,
-      icon: Target
+      icon: Target,
+      category: 'strategic'
     },
+    {
+      id: "market-analysis",
+      title: "Market Intelligence",
+      actionStep: "Identify one market trend that could impact your business",
+      microPrompt: getRandomPrompt('strategic'),
+      streak: 6,
+      weeklyProgress: 4,
+      completedToday: true,
+      icon: TrendingUp,
+      category: 'strategic'
+    },
+    
+    // Leadership Habits
     {
       id: "authority-building",
       title: "Authority Building",
-      description: "Practice decisive communication",
-      streak: 0,
+      actionStep: "Deliver 1 message with absolute clarity today",
+      microPrompt: getRandomPrompt('leadership'),
+      streak: 21,
+      weeklyProgress: 5,
       completedToday: false,
-      icon: Crown
+      icon: Crown,
+      category: 'leadership'
+    },
+    {
+      id: "team-connection",
+      title: "Team Connection",
+      actionStep: "Have one meaningful conversation with a team member",
+      microPrompt: getRandomPrompt('leadership'),
+      streak: 15,
+      weeklyProgress: 4,
+      completedToday: true,
+      icon: Users,
+      category: 'leadership'
     }
   ];
 
@@ -50,28 +119,37 @@ const getHabitsForRole = (role: string): Habit[] => {
     baseHabits.push({
       id: "prospecting",
       title: "Strategic Prospecting",
-      description: "Identify 3 high-value prospects",
+      actionStep: "Identify and research 3 high-value prospects",
+      microPrompt: "Focus on prospects who align with your ideal customer profile.",
       streak: 0,
+      weeklyProgress: 0,
       completedToday: false,
-      icon: Target
+      icon: Eye,
+      category: 'strategic'
     });
   } else if (role === "entrepreneur") {
     baseHabits.push({
-      id: "market-validation",
-      title: "Market Validation",
-      description: "One customer conversation daily",
+      id: "customer-insights",
+      title: "Customer Discovery",
+      actionStep: "Have one customer conversation or gather feedback",
+      microPrompt: "Ask customers what they wish you knew about their challenges.",
       streak: 0,
+      weeklyProgress: 0,
       completedToday: false,
-      icon: Zap
+      icon: MessageSquare,
+      category: 'strategic'
     });
   } else if (role === "executive") {
     baseHabits.push({
-      id: "team-check",
-      title: "Team Connection",
-      description: "Meaningful team interaction",
+      id: "innovation-thinking",
+      title: "Innovation Catalyst",
+      actionStep: "Spend 10 minutes thinking about process improvements",
+      microPrompt: "Question one 'that's how we've always done it' assumption.",
       streak: 0,
+      weeklyProgress: 0,
       completedToday: false,
-      icon: Crown
+      icon: Lightbulb,
+      category: 'strategic'
     });
   }
 
@@ -87,7 +165,13 @@ export default function PerformanceHabits({ onBack, onHome, userRole }: Performa
         ? { 
             ...habit, 
             completedToday: !habit.completedToday,
-            streak: !habit.completedToday ? habit.streak + 1 : Math.max(0, habit.streak - 1)
+            streak: !habit.completedToday ? habit.streak + 1 : Math.max(0, habit.streak - 1),
+            weeklyProgress: !habit.completedToday ? 
+              Math.min(7, habit.weeklyProgress + 1) : 
+              Math.max(0, habit.weeklyProgress - 1),
+            microPrompt: !habit.completedToday ? 
+              getRandomPrompt(habit.category) : 
+              habit.microPrompt
           }
         : habit
     ));
@@ -96,6 +180,12 @@ export default function PerformanceHabits({ onBack, onHome, userRole }: Performa
   const completedToday = habits.filter(h => h.completedToday).length;
   const totalHabits = habits.length;
   const completionRate = (completedToday / totalHabits) * 100;
+  
+  const mindsetHabits = habits.filter(h => h.category === 'mindset');
+  const strategicHabits = habits.filter(h => h.category === 'strategic');
+  const leadershipHabits = habits.filter(h => h.category === 'leadership');
+
+  const totalBadges = habits.filter(h => h.streak >= 7).length;
 
   return (
     <div className="min-h-screen bg-background">
@@ -133,12 +223,21 @@ export default function PerformanceHabits({ onBack, onHome, userRole }: Performa
       </header>
 
       {/* Content */}
-      <div className="p-6 space-y-8 max-w-4xl mx-auto">
+      <div className="p-6 space-y-8 max-w-5xl mx-auto">
         {/* Progress Overview */}
         <div className="executive-card p-6 shadow-lg">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-foreground">Today's Progress</h2>
-            <span className="text-2xl font-bold text-electric">{Math.round(completionRate)}%</span>
+            <h2 className="text-xl font-bold text-foreground">Daily Progress Overview</h2>
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <div className="text-2xl font-bold text-electric">{Math.round(completionRate)}%</div>
+                <div className="text-sm text-muted-foreground">Completed Today</div>
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-amber-500">{totalBadges}</div>
+                <div className="text-sm text-muted-foreground">Active Badges</div>
+              </div>
+            </div>
           </div>
           <div className="w-full bg-muted rounded-full h-4 mb-3 shadow-inner">
             <div 
@@ -147,57 +246,55 @@ export default function PerformanceHabits({ onBack, onHome, userRole }: Performa
             />
           </div>
           <p className="text-muted-foreground font-medium">
-            Executive excellence requires consistency in the fundamentals
+            Executive excellence is built through consistent daily actions across mindset, strategy, and leadership
           </p>
         </div>
 
-        {/* Habits List */}
-        <div className="space-y-4">
-          <h3 className="text-xl font-bold text-foreground">Performance Habits</h3>
-          {habits.map((habit) => {
-            const Icon = habit.icon;
-            return (
-              <div
-                key={habit.id}
-                className="executive-card p-6 shadow-lg hover:shadow-xl transition-all duration-200"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <button
-                      onClick={() => toggleHabit(habit.id)}
-                      className="flex-shrink-0 transition-all duration-200 hover:scale-110"
-                    >
-                      {habit.completedToday ? (
-                        <CheckCircle2 className="w-8 h-8 text-electric" />
-                      ) : (
-                        <Circle className="w-8 h-8 text-muted-foreground hover:text-electric" />
-                      )}
-                    </button>
-                    <div className="w-12 h-12 bg-electric/10 rounded-xl flex items-center justify-center">
-                      <Icon className="w-6 h-6 text-electric" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-foreground">{habit.title}</h4>
-                      <p className="text-muted-foreground">{habit.description}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-electric">{habit.streak}</div>
-                    <div className="text-sm text-muted-foreground">Day Streak</div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        {/* Habit Categories */}
+        <div className="space-y-6">
+          <h3 className="text-xl font-bold text-foreground">Performance Habits by Growth Pillar</h3>
+          
+          <HabitCategory
+            title="Mindset Habits"
+            color="blue-600"
+            bgColor="bg-blue-50"
+            habits={mindsetHabits}
+            onToggleHabit={toggleHabit}
+          />
+          
+          <HabitCategory
+            title="Strategic Habits"
+            color="purple-600"
+            bgColor="bg-purple-50"
+            habits={strategicHabits}
+            onToggleHabit={toggleHabit}
+          />
+          
+          <HabitCategory
+            title="Leadership Habits"
+            color="amber-600"
+            bgColor="bg-amber-50"
+            habits={leadershipHabits}
+            onToggleHabit={toggleHabit}
+          />
         </div>
 
-        {/* Habit Insights */}
+        {/* Performance Insights */}
         <div className="executive-card p-6 shadow-lg">
-          <h3 className="text-lg font-bold text-foreground mb-4">Executive Insights</h3>
-          <div className="space-y-3 text-muted-foreground">
-            <p>• Executives who maintain 80%+ habit consistency perform 35% better in high-stakes situations</p>
-            <p>• Morning preparation rituals increase confidence and decision-making speed throughout the day</p>
-            <p>• Strategic thinking habits compound over time, creating exponential performance improvements</p>
+          <h3 className="text-lg font-bold text-foreground mb-4">Executive Performance Insights</h3>
+          <div className="grid md:grid-cols-3 gap-6 text-muted-foreground">
+            <div className="space-y-2">
+              <h4 className="font-semibold text-blue-600">Mindset Mastery</h4>
+              <p className="text-sm">Visualization and preparation habits increase decision confidence by 40%</p>
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-semibold text-purple-600">Strategic Edge</h4>
+              <p className="text-sm">Daily strategic thinking creates compound improvements in problem-solving</p>
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-semibold text-amber-600">Leadership Impact</h4>
+              <p className="text-sm">Consistent communication habits build trust and drive team performance</p>
+            </div>
           </div>
         </div>
       </div>
