@@ -20,10 +20,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      create_demo_account: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
