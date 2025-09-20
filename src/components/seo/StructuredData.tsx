@@ -67,10 +67,6 @@ export function StructuredData({ type = "SoftwareApplication", data }: Structure
       "logo": "https://apex-executive.com/assets/aso/logo.png",
       "description": "AI-powered executive coaching platform for leaders and professionals",
       "foundingDate": "2024",
-      "sameAs": [
-        "https://twitter.com/apex_executive",
-        "https://linkedin.com/company/apex-executive"
-      ],
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+1-555-123-4567",

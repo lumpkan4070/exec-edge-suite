@@ -438,11 +438,6 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               <p className="text-white/70 mb-6 max-w-md font-lato">
                 AI-powered executive coaching for the modern leader. Build confidence, master high-stakes scenarios, and accelerate your career growth.
               </p>
-              <div className="flex space-x-4">
-                <a href="#" className="text-white/70 hover:text-vivid-indigo transition-colors">LinkedIn</a>
-                <a href="#" className="text-white/70 hover:text-vivid-indigo transition-colors">Twitter</a>
-                <a href="#" className="text-white/70 hover:text-vivid-indigo transition-colors">YouTube</a>
-              </div>
             </div>
 
             <div>
