@@ -319,3 +319,12 @@
 .animate-confidence-pulse {
   animation: confidence-pulse 2s ease-in-out infinite;
 }
+
+/* Premium glow effect for the Executive Training CTA */
+.glow-effect {
+  box-shadow: 0 0 40px rgba(245, 197, 66, 0.4);
+}
+
+.glow-effect:hover {
+  box-shadow: 0 0 60px rgba(245, 197, 66, 0.6);
+}

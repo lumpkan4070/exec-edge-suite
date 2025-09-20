@@ -91,106 +91,159 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         </div>
       </section>
 
-      {/* Features Section - Redesigned to 2-column layout as per WRD */}
-      <section id="features" className="py-20 px-6 bg-light-gray">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-charcoal mb-6 font-playfair">
-              Executive-Grade Training
+      {/* Executive-Grade Training Section - Premium Redesign */}
+      <section id="features" className="py-24 px-6 bg-gradient-to-br from-slate-50 via-white to-slate-50 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-10 right-10 w-96 h-96 bg-gradient-to-br from-blue-600/5 to-indigo-600/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 left-10 w-64 h-64 bg-gradient-to-tr from-amber-500/5 to-yellow-500/5 rounded-full blur-2xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Premium Header */}
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-7xl font-bold mb-8 font-playfair leading-tight">
+              <span className="text-slate-900">Elite Executive Training.</span><br />
+              <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">Powered by AI.</span><br />
+              <span className="text-slate-700">Designed for Leaders.</span>
             </h2>
-            <p className="text-xl text-slate-gray max-w-3xl mx-auto font-lato">
-              Advanced AI technology meets executive expertise to deliver personalized training that adapts to your leadership style and challenges.
+            <p className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed font-lato">
+              Experience AI-driven leadership training that adapts to your style, strengthens your strategy, and elevates your authority in every room.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Feature 1 - AI Strategy Co-pilot */}
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group border border-silver">
-              <div className="h-48 overflow-hidden">
-                <img 
-                  src={aiCoaching} 
-                  alt="AI-powered executive coaching session with advanced technology interface"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-8">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center group-hover:bg-vivid-indigo/20 transition-colors">
-                    <Brain className="w-6 h-6 text-vivid-indigo" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-charcoal font-playfair">AI Strategy Co-pilot</h3>
+          {/* Premium Interactive Cards - Staggered Layout */}
+          <div className="space-y-8">
+            {/* Row 1 - Left Aligned */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+              {/* AI Strategy Co-pilot */}
+              <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl hover:shadow-amber-500/25 transition-all duration-500 hover:-translate-y-2 lg:ml-0">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative h-80 overflow-hidden">
+                  <img 
+                    src={aiCoaching} 
+                    alt="Elite AI-powered executive strategy session"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
                 </div>
-                <p className="text-slate-gray leading-relaxed font-lato">
-                  Real-time strategic guidance powered by advanced AI. Get instant insights, decision frameworks, and leadership strategies tailored to your specific challenges.
-                </p>
+                <div className="relative p-8">
+                  <div className="flex items-center space-x-4 mb-6">
+                    <div className="w-14 h-14 bg-amber-500/20 rounded-xl flex items-center justify-center group-hover:bg-amber-500/30 transition-colors backdrop-blur-sm border border-amber-500/30">
+                      <Brain className="w-7 h-7 text-amber-400" />
+                    </div>
+                    <div className="w-3 h-3 bg-amber-400 rounded-full animate-pulse"></div>
+                  </div>
+                  <h3 className="text-3xl font-bold text-white mb-4 font-playfair group-hover:text-amber-100 transition-colors">
+                    AI Strategy Co-pilot
+                  </h3>
+                  <p className="text-amber-100/90 text-lg leading-relaxed font-lato">
+                    Get instant AI-powered insights and decision frameworks to drive executive-level results.
+                  </p>
+                </div>
+              </div>
+
+              {/* Immersive Scenarios */}
+              <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl hover:shadow-blue-500/25 transition-all duration-500 hover:-translate-y-2 lg:ml-8 lg:mt-12">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative h-80 overflow-hidden">
+                  <img 
+                    src={executivePresentation} 
+                    alt="High-stakes boardroom scenario training"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                </div>
+                <div className="relative p-8">
+                  <div className="flex items-center space-x-4 mb-6">
+                    <div className="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center group-hover:bg-blue-500/30 transition-colors backdrop-blur-sm border border-blue-500/30">
+                      <Target className="w-7 h-7 text-blue-400" />
+                    </div>
+                    <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
+                  </div>
+                  <h3 className="text-3xl font-bold text-white mb-4 font-playfair group-hover:text-blue-100 transition-colors">
+                    Immersive Scenarios
+                  </h3>
+                  <p className="text-blue-100/90 text-lg leading-relaxed font-lato">
+                    Step into investor boardrooms and crisis rooms. Train risk-free, perform under pressure.
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Feature 2 - Immersive Scenarios */}
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group border border-silver">
-              <div className="h-48 overflow-hidden">
-                <img 
-                  src={executivePresentation} 
-                  alt="Executive delivering confident presentation in modern boardroom"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-8">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center group-hover:bg-vivid-indigo/20 transition-colors">
-                    <Target className="w-6 h-6 text-vivid-indigo" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-charcoal font-playfair">Immersive Scenarios</h3>
+            {/* Row 2 - Right Aligned */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+              {/* Voice & Presence */}
+              <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl hover:shadow-purple-500/25 transition-all duration-500 hover:-translate-y-2 lg:mr-8 lg:-mt-6 lg:order-2">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative h-80 overflow-hidden">
+                  <img 
+                    src={executiveBoardroom} 
+                    alt="Executive presence and leadership authority training"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
                 </div>
-                <p className="text-slate-gray leading-relaxed font-lato">
-                  Practice high-stakes situations in a safe environment. From investor pitches to crisis management, master every scenario that matters.
-                </p>
+                <div className="relative p-8">
+                  <div className="flex items-center space-x-4 mb-6">
+                    <div className="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center group-hover:bg-purple-500/30 transition-colors backdrop-blur-sm border border-purple-500/30">
+                      <Mic className="w-7 h-7 text-purple-400" />
+                    </div>
+                    <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse"></div>
+                  </div>
+                  <h3 className="text-3xl font-bold text-white mb-4 font-playfair group-hover:text-purple-100 transition-colors">
+                    Voice & Presence
+                  </h3>
+                  <p className="text-purple-100/90 text-lg leading-relaxed font-lato">
+                    Command the room. Refine your voice, body language, and executive presence.
+                  </p>
+                </div>
               </div>
-            </div>
 
-            {/* Feature 3 - Voice & Presence */}
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group border border-silver">
-              <div className="h-48 overflow-hidden">
-                <img 
-                  src={executiveBoardroom} 
-                  alt="Professional business leaders engaged in strategic discussion"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-8">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center group-hover:bg-vivid-indigo/20 transition-colors">
-                    <Mic className="w-6 h-6 text-vivid-indigo" />
+              {/* Performance Analytics */}
+              <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl hover:shadow-emerald-500/25 transition-all duration-500 hover:-translate-y-2 lg:order-1">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative h-80 overflow-hidden">
+                  <img 
+                    src={realisticAnalytics} 
+                    alt="Executive performance analytics and growth tracking"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                  {/* Animated Analytics Elements */}
+                  <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-300">
+                    <div className="bg-emerald-500/20 backdrop-blur-sm rounded-lg p-3 border border-emerald-500/30">
+                      <BarChart3 className="w-6 h-6 text-emerald-400 animate-pulse" />
+                    </div>
                   </div>
-                  <h3 className="text-2xl font-bold text-charcoal font-playfair">Voice & Presence</h3>
                 </div>
-                <p className="text-slate-gray leading-relaxed font-lato">
-                  Advanced voice AI analyzes your communication style and provides real-time feedback to enhance your executive presence and authority.
-                </p>
+                <div className="relative p-8">
+                  <div className="flex items-center space-x-4 mb-6">
+                    <div className="w-14 h-14 bg-emerald-500/20 rounded-xl flex items-center justify-center group-hover:bg-emerald-500/30 transition-colors backdrop-blur-sm border border-emerald-500/30">
+                      <BarChart3 className="w-7 h-7 text-emerald-400" />
+                    </div>
+                    <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse"></div>
+                  </div>
+                  <h3 className="text-3xl font-bold text-white mb-4 font-playfair group-hover:text-emerald-100 transition-colors">
+                    Performance Analytics
+                  </h3>
+                  <p className="text-emerald-100/90 text-lg leading-relaxed font-lato">
+                    See the data behind your decisions. Measure growth, track strengths, and refine your edge.
+                  </p>
+                </div>
               </div>
             </div>
+          </div>
 
-            {/* Feature 4 - Performance Analytics */}
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group border border-silver">
-              <div className="h-48 overflow-hidden">
-                <img 
-                  src={realisticAnalytics} 
-                  alt="Executive analyzing detailed business performance analytics on multiple monitors"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-8">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center group-hover:bg-vivid-indigo/20 transition-colors">
-                    <BarChart3 className="w-6 h-6 text-vivid-indigo" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-charcoal font-playfair">Performance Analytics</h3>
-                </div>
-                <p className="text-slate-gray leading-relaxed font-lato">
-                  Track your leadership growth with detailed analytics. Measure confidence, decision-making speed, and communication effectiveness.
-                </p>
-              </div>
-            </div>
+          {/* Premium CTA */}
+          <div className="text-center mt-20">
+            <ExecutiveButton 
+              onClick={onGetStarted}
+              className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white text-xl font-bold px-12 py-6 rounded-2xl shadow-2xl hover:shadow-amber-500/30 transform hover:scale-105 transition-all duration-300 glow-effect"
+            >
+              Start Your Executive Training
+              <ArrowRight className="w-6 h-6 ml-3" />
+            </ExecutiveButton>
           </div>
         </div>
       </section>
