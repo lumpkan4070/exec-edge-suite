@@ -5,7 +5,7 @@ import { useUser } from "@/contexts/user-context";
 import executiveBoardroom from "@/assets/executive-boardroom.jpg";
 import aiCoaching from "@/assets/ai-coaching.jpg";
 import executivePresentation from "@/assets/executive-presentation.jpg";
-import performanceAnalytics from "@/assets/performance-analytics.jpg";
+import realisticAnalytics from "@/assets/realistic-analytics.jpg";
 
 interface LandingProps {
   onGetStarted: () => void;
@@ -174,8 +174,8 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group border border-silver">
               <div className="h-48 overflow-hidden">
                 <img 
-                  src={performanceAnalytics} 
-                  alt="Advanced business analytics dashboard showing performance metrics"
+                  src={realisticAnalytics} 
+                  alt="Executive analyzing detailed business performance analytics on multiple monitors"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
