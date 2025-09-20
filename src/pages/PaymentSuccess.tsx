@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { CheckCircle, ArrowRight, Home } from "lucide-react";
+import { CheckCircle, ArrowRight, Crown } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { useUser } from "@/contexts/user-context";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 export default function PaymentSuccess() {
   const { setUserData } = useUser();
@@ -46,17 +47,17 @@ export default function PaymentSuccess() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border p-6 bg-card shadow-sm">
-        <div className="flex items-center max-w-4xl mx-auto">
-          <ExecutiveButton
-            variant="ghost"
-            size="sm"
-            onClick={goHome}
-            className="font-medium"
-          >
-            <Home className="w-5 h-5 mr-2" />
-            Home
-          </ExecutiveButton>
+      <header className="border-b border-border bg-card">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center space-x-2">
+              <Crown className="w-8 h-8 text-electric" />
+              <span className="text-2xl font-bold text-foreground">APEX</span>
+            </Link>
+            <Link to="/">
+              <ExecutiveButton variant="outline">Back to Home</ExecutiveButton>
+            </Link>
+          </div>
         </div>
       </header>
 
