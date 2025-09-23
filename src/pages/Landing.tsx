@@ -9,6 +9,7 @@ import executivePresentation from "@/assets/executive-presentation.jpg";
 import realisticAnalytics from "@/assets/realistic-analytics.jpg";
 import apexLogo from "@/assets/apex-logo-v3.png";
 import AuthModal from "@/components/auth/auth-modal";
+import SubscriptionPlans from "@/components/payment/subscription-plans";
 
 interface LandingProps {
   onGetStarted: () => void;
@@ -203,26 +204,26 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             Ready to <span className="text-primary">Transform</span> Your Leadership?
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto font-lato">
-            Join thousands of executives who have elevated their leadership with APEX.
+            Start your 3-day free trial and experience the full power of AI-driven executive training.
           </p>
           <ExecutiveButton onClick={handleGetStarted} variant="primary" size="lg">
-            Get Started Now
+            Start Free Trial
             <ArrowRight className="w-5 h-5 ml-2" />
           </ExecutiveButton>
           
           <div className="text-center mt-12">
             <div className="flex items-center justify-center space-x-8 text-sm text-muted-foreground">
               <div className="flex items-center">
-                <Shield className="w-4 h-4 mr-2 text-green-500" />
-                Secure Platform
+                <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
+                3-Day Free Trial
               </div>
               <div className="flex items-center">
-                <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                Instant Access
+                <Shield className="w-4 h-4 mr-2 text-green-500" />
+                Cancel Anytime
               </div>
               <div className="flex items-center">
                 <Star className="w-4 h-4 mr-2 text-yellow-500" />
-                Trusted by 10,000+ Leaders
+                No Setup Fees
               </div>
             </div>
           </div>
@@ -276,6 +277,9 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         </div>
       </section>
 
+      {/* Pricing Section */}
+      <SubscriptionPlans />
+
       {/* CTA Section */}
       <section className="py-24 px-6 bg-gradient-to-br from-midnight-blue to-midnight-blue/90">
         <div className="max-w-4xl mx-auto text-center">
@@ -283,7 +287,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             Ready to <span className="text-vivid-indigo">Transform</span> Your Leadership?
           </h2>
           <p className="text-xl text-white/80 mb-8 font-lato">
-            Join thousands of executives who have elevated their leadership with APEX.
+            Start your 3-day free trial today. No commitment, cancel anytime.
           </p>
           <ExecutiveButton onClick={handleGetStarted} variant="primary" size="lg">
             Start Your Free Trial

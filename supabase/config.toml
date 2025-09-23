@@ -39,3 +39,6 @@ verify_jwt = false
 
 [functions.create-demo-account]
 verify_jwt = false
+
+[functions.create-checkout]
+verify_jwt = true

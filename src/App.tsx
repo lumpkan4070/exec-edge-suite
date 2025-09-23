@@ -17,6 +17,8 @@ import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import Audit from "./pages/Audit";
 import DemoAdmin from "./pages/DemoAdmin";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCancel from "./pages/PaymentCancel";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +41,8 @@ const App = () => {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/audit" element={<Audit />} />
               <Route path="/demo-admin" element={<DemoAdmin />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route path="/payment-cancel" element={<PaymentCancel />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
