@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { ArrowLeft, Home, Zap, Target, Crown, Brain, Users, TrendingUp, Lightbulb, Eye, MessageSquare } from "lucide-react";
+import { ArrowLeft, Home, Zap, Target, Crown, Brain, Users, TrendingUp, Lightbulb, Eye, MessageSquare, Trophy, Award } from "lucide-react";
 import { HabitCategory } from "./habit-category";
 import { Habit } from "./types";
+import { AchievementSystem, Achievement } from "./achievement-system";
+import { AchievementNotification } from "./achievement-notification";
+import { StreakTracker } from "./streak-tracker";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
 
 interface PerformanceHabitsProps {
   onBack: () => void;
@@ -158,6 +163,8 @@ const getHabitsForRole = (role: string): Habit[] => {
 
 export default function PerformanceHabits({ onBack, onHome, userRole }: PerformanceHabitsProps) {
   const [habits, setHabits] = useState<Habit[]>(getHabitsForRole(userRole));
+  const [newAchievement, setNewAchievement] = useState<Achievement | null>(null);
+  const { toast } = useToast();
 
   const toggleHabit = (habitId: string) => {
     setHabits(prev => prev.map(habit => 
@@ -175,6 +182,25 @@ export default function PerformanceHabits({ onBack, onHome, userRole }: Performa
           }
         : habit
     ));
+
+    // Show completion toast
+    const habit = habits.find(h => h.id === habitId);
+    if (habit && !habit.completedToday) {
+      toast({
+        title: "Habit Completed! 🎉",
+        description: `Great work on ${habit.title}. Keep building that streak!`,
+        duration: 3000,
+      });
+    }
+  };
+
+  const handleAchievementUnlocked = (achievement: Achievement) => {
+    setNewAchievement(achievement);
+    toast({
+      title: "Achievement Unlocked! 🏆",
+      description: `${achievement.title} - ${achievement.description}`,
+      duration: 5000,
+    });
   };
 
   const completedToday = habits.filter(h => h.completedToday).length;
@@ -223,7 +249,7 @@ export default function PerformanceHabits({ onBack, onHome, userRole }: Performa
       </header>
 
       {/* Content */}
-      <div className="p-6 space-y-8 max-w-5xl mx-auto">
+      <div className="p-6 space-y-8 max-w-6xl mx-auto">
         {/* Progress Overview */}
         <div className="executive-card p-6 shadow-lg">
           <div className="flex items-center justify-between mb-4">
@@ -250,54 +276,91 @@ export default function PerformanceHabits({ onBack, onHome, userRole }: Performa
           </p>
         </div>
 
-        {/* Habit Categories */}
-        <div className="space-y-6">
-          <h3 className="text-xl font-bold text-foreground">Performance Habits by Growth Pillar</h3>
-          
-          <HabitCategory
-            title="Mindset Habits"
-            color="blue-600"
-            bgColor="bg-blue-50"
-            habits={mindsetHabits}
-            onToggleHabit={toggleHabit}
-          />
-          
-          <HabitCategory
-            title="Strategic Habits"
-            color="purple-600"
-            bgColor="bg-purple-50"
-            habits={strategicHabits}
-            onToggleHabit={toggleHabit}
-          />
-          
-          <HabitCategory
-            title="Leadership Habits"
-            color="amber-600"
-            bgColor="bg-amber-50"
-            habits={leadershipHabits}
-            onToggleHabit={toggleHabit}
-          />
-        </div>
+        {/* Tabbed Content */}
+        <Tabs defaultValue="habits" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="habits" className="flex items-center space-x-2">
+              <Target className="w-4 h-4" />
+              <span>Daily Habits</span>
+            </TabsTrigger>
+            <TabsTrigger value="achievements" className="flex items-center space-x-2">
+              <Trophy className="w-4 h-4" />
+              <span>Achievements</span>
+            </TabsTrigger>
+            <TabsTrigger value="streaks" className="flex items-center space-x-2">
+              <Award className="w-4 h-4" />
+              <span>Streak Tracker</span>
+            </TabsTrigger>
+          </TabsList>
 
-        {/* Performance Insights */}
-        <div className="executive-card p-6 shadow-lg">
-          <h3 className="text-lg font-bold text-foreground mb-4">Executive Performance Insights</h3>
-          <div className="grid md:grid-cols-3 gap-6 text-muted-foreground">
-            <div className="space-y-2">
-              <h4 className="font-semibold text-blue-600">Mindset Mastery</h4>
-              <p className="text-sm">Visualization and preparation habits increase decision confidence by 40%</p>
+          <TabsContent value="habits" className="space-y-6">
+            {/* Habit Categories */}
+            <div className="space-y-6">
+              <h3 className="text-xl font-bold text-foreground">Performance Habits by Growth Pillar</h3>
+              
+              <HabitCategory
+                title="Mindset Habits"
+                color="blue-600"
+                bgColor="bg-blue-50"
+                habits={mindsetHabits}
+                onToggleHabit={toggleHabit}
+              />
+              
+              <HabitCategory
+                title="Strategic Habits"
+                color="purple-600"
+                bgColor="bg-purple-50"
+                habits={strategicHabits}
+                onToggleHabit={toggleHabit}
+              />
+              
+              <HabitCategory
+                title="Leadership Habits"
+                color="amber-600"
+                bgColor="bg-amber-50"
+                habits={leadershipHabits}
+                onToggleHabit={toggleHabit}
+              />
             </div>
-            <div className="space-y-2">
-              <h4 className="font-semibold text-purple-600">Strategic Edge</h4>
-              <p className="text-sm">Daily strategic thinking creates compound improvements in problem-solving</p>
+
+            {/* Performance Insights */}
+            <div className="executive-card p-6 shadow-lg">
+              <h3 className="text-lg font-bold text-foreground mb-4">Executive Performance Insights</h3>
+              <div className="grid md:grid-cols-3 gap-6 text-muted-foreground">
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-blue-600">Mindset Mastery</h4>
+                  <p className="text-sm">Visualization and preparation habits increase decision confidence by 40%</p>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-purple-600">Strategic Edge</h4>
+                  <p className="text-sm">Daily strategic thinking creates compound improvements in problem-solving</p>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-amber-600">Leadership Impact</h4>
+                  <p className="text-sm">Consistent communication habits build trust and drive team performance</p>
+                </div>
+              </div>
             </div>
-            <div className="space-y-2">
-              <h4 className="font-semibold text-amber-600">Leadership Impact</h4>
-              <p className="text-sm">Consistent communication habits build trust and drive team performance</p>
-            </div>
-          </div>
-        </div>
+          </TabsContent>
+
+          <TabsContent value="achievements">
+            <AchievementSystem 
+              habits={habits} 
+              onAchievementUnlocked={handleAchievementUnlocked}
+            />
+          </TabsContent>
+
+          <TabsContent value="streaks">
+            <StreakTracker habits={habits} />
+          </TabsContent>
+        </Tabs>
       </div>
+
+      {/* Achievement Notification Modal */}
+      <AchievementNotification 
+        achievement={newAchievement}
+        onClose={() => setNewAchievement(null)}
+      />
     </div>
   );
 }
