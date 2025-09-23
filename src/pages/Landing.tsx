@@ -20,6 +20,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
   const [showDemo, setShowDemo] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<'personal' | 'professional' | null>(null);
   
   const handleStartTrial = async () => {
     console.log('Start trial clicked');
@@ -70,10 +71,56 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
 
   const handleAuthSuccess = () => {
     setShowAuthModal(false);
-    // After successful auth, automatically proceed to checkout
+    // After successful auth, automatically proceed with selected plan or default
     setTimeout(() => {
-      handleStartTrial();
-    }, 1000);
+      if (selectedPlan) {
+        handlePlanSelect(selectedPlan);
+      } else {
+        handleStartTrial();
+      }
+    }, 500); // Reduced delay for faster UX
+  };
+
+  const handlePlanSelect = async (planType: 'personal' | 'professional') => {
+    setSelectedPlan(planType); // Remember plan selection
+    
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+    
+    setIsProcessing(true);
+    
+    try {
+      const priceId = planType === 'professional' 
+        ? 'price_1S97ORBgt7hUXmS2JXVMb0tu' 
+        : 'price_1S97NyBgt7hUXmS2a8tpOW6I';
+      
+      console.log(`Starting ${planType} plan checkout with price ID:`, priceId);
+      
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { priceId }
+      });
+      
+      if (error) {
+        console.error('Stripe checkout error:', error);
+        alert(`Error starting ${planType} plan checkout. Please try again.`);
+        setIsProcessing(false);
+        return;
+      }
+      
+      if (data?.url) {
+        console.log(`Opening ${planType} plan checkout:`, data.url);
+        // Use same tab redirect to prevent blank page issues
+        window.location.href = data.url;
+      } else {
+        throw new Error('No checkout URL received');
+      }
+    } catch (error) {
+      console.error('Plan selection error:', error);
+      alert(`There was an error starting your ${planType} plan. Please try again.`);
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -122,18 +169,42 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               Master high-stakes scenarios through immersive roleplay and personalized AI coaching.
             </p>
             
-            {/* Single prominent CTA as per WRD */}
-            <div className="flex justify-center mb-12">
-              <ExecutiveButton 
-                onClick={handleStartTrial} 
-                disabled={isProcessing}
-                size="hero" 
-                variant="primary" 
-                className="bg-vivid-indigo hover:bg-vivid-indigo/90 text-white text-xl font-semibold px-12 py-6 shadow-2xl hover:shadow-vivid-indigo/30 transform hover:scale-105 transition-all duration-300"
-              >
-                {isProcessing ? 'Opening Stripe Checkout...' : 'Start Your 3-Day Free Trial'}
-                <ArrowRight className="w-6 h-6 ml-3" />
-              </ExecutiveButton>
+            {/* Dual Plan Options - Personal & Professional */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 max-w-2xl mx-auto">
+              {/* Personal Plan */}
+              <div className="flex-1">
+                <ExecutiveButton 
+                  onClick={() => handlePlanSelect('personal')} 
+                  disabled={isProcessing}
+                  variant="outline" 
+                  className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 text-lg font-semibold px-8 py-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105"
+                >
+                  {isProcessing ? 'Loading...' : 'Personal Plan - $29/mo'}
+                  <div className="text-sm opacity-80 mt-1">Perfect for individual growth</div>
+                </ExecutiveButton>
+              </div>
+              
+              {/* Professional Plan - Featured */}
+              <div className="flex-1 relative">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-vivid-indigo text-white text-xs font-bold px-4 py-1 rounded-full">
+                  MOST POPULAR
+                </div>
+                <ExecutiveButton 
+                  onClick={() => handlePlanSelect('professional')} 
+                  disabled={isProcessing}
+                  size="hero" 
+                  variant="primary" 
+                  className="w-full bg-vivid-indigo hover:bg-vivid-indigo/90 text-white text-lg font-semibold px-8 py-6 shadow-2xl hover:shadow-vivid-indigo/30 transform hover:scale-105 transition-all duration-300"
+                >
+                  {isProcessing ? 'Loading...' : 'Professional Plan - $99/mo'}
+                  <div className="text-sm opacity-90 mt-1">Advanced executive training</div>
+                </ExecutiveButton>
+              </div>
+            </div>
+            
+            {/* Free Trial Notice */}
+            <div className="text-center text-white/70 text-sm mb-4">
+              Both plans include a 3-day free trial • No credit card required • Cancel anytime
             </div>
           </div>
 
@@ -357,7 +428,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               </div>
 
               <ExecutiveButton 
-                onClick={handleStartTrial}
+                onClick={() => handlePlanSelect('personal')}
                 disabled={isProcessing}
                 variant="outline" 
                 className="w-full border-vivid-indigo text-vivid-indigo hover:bg-vivid-indigo hover:text-white"
@@ -409,31 +480,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               </div>
 
               <ExecutiveButton 
-                onClick={() => {
-                  if (!user) {
-                    setShowAuthModal(true);
-                    return;
-                  }
-                  
-                  setIsProcessing(true);
-                  
-                  supabase.functions.invoke('create-checkout', {
-                    body: { priceId: 'price_1S97ORBgt7hUXmS2JXVMb0tu' } // Professional Plan ($99/month)
-                  }).then(({ data, error }) => {
-                    if (error) {
-                      console.error('Stripe checkout error:', error);
-                      setIsProcessing(false);
-                      return;
-                    }
-                    
-                    if (data?.url) {
-                      window.location.href = data.url;
-                    }
-                  }).catch((error) => {
-                    console.error('Stripe checkout error:', error);
-                    setIsProcessing(false);
-                  });
-                }}
+                onClick={() => handlePlanSelect('professional')}
                 disabled={isProcessing}
                 variant="primary" 
                 className="w-full bg-vivid-indigo hover:bg-vivid-indigo/90"
@@ -669,13 +716,23 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         </div>
       )}
 
-      {/* Loading Overlay */}
+      {/* Enhanced Loading Overlay */}
       {isProcessing && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-8 text-center max-w-sm mx-4">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-vivid-indigo mx-auto mb-4"></div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Opening Stripe Checkout</h3>
-            <p className="text-gray-600">Please wait while we redirect you to secure payment...</p>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-8 text-center max-w-md mx-4 shadow-2xl">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-vivid-indigo/20 border-t-vivid-indigo mx-auto mb-4"></div>
+            <h3 className="text-xl font-semibold text-charcoal mb-2">
+              {selectedPlan ? `Setting up ${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan` : 'Opening Stripe Checkout'}
+            </h3>
+            <p className="text-slate-gray mb-4">
+              {selectedPlan 
+                ? `Redirecting to secure checkout for your ${selectedPlan} subscription...`
+                : 'Please wait while we redirect you to secure payment...'
+              }
+            </p>
+            <div className="text-xs text-slate-500">
+              This should only take a few seconds • Powered by Stripe
+            </div>
           </div>
         </div>
       )}
