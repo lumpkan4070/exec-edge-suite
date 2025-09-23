@@ -70,25 +70,35 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
   };
 
   const handleAuthSuccess = () => {
+    console.log('Auth success, selected plan:', selectedPlan);
     setShowAuthModal(false);
-    // After successful auth, automatically proceed with selected plan or default
-    setTimeout(() => {
-      if (selectedPlan) {
+    
+    // Immediately proceed with the selected plan after auth
+    if (selectedPlan) {
+      console.log('Proceeding with selected plan after auth');
+      // Small delay to ensure modal closes and state updates
+      setTimeout(() => {
         handlePlanSelect(selectedPlan);
-      } else {
+      }, 100);
+    } else {
+      console.log('No plan selected, using default trial flow');
+      setTimeout(() => {
         handleStartTrial();
-      }
-    }, 500); // Reduced delay for faster UX
+      }, 100);
+    }
   };
 
   const handlePlanSelect = async (planType: 'personal' | 'professional') => {
-    setSelectedPlan(planType); // Remember plan selection
+    console.log(`Plan ${planType} selected, user:`, user?.email);
+    setSelectedPlan(planType);
     
     if (!user) {
+      console.log('No user found, showing auth modal');
       setShowAuthModal(true);
       return;
     }
     
+    console.log('User authenticated, proceeding with checkout');
     setIsProcessing(true);
     
     try {
@@ -96,30 +106,34 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         ? 'price_1S97ORBgt7hUXmS2JXVMb0tu' 
         : 'price_1S97NyBgt7hUXmS2a8tpOW6I';
       
-      console.log(`Starting ${planType} plan checkout with price ID:`, priceId);
+      console.log(`Creating checkout session for ${planType} plan, priceId:`, priceId);
       
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
+      const response = await supabase.functions.invoke('create-checkout', {
         body: { priceId }
       });
       
-      if (error) {
-        console.error('Stripe checkout error:', error);
-        alert(`Error starting ${planType} plan checkout. Please try again.`);
+      console.log('Checkout response:', response);
+      
+      if (response.error) {
+        console.error('Checkout error:', response.error);
         setIsProcessing(false);
+        alert(`Error: ${response.error.message || 'Failed to create checkout session'}`);
         return;
       }
       
-      if (data?.url) {
-        console.log(`Opening ${planType} plan checkout:`, data.url);
-        // Use same tab redirect to prevent blank page issues
-        window.location.href = data.url;
+      if (response.data?.url) {
+        console.log('Redirecting to Stripe:', response.data.url);
+        // Direct redirect to prevent white screen
+        window.location.href = response.data.url;
       } else {
-        throw new Error('No checkout URL received');
+        console.error('No checkout URL in response:', response.data);
+        setIsProcessing(false);
+        alert('Failed to get checkout URL. Please try again.');
       }
     } catch (error) {
-      console.error('Plan selection error:', error);
-      alert(`There was an error starting your ${planType} plan. Please try again.`);
+      console.error('Checkout error:', error);
       setIsProcessing(false);
+      alert('Something went wrong. Please try again.');
     }
   };
 
@@ -728,23 +742,23 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         </div>
       )}
 
-      {/* Enhanced Loading Overlay */}
+      {/* Enhanced Loading Overlay with Timeout */}
       {isProcessing && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-8 text-center max-w-md mx-4 shadow-2xl">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-vivid-indigo/20 border-t-vivid-indigo mx-auto mb-4"></div>
-            <h3 className="text-xl font-semibold text-charcoal mb-2">
-              {selectedPlan ? `Setting up ${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan` : 'Opening Stripe Checkout'}
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 text-center max-w-sm mx-4 shadow-2xl">
+            <div className="animate-spin rounded-full h-8 w-8 border-4 border-vivid-indigo/20 border-t-vivid-indigo mx-auto mb-4"></div>
+            <h3 className="text-lg font-semibold text-charcoal mb-2">
+              {selectedPlan ? `Starting ${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan` : 'Processing Request'}
             </h3>
-            <p className="text-slate-gray mb-4">
-              {selectedPlan 
-                ? `Redirecting to secure checkout for your ${selectedPlan} subscription...`
-                : 'Please wait while we redirect you to secure payment...'
-              }
+            <p className="text-slate-gray text-sm">
+              Redirecting to secure checkout...
             </p>
-            <div className="text-xs text-slate-500">
-              This should only take a few seconds • Powered by Stripe
-            </div>
+            <button 
+              onClick={() => setIsProcessing(false)}
+              className="mt-4 text-xs text-slate-500 hover:text-slate-700 underline"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}
