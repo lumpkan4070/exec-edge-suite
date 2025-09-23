@@ -9,7 +9,7 @@ const corsHeaders = {
 
 const logStep = (step: string, details?: any) => {
   const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
-  console.log(`[CREATE-CHECKOUT] ${step}${detailsStr}`);
+  console.log(`[CANCEL-SUBSCRIPTION] ${step}${detailsStr}`);
 };
 
 serve(async (req) => {
@@ -25,9 +25,9 @@ serve(async (req) => {
   try {
     logStep("Function started");
 
-    const { priceId } = await req.json();
-    if (!priceId) {
-      throw new Error("Price ID is required");
+    const { subscriptionId } = await req.json();
+    if (!subscriptionId) {
+      throw new Error("Subscription ID is required");
     }
 
     const authHeader = req.headers.get("Authorization");
@@ -44,56 +44,40 @@ serve(async (req) => {
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", { 
       apiVersion: "2025-08-27.basil" as any 
     });
+
+    // Verify the subscription belongs to this user
+    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+    const customer = await stripe.customers.retrieve(subscription.customer as string);
     
-    const customers = await stripe.customers.list({ email: user.email, limit: 1 });
-    let customerId;
-    if (customers.data.length > 0) {
-      customerId = customers.data[0].id;
-      logStep("Found existing customer", { customerId });
-    } else {
-      logStep("Creating new customer");
+    if ('email' in customer && customer.email !== user.email) {
+      throw new Error("Subscription does not belong to authenticated user");
     }
 
-    const session = await stripe.checkout.sessions.create({
-      customer: customerId,
-      customer_email: customerId ? undefined : user.email,
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
-      mode: "subscription",
-      subscription_data: {
-        trial_period_days: 3,
-        trial_settings: {
-          end_behavior: {
-            missing_payment_method: "cancel"
-          }
-        }
-      },
-      payment_method_types: ["card", "apple_pay", "google_pay"],
-      payment_method_collection: "always",
-      allow_promotion_codes: true,
-      billing_address_collection: "auto",
-      success_url: `${req.headers.get("origin")}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/cancel`,
-      metadata: {
-        user_id: user.id,
-        user_email: user.email,
-        trial_type: "3_day_free"
-      }
+    logStep("Subscription verified", { subscriptionId, status: subscription.status });
+
+    // Cancel the subscription immediately (don't wait for period end)
+    const canceledSubscription = await stripe.subscriptions.cancel(subscriptionId);
+    
+    logStep("Subscription canceled", { 
+      subscriptionId: canceledSubscription.id, 
+      status: canceledSubscription.status,
+      canceledAt: canceledSubscription.canceled_at
     });
 
-    logStep("Checkout session created", { sessionId: session.id, url: session.url });
-
-    return new Response(JSON.stringify({ url: session.url }), {
+    return new Response(JSON.stringify({ 
+      success: true,
+      subscription: {
+        id: canceledSubscription.id,
+        status: canceledSubscription.status,
+        canceled_at: canceledSubscription.canceled_at
+      }
+    }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    logStep("ERROR in create-checkout", { message: errorMessage });
+    logStep("ERROR in cancel-subscription", { message: errorMessage });
     return new Response(JSON.stringify({ error: errorMessage }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,

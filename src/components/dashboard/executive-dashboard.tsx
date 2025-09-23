@@ -10,6 +10,7 @@ import { StreakTracker } from "./streak-tracker";
 import { AchievementNotification } from './achievement-notification';
 import { SmartReminders } from './smart-reminders';
 import { PersonalChallenges } from './personal-challenges';
+import { TrialStatus } from './trial-status';
 import apexLogo from "@/assets/apex-logo-v3.png";
 
 interface ExecutiveDashboardProps {
@@ -284,6 +285,12 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
             </div>
           </div>
         </div>
+
+        {/* Trial Status */}
+        <TrialStatus 
+          onUpgrade={() => setShowSubscription(true)}
+          onCancel={() => console.log('Trial canceled')}
+        />
 
         {/* Enhanced Engagement Features */}
         <div className="space-y-6">
