@@ -72,7 +72,7 @@ serve(async (req) => {
           }
         }
       },
-      payment_method_types: ["card", "apple_pay", "google_pay"],
+      payment_method_types: ["card"],
       payment_method_collection: "always",
       allow_promotion_codes: true,
       billing_address_collection: "auto",
