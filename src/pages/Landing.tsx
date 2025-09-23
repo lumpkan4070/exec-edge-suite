@@ -398,7 +398,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Personal Plan */}
-            <div className="bg-white border border-silver rounded-xl p-8 hover:shadow-xl transition-all duration-300">
+            <div className="bg-white border border-silver rounded-xl p-10 hover:shadow-xl transition-all duration-300">
               <div className="mb-8">
                 <h3 className="text-2xl font-bold text-charcoal mb-2 font-playfair">Personal</h3>
                 <p className="text-slate-gray mb-6 font-lato">Perfect for individual professionals building their leadership foundation</p>
@@ -438,14 +438,14 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             </div>
 
             {/* Professional Plan */}
-            <div className="bg-white border border-silver rounded-xl p-8 hover:shadow-xl transition-all duration-300 relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-vivid-indigo text-white px-4 py-1 text-sm font-medium font-lato">
+            <div className="bg-white border border-silver rounded-xl p-10 hover:shadow-xl transition-all duration-300 relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-vivid-indigo text-white px-4 py-1 text-sm font-medium font-lato rounded-bl-lg">
                 RECOMMENDED
               </div>
               
-              <div className="mb-8">
-                <h3 className="text-2xl font-bold text-charcoal mb-2 font-playfair">Professional</h3>
-                <p className="text-slate-gray mb-6 font-lato">Advanced training for senior leaders and executives</p>
+              <div className="mb-8 pt-6">
+                <h3 className="text-2xl font-bold text-charcoal mb-2 font-playfair pr-20">Professional</h3>
+                <p className="text-slate-gray mb-6 font-lato pr-4">Advanced training for senior leaders and executives</p>
                 <div className="text-4xl font-bold text-charcoal mb-2 font-playfair">
                   $99<span className="text-lg text-slate-gray font-lato">/month</span>
                 </div>
