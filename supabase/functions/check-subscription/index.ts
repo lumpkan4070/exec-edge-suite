@@ -53,23 +53,40 @@ serve(async (req) => {
     const customerId = customers.data[0].id;
     logStep("Found Stripe customer", { customerId });
 
+    // Check for active or trialing subscriptions
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
-      status: "active",
-      limit: 1,
+      status: "all",
+      limit: 10,
     });
     
-    const hasActiveSub = subscriptions.data.length > 0;
+    // Find the most recent subscription (active or trialing)
+    const activeSubscription = subscriptions.data.find(sub => 
+      sub.status === "active" || sub.status === "trialing"
+    );
+    
+    const hasActiveAccess = !!activeSubscription;
     let productId = null;
     let subscriptionEnd = null;
     let tier = null;
+    let status = null;
 
-    if (hasActiveSub) {
-      const subscription = subscriptions.data[0];
-      subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
-      logStep("Active subscription found", { subscriptionId: subscription.id, endDate: subscriptionEnd });
+    if (hasActiveAccess && activeSubscription) {
+      status = activeSubscription.status;
       
-      productId = subscription.items.data[0].price.product;
+      if (status === "trialing") {
+        subscriptionEnd = new Date(activeSubscription.trial_end! * 1000).toISOString();
+      } else {
+        subscriptionEnd = new Date(activeSubscription.current_period_end * 1000).toISOString();
+      }
+      
+      logStep("Active subscription found", { 
+        subscriptionId: activeSubscription.id, 
+        status: status,
+        endDate: subscriptionEnd 
+      });
+      
+      productId = activeSubscription.items.data[0].price.product;
       
       // Map product ID to tier
       const productTierMap: { [key: string]: string } = {
@@ -78,13 +95,14 @@ serve(async (req) => {
       };
       
       tier = productTierMap[productId as string] || "unknown";
-      logStep("Determined subscription tier", { productId, tier });
+      logStep("Determined subscription tier", { productId, tier, status });
     } else {
       logStep("No active subscription found");
     }
 
     return new Response(JSON.stringify({
-      subscribed: hasActiveSub,
+      subscribed: hasActiveAccess,
+      status: status,
       product_id: productId,
       tier: tier,
       subscription_end: subscriptionEnd
