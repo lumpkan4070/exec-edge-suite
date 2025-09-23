@@ -112,23 +112,39 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         body: { priceId }
       });
       
-      console.log('Checkout response:', response);
+      console.log('Full checkout response:', response);
+      console.log('Response data:', response.data);
+      console.log('Response error:', response.error);
       
       if (response.error) {
-        console.error('Checkout error:', response.error);
+        console.error('Supabase function error:', response.error);
         setIsProcessing(false);
         alert(`Error: ${response.error.message || 'Failed to create checkout session'}`);
         return;
       }
       
-      if (response.data?.url) {
-        console.log('Redirecting to Stripe:', response.data.url);
-        // Direct redirect to prevent white screen
-        window.location.href = response.data.url;
+      // Check for URL in response data
+      const checkoutUrl = response.data?.url;
+      console.log('Extracted checkout URL:', checkoutUrl);
+      
+      if (checkoutUrl && checkoutUrl.startsWith('https://checkout.stripe.com')) {
+        console.log('Valid Stripe URL found, redirecting now...');
+        console.log('About to redirect to:', checkoutUrl);
+        
+        // Force immediate redirect
+        window.location.href = checkoutUrl;
+        
+        // Backup redirect in case the first one fails
+        setTimeout(() => {
+          console.log('Backup redirect executing...');
+          window.location.assign(checkoutUrl);
+        }, 500);
+        
       } else {
-        console.error('No checkout URL in response:', response.data);
+        console.error('Invalid or missing checkout URL:', checkoutUrl);
+        console.error('Full response data:', response.data);
         setIsProcessing(false);
-        alert('Failed to get checkout URL. Please try again.');
+        alert('Failed to get valid checkout URL. Please try again.');
       }
     } catch (error) {
       console.error('Checkout error:', error);
