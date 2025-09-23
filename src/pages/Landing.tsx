@@ -48,8 +48,14 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
 
       if (data?.url) {
         console.log('Redirecting to Stripe:', data.url);
-        // Redirect to Stripe Checkout in same tab
-        window.location.href = data.url;
+        
+        // Add visual feedback before redirect
+        document.body.style.cursor = 'wait';
+        
+        // Small delay to ensure UI updates, then redirect
+        setTimeout(() => {
+          window.location.href = data.url;
+        }, 100);
       } else {
         throw new Error('No checkout URL received');
       }
@@ -124,7 +130,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                 variant="primary" 
                 className="bg-vivid-indigo hover:bg-vivid-indigo/90 text-white text-xl font-semibold px-12 py-6 shadow-2xl hover:shadow-vivid-indigo/30 transform hover:scale-105 transition-all duration-300"
               >
-                {isProcessing ? 'Redirecting to Stripe...' : 'Start Your 3-Day Free Trial'}
+                {isProcessing ? 'Opening Stripe Checkout...' : 'Start Your 3-Day Free Trial'}
                 <ArrowRight className="w-6 h-6 ml-3" />
               </ExecutiveButton>
             </div>
@@ -557,7 +563,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               size="lg"
               className="bg-vivid-indigo hover:bg-vivid-indigo/90 text-white px-8 py-4 text-lg"
             >
-              {isProcessing ? 'Redirecting to Stripe...' : 'Start Your 3-Day Free Trial'}
+              {isProcessing ? 'Opening Stripe Checkout...' : 'Start Your 3-Day Free Trial'}
               <ArrowRight className="w-5 h-5 ml-2" />
             </ExecutiveButton>
           </div>
@@ -653,11 +659,22 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                   size="lg"
                   className="bg-vivid-indigo hover:bg-vivid-indigo/90"
                 >
-                  {isProcessing ? 'Redirecting to Stripe...' : 'Start Your 3-Day Free Trial'}
+                  {isProcessing ? 'Opening Stripe Checkout...' : 'Start Your 3-Day Free Trial'}
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </ExecutiveButton>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Loading Overlay */}
+      {isProcessing && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 text-center max-w-sm mx-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-vivid-indigo mx-auto mb-4"></div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Opening Stripe Checkout</h3>
+            <p className="text-gray-600">Please wait while we redirect you to secure payment...</p>
           </div>
         </div>
       )}
