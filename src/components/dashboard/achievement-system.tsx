@@ -26,18 +26,29 @@ export function AchievementSystem({ habits, onAchievementUnlocked }: Achievement
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [totalPoints, setTotalPoints] = useState(0);
 
-  // Define all possible achievements
+  // Define all possible achievements - Enhanced for WRD Phase 1
   const achievementDefinitions: Omit<Achievement, 'progress' | 'unlocked'>[] = [
-    // Streak Achievements
+    // Streak Achievements (Enhanced)
+    {
+      id: 'first_step',
+      title: 'First Step to Excellence',
+      description: 'Complete your first habit session',
+      icon: Flame,
+      type: 'milestone',
+      requirement: 1,
+      tier: 'bronze',
+      points: 5,
+      category: 'overall'
+    },
     {
       id: 'first_streak',
-      title: 'Getting Started',
+      title: 'Building Momentum',
       description: 'Complete any habit for 3 days in a row',
       icon: Flame,
       type: 'streak',
       requirement: 3,
       tier: 'bronze',
-      points: 10,
+      points: 15,
       category: 'overall'
     },
     {
@@ -136,13 +147,103 @@ export function AchievementSystem({ habits, onAchievementUnlocked }: Achievement
     // Consistency achievements
     {
       id: 'consistency_king',
-      title: 'Consistency King',
+      title: 'Consistency Champion',
       description: 'Maintain 80% completion rate for 30 days',
       icon: Medal,
       type: 'consistency',
       requirement: 30,
       tier: 'gold',
       points: 100,
+      category: 'overall'
+    },
+    
+    // WRD Phase 1 New Achievements
+    {
+      id: 'early_bird',
+      title: 'Early Bird Executive',
+      description: 'Complete 5 morning habits before 9 AM',
+      icon: Star,
+      type: 'milestone',
+      requirement: 5,
+      tier: 'bronze',
+      points: 20,
+      category: 'overall'
+    },
+    {
+      id: 'scenario_master',
+      title: 'Scenario Master',
+      description: 'Complete 10 executive scenarios',
+      icon: Target,
+      type: 'milestone',
+      requirement: 10,
+      tier: 'silver',
+      points: 40,
+      category: 'strategic'
+    },
+    {
+      id: 'power_week',
+      title: 'Power Week',
+      description: 'Complete all habits for 7 consecutive days',
+      icon: Crown,
+      type: 'streak',
+      requirement: 7,
+      tier: 'silver',
+      points: 50,
+      category: 'overall'
+    },
+    {
+      id: 'habit_explorer',
+      title: 'Habit Explorer',
+      description: 'Try habits from all 3 categories in one day',
+      icon: Zap,
+      type: 'completion',
+      requirement: 1,
+      tier: 'bronze',
+      points: 25,
+      category: 'overall'
+    },
+    {
+      id: 'ai_collaborator',
+      title: 'AI Collaborator',
+      description: 'Use AI Strategy Co-pilot 15 times',
+      icon: Trophy,
+      type: 'milestone',
+      requirement: 15,
+      tier: 'silver',
+      points: 35,
+      category: 'strategic'
+    },
+    {
+      id: 'executive_elite',
+      title: 'Executive Elite',
+      description: 'Reach 1000 total points',
+      icon: Diamond,
+      type: 'milestone',
+      requirement: 1000,
+      tier: 'platinum',
+      points: 200,
+      category: 'overall'
+    },
+    {
+      id: 'weekend_warrior',
+      title: 'Weekend Warrior',
+      description: 'Complete habits on 10 weekend days',
+      icon: Shield,
+      type: 'milestone',
+      requirement: 10,
+      tier: 'silver',
+      points: 30,
+      category: 'overall'
+    },
+    {
+      id: 'transformation_champion',
+      title: 'Transformation Champion',
+      description: 'Complete 100 total habit sessions',
+      icon: Crown,
+      type: 'milestone',
+      requirement: 100,
+      tier: 'gold',
+      points: 150,
       category: 'overall'
     }
   ];

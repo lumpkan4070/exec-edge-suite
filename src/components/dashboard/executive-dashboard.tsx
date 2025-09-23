@@ -5,6 +5,11 @@ import StrategyCopilot from "@/components/ai-copilot/strategy-copilot";
 import SubscriptionScreen from "@/components/subscription/subscription-screen";
 import PerformanceHabits from "@/components/dashboard/performance-habits";
 import ScenarioLibrary from "@/components/dashboard/scenario-library";
+import { AchievementSystem } from "./achievement-system";
+import { StreakTracker } from "./streak-tracker";
+import { AchievementNotification } from './achievement-notification';
+import { SmartReminders } from './smart-reminders';
+import { PersonalChallenges } from './personal-challenges';
 import apexLogo from "@/assets/apex-logo-v3.png";
 
 interface ExecutiveDashboardProps {
@@ -19,6 +24,30 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
   const [showPerformanceHabits, setShowPerformanceHabits] = useState(false);
   const [showScenarioLibrary, setShowScenarioLibrary] = useState(false);
   const [showSubscription, setShowSubscription] = useState(false);
+  const [showAchievements, setShowAchievements] = useState(true);
+  const [showStreaks, setShowStreaks] = useState(true);
+  const [unlockedAchievement, setUnlockedAchievement] = useState(null);
+
+  // Mock habits data for achievement system
+  const [habits, setHabits] = useState([
+    { id: 1, title: "Strategic Planning", category: "strategic", streak: 5, completedToday: true, weeklyProgress: 12 },
+    { id: 2, title: "Team Communication", category: "leadership", streak: 3, completedToday: false, weeklyProgress: 8 },
+    { id: 3, title: "Mindfulness Practice", category: "mindset", streak: 7, completedToday: true, weeklyProgress: 15 },
+    { id: 4, title: "Market Analysis", category: "strategic", streak: 2, completedToday: false, weeklyProgress: 6 },
+    { id: 5, title: "Leadership Reading", category: "leadership", streak: 4, completedToday: true, weeklyProgress: 10 }
+  ]);
+
+  const handleToggleHabit = (habitId: number) => {
+    setHabits(prev => prev.map(habit => 
+      habit.id === habitId 
+        ? { ...habit, completedToday: !habit.completedToday, streak: habit.completedToday ? habit.streak : habit.streak + 1 }
+        : habit
+    ));
+  };
+
+  const handleAchievementUnlocked = (achievement: any) => {
+    setUnlockedAchievement(achievement);
+  };
 
   const getTierTheme = () => {
     switch (tier) {
@@ -256,6 +285,36 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
           </div>
         </div>
 
+        {/* Enhanced Engagement Features */}
+        <div className="space-y-6">
+          {/* Smart Reminders */}
+          <SmartReminders 
+            habits={habits} 
+            onReminderAction={(id, action) => {
+              console.log('Reminder action:', id, action);
+            }}
+          />
+
+          {/* Achievement System */}
+          {showAchievements && (
+            <AchievementSystem 
+              habits={habits} 
+              onAchievementUnlocked={handleAchievementUnlocked}
+            />
+          )}
+          
+          {/* Streak Tracker */}
+          {showStreaks && <StreakTracker habits={habits} />}
+          
+          {/* Personal Challenges */}
+          <PersonalChallenges 
+            habits={habits}
+            onChallengeComplete={(challenge) => {
+              console.log('Challenge completed:', challenge);
+            }}
+          />
+        </div>
+
         {/* Upgrade CTA */}
         <div className="executive-card p-6 shadow-lg bg-gradient-to-r from-electric/10 to-electric/5">
           <div className="flex items-center justify-between">
@@ -275,6 +334,12 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
           </div>
         </div>
       </div>
+
+      {/* Achievement Notification Modal */}
+      <AchievementNotification 
+        achievement={unlockedAchievement}
+        onClose={() => setUnlockedAchievement(null)}
+      />
     </div>
   );
 }
