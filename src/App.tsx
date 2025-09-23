@@ -8,8 +8,6 @@ import { UserProvider } from "@/contexts/user-context";
 import { AuthGate } from "@/components/auth/auth-gate";
 import { PageTransition } from "@/components/ui/page-transition";
 import Index from "./pages/Index";
-import PaymentSuccess from "./pages/PaymentSuccess";
-import PaymentCancel from "./pages/PaymentCancel";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
@@ -33,8 +31,6 @@ const App = () => {
           <PageTransition>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/success" element={<PaymentSuccess />} />
-              <Route path="/cancel" element={<PaymentCancel />} />
               <Route path="/about" element={<About />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/careers" element={<Careers />} />
