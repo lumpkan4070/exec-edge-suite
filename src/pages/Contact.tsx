@@ -2,6 +2,7 @@ import { Crown, Mail, Phone, MapPin, MessageCircle, Clock, Send } from "lucide-r
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import apexLogo from "@/assets/apex-logo-v3.png";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ export default function Contact() {
       icon: Mail,
       title: "Email Us",
       description: "Get in touch via email",
-      contact: "hello@apex-training.com",
+      contact: "info@aclpublishing.com",
       action: "Send Email"
     },
     {
@@ -77,8 +78,11 @@ export default function Contact() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center space-x-2">
-              <Crown className="w-8 h-8 text-electric" />
-              <span className="text-2xl font-bold text-foreground">APEX</span>
+              <img 
+                src={apexLogo} 
+                alt="APEX Executive Logo" 
+                className="h-10 w-auto"
+              />
             </Link>
             <Link to="/">
               <ExecutiveButton variant="outline">Back to Home</ExecutiveButton>
@@ -113,7 +117,7 @@ export default function Contact() {
                 <p className="text-electric font-medium mb-4">{method.contact}</p>
                 <ExecutiveButton variant="outline" className="w-full" onClick={() => {
                   if (method.action === "Send Email") {
-                    window.open('mailto:hello@apex-executive.com?subject=General Inquiry&body=Hi APEX team,%0A%0A', '_blank');
+                    window.open('mailto:info@aclpublishing.com?subject=General Inquiry&body=Hi APEX team,%0A%0A', '_blank');
                   } else if (method.action === "Call Now") {
                     window.open('tel:+15551234567', '_self');
                   } else if (method.action === "Start Chat") {
@@ -121,7 +125,7 @@ export default function Contact() {
                     if (typeof window !== 'undefined' && (window as any).Intercom) {
                       (window as any).Intercom('show');
                     } else {
-                      window.open('mailto:support@apex-executive.com?subject=Live Chat Request', '_blank');
+                      window.open('mailto:info@aclpublishing.com?subject=Live Chat Request', '_blank');
                     }
                   }
                 }}>
@@ -305,8 +309,8 @@ export default function Contact() {
                   <div className="text-center">
                     <p className="text-sm text-muted-foreground">
                       Or reach out directly: 
-                      <a href="mailto:hello@apex-executive.com" className="text-electric hover:underline ml-1">
-                        hello@apex-executive.com
+                      <a href="mailto:info@aclpublishing.com" className="text-electric hover:underline ml-1">
+                        info@aclpublishing.com
                       </a>
                     </p>
                   </div>
@@ -354,8 +358,11 @@ export default function Contact() {
       <footer className="border-t border-border py-8 px-6 bg-card">
         <div className="max-w-7xl mx-auto text-center">
           <Link to="/" className="flex items-center justify-center space-x-2 mb-4">
-            <Crown className="w-6 h-6 text-electric" />
-            <span className="text-xl font-bold text-foreground">APEX</span>
+            <img 
+              src={apexLogo} 
+              alt="APEX Executive Logo" 
+              className="h-8 w-auto"
+            />
           </Link>
           <p className="text-muted-foreground">&copy; 2025 APEX. All rights reserved.</p>
         </div>

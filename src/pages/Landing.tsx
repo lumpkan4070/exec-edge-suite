@@ -6,7 +6,7 @@ import executiveBoardroom from "@/assets/executive-boardroom.jpg";
 import aiCoaching from "@/assets/ai-coaching.jpg";
 import executivePresentation from "@/assets/executive-presentation.jpg";
 import realisticAnalytics from "@/assets/realistic-analytics.jpg";
-import apexLogo from "@/assets/apex-logo-updated.png";
+import apexLogo from "@/assets/apex-logo-v3.png";
 
 interface LandingProps {
   onGetStarted: () => void;
@@ -515,14 +515,14 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               <div className="space-y-2 font-lato">
                 <a href="#about" className="block text-white/70 hover:text-white transition-colors">About</a>
                 <a href="#" className="block text-white/70 hover:text-white transition-colors">Careers</a>
-                <a href="#" className="block text-white/70 hover:text-white transition-colors">Contact</a>
-                <a href="#" className="block text-white/70 hover:text-white transition-colors">Privacy</a>
+                <a href="/contact" className="block text-white/70 hover:text-white transition-colors">Contact</a>
+                <a href="/privacy" className="block text-white/70 hover:text-white transition-colors">Privacy</a>
               </div>
             </div>
           </div>
 
           <div className="border-t border-white/20 mt-12 pt-8 text-center text-white/60 font-lato">
-            <p>&copy; 2024 APEX Executive. All rights reserved.</p>
+            <p>&copy; 2025 APEX Executive. All rights reserved.</p>
           </div>
         </div>
       </footer>

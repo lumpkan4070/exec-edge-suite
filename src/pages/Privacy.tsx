@@ -1,6 +1,7 @@
 import { Crown, Shield, Lock, Eye, Database, Users } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { Link } from "react-router-dom";
+import apexLogo from "@/assets/apex-logo-v3.png";
 
 export default function Privacy() {
   const principles = [
@@ -33,8 +34,11 @@ export default function Privacy() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center space-x-2">
-              <Crown className="w-8 h-8 text-electric" />
-              <span className="text-2xl font-bold text-foreground">APEX</span>
+              <img 
+                src={apexLogo} 
+                alt="APEX Executive Logo" 
+                className="h-10 w-auto"
+              />
             </Link>
             <Link to="/">
               <ExecutiveButton variant="outline">Back to Home</ExecutiveButton>
@@ -229,8 +233,11 @@ export default function Privacy() {
       <footer className="border-t border-border py-8 px-6 bg-card">
         <div className="max-w-7xl mx-auto text-center">
           <Link to="/" className="flex items-center justify-center space-x-2 mb-4">
-            <Crown className="w-6 h-6 text-electric" />
-            <span className="text-xl font-bold text-foreground">APEX</span>
+            <img 
+              src={apexLogo} 
+              alt="APEX Executive Logo" 
+              className="h-8 w-auto"
+            />
           </Link>
           <p className="text-muted-foreground">&copy; 2025 APEX. All rights reserved.</p>
         </div>
