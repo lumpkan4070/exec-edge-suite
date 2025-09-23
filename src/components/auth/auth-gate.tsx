@@ -3,7 +3,7 @@ import { useUser } from '@/contexts/user-context';
 import { ExecutiveButton } from '@/components/ui/executive-button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Sparkles, Clock } from "lucide-react";
-import apexLogo from '@/assets/apex-logo-transparent.png';
+import apexLogo from '@/assets/apex-logo-latest.png';
 
 interface AuthGateProps {
   children: React.ReactNode;
