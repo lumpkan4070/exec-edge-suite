@@ -71,7 +71,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                 variant="primary" 
                 className="bg-vivid-indigo hover:bg-vivid-indigo/90 text-white text-xl font-semibold px-12 py-6 shadow-2xl hover:shadow-vivid-indigo/30 transform hover:scale-105 transition-all duration-300"
               >
-                Start Your 14-Day Free Trial
+                Start Your 3-Day Free Trial
                 <ArrowRight className="w-6 h-6 ml-3" />
               </ExecutiveButton>
             </div>
@@ -357,7 +357,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
           </div>
 
           <div className="text-center mt-12">
-            <p className="text-slate-gray mb-4 font-lato">All plans include a 14-day free trial. No credit card required.</p>
+            <p className="text-slate-gray mb-4 font-lato">All plans include a 3-day free trial. No credit card required.</p>
             <p className="text-sm text-slate-gray font-lato">
               Need enterprise solutions? <a href="#contact" className="text-vivid-indigo hover:underline">Contact our team</a>
             </p>
@@ -476,7 +476,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               size="lg"
               className="bg-vivid-indigo hover:bg-vivid-indigo/90 text-white px-8 py-4 text-lg"
             >
-              Start Your 14-Day Free Trial
+              Start Your 3-Day Free Trial
               <ArrowRight className="w-5 h-5 ml-2" />
             </ExecutiveButton>
           </div>
@@ -574,7 +574,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                   size="lg"
                   className="bg-vivid-indigo hover:bg-vivid-indigo/90"
                 >
-                  Start Your 14-Day Free Trial
+                  Start Your 3-Day Free Trial
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </ExecutiveButton>
               </div>

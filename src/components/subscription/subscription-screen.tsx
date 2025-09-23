@@ -47,7 +47,7 @@ const allTiers = [
 const roiMetrics = [
   { icon: TrendingUp, text: "Close 23% more deals on average" },
   { icon: Users, text: "Increase team performance by 31%" },
-  { icon: Target, text: "Boost confidence in 14 days" },
+  { icon: Target, text: "Boost confidence in 3 days" },
 ];
 
 export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }: SubscriptionScreenProps) {
