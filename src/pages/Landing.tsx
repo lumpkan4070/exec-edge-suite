@@ -177,11 +177,15 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                   onClick={() => handlePlanSelect('personal')} 
                   disabled={isProcessing}
                   variant="outline" 
-                  className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 text-lg font-semibold px-6 py-8 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 min-h-[120px] flex flex-col items-center justify-center"
+                  className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 text-base font-semibold shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 !h-auto !min-h-[140px] !py-6 !px-4 flex flex-col items-center justify-center text-center whitespace-normal leading-relaxed"
                 >
-                  <div className="text-center">
-                    <div className="font-bold">{isProcessing ? 'Loading...' : 'Personal Plan - $29/mo'}</div>
-                    <div className="text-sm opacity-80 mt-2 leading-tight">Perfect for individual growth</div>
+                  <div className="space-y-1">
+                    <div className="font-bold text-lg">
+                      {isProcessing ? 'Loading...' : 'Personal Plan - $29/mo'}
+                    </div>
+                    <div className="text-sm opacity-80 font-normal break-words">
+                      Perfect for individual growth
+                    </div>
                   </div>
                 </ExecutiveButton>
               </div>
@@ -196,11 +200,15 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                   disabled={isProcessing}
                   size="hero" 
                   variant="primary" 
-                  className="w-full bg-vivid-indigo hover:bg-vivid-indigo/90 text-white text-lg font-semibold px-6 py-8 shadow-2xl hover:shadow-vivid-indigo/30 transform hover:scale-105 transition-all duration-300 min-h-[120px] flex flex-col items-center justify-center"
+                  className="w-full bg-vivid-indigo hover:bg-vivid-indigo/90 text-white text-base font-semibold shadow-2xl hover:shadow-vivid-indigo/30 transform hover:scale-105 transition-all duration-300 !h-auto !min-h-[140px] !py-6 !px-4 flex flex-col items-center justify-center text-center whitespace-normal leading-relaxed"
                 >
-                  <div className="text-center">
-                    <div className="font-bold">{isProcessing ? 'Loading...' : 'Professional Plan - $99/mo'}</div>
-                    <div className="text-sm opacity-90 mt-2 leading-tight">Advanced executive training</div>
+                  <div className="space-y-1">
+                    <div className="font-bold text-lg">
+                      {isProcessing ? 'Loading...' : 'Professional Plan - $99/mo'}
+                    </div>
+                    <div className="text-sm opacity-90 font-normal break-words">
+                      Advanced executive training
+                    </div>
                   </div>
                 </ExecutiveButton>
               </div>
