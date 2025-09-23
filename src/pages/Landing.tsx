@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { ArrowRight, CheckCircle, Target, Brain, Zap, Crown, Users, BarChart3, Mic, Play, X, Star, Shield, Briefcase, Heart, Clock, Globe, Award } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { useUser } from "@/contexts/user-context";
@@ -22,12 +22,16 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   
   const handleStartTrial = async () => {
+    console.log('Start trial clicked');
+    
     // Check if user is authenticated first
     if (!user) {
+      console.log('User not authenticated, showing auth modal');
       setShowAuthModal(true);
       return;
     }
 
+    console.log('User authenticated, proceeding with checkout');
     setIsProcessing(true);
     
     try {
@@ -36,11 +40,14 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         body: { priceId: 'price_1S97NyBgt7hUXmS2a8tpOW6I' } // Personal Plan ($29/month)
       });
 
+      console.log('Checkout response:', { data, error });
+
       if (error) {
         throw new Error(error.message);
       }
 
       if (data?.url) {
+        console.log('Redirecting to Stripe:', data.url);
         // Redirect to Stripe Checkout in same tab
         window.location.href = data.url;
       } else {
@@ -48,6 +55,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
       }
     } catch (error) {
       console.error('Stripe checkout error:', error);
+      alert('There was an error starting your trial. Please try again.');
     } finally {
       setIsProcessing(false);
     }
