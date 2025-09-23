@@ -177,10 +177,12 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                   onClick={() => handlePlanSelect('personal')} 
                   disabled={isProcessing}
                   variant="outline" 
-                  className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 text-lg font-semibold px-8 py-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105"
+                  className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 text-lg font-semibold px-6 py-8 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 min-h-[120px] flex flex-col items-center justify-center"
                 >
-                  {isProcessing ? 'Loading...' : 'Personal Plan - $29/mo'}
-                  <div className="text-sm opacity-80 mt-1">Perfect for individual growth</div>
+                  <div className="text-center">
+                    <div className="font-bold">{isProcessing ? 'Loading...' : 'Personal Plan - $29/mo'}</div>
+                    <div className="text-sm opacity-80 mt-2 leading-tight">Perfect for individual growth</div>
+                  </div>
                 </ExecutiveButton>
               </div>
               
@@ -194,10 +196,12 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                   disabled={isProcessing}
                   size="hero" 
                   variant="primary" 
-                  className="w-full bg-vivid-indigo hover:bg-vivid-indigo/90 text-white text-lg font-semibold px-8 py-6 shadow-2xl hover:shadow-vivid-indigo/30 transform hover:scale-105 transition-all duration-300"
+                  className="w-full bg-vivid-indigo hover:bg-vivid-indigo/90 text-white text-lg font-semibold px-6 py-8 shadow-2xl hover:shadow-vivid-indigo/30 transform hover:scale-105 transition-all duration-300 min-h-[120px] flex flex-col items-center justify-center"
                 >
-                  {isProcessing ? 'Loading...' : 'Professional Plan - $99/mo'}
-                  <div className="text-sm opacity-90 mt-1">Advanced executive training</div>
+                  <div className="text-center">
+                    <div className="font-bold">{isProcessing ? 'Loading...' : 'Professional Plan - $99/mo'}</div>
+                    <div className="text-sm opacity-90 mt-2 leading-tight">Advanced executive training</div>
+                  </div>
                 </ExecutiveButton>
               </div>
             </div>
