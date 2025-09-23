@@ -27,7 +27,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               <img 
                 src={apexLogo} 
                 alt="APEX Executive Logo" 
-                className="h-12 w-auto"
+                className="h-16 w-auto"
               />
             </div>
             <div className="hidden md:flex items-center space-x-8">
@@ -489,8 +489,11 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center space-x-2 mb-6">
-                <Crown className="w-8 h-8 text-vivid-indigo" />
-                <span className="text-2xl font-bold font-playfair">APEX</span>
+                <img 
+                  src={apexLogo} 
+                  alt="APEX Executive Logo" 
+                  className="h-8 w-auto"
+                />
               </div>
               <p className="text-white/70 mb-6 max-w-md font-lato">
                 AI-powered executive coaching for the modern leader. Build confidence, master high-stakes scenarios, and accelerate your career growth.
