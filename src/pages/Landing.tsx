@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { ArrowRight, CheckCircle, Target, Brain, Zap, Crown, Users, BarChart3, Mic, Play, X, Star, Shield, Briefcase, Heart, Clock, Globe, Award } from "lucide-react";
+import { ArrowRight, CheckCircle, Target, Brain, Zap, Crown, Users, BarChart3, Star, Shield, Briefcase, Heart, Clock, Globe, Award } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { useUser } from "@/contexts/user-context";
+import { PaymentPlans } from "@/components/payment/payment-plans";
 import executiveBoardroom from "@/assets/executive-boardroom.jpg";
 import aiCoaching from "@/assets/ai-coaching.jpg";
 import executivePresentation from "@/assets/executive-presentation.jpg";
 import realisticAnalytics from "@/assets/realistic-analytics.jpg";
 import apexLogo from "@/assets/apex-logo-v3.png";
 import AuthModal from "@/components/auth/auth-modal";
-import { supabase } from '@/integrations/supabase/client';
 
 interface LandingProps {
   onGetStarted: () => void;
@@ -19,129 +19,18 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
   const { userData, user } = useUser();
   const [showDemo, setShowDemo] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<'personal' | 'professional' | null>(null);
-  
-  const handleStartTrial = async () => {
-    console.log('Start trial clicked');
-    
-    // Check if user is authenticated first
+
+  const handleGetStarted = () => {
     if (!user) {
-      console.log('User not authenticated, showing auth modal');
       setShowAuthModal(true);
       return;
     }
-
-    console.log('User authenticated, proceeding with checkout');
-    setIsProcessing(true);
-    
-    try {
-      // Use the Personal Plan trial price by default
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { priceId: 'price_1S97NyBgt7hUXmS2a8tpOW6I' } // Personal Plan ($29/month)
-      });
-
-      console.log('Checkout response:', { data, error });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      if (data?.url) {
-        console.log('Opening Stripe checkout in new tab:', data.url);
-        
-        // Open Stripe checkout in new tab (more reliable than same-tab redirect)
-        const stripeWindow = window.open(data.url, '_blank');
-        
-        // Check if popup was blocked
-        if (!stripeWindow || stripeWindow.closed || typeof stripeWindow.closed === 'undefined') {
-          // Fallback to same tab if popup blocked
-          window.location.href = data.url;
-        }
-      } else {
-        throw new Error('No checkout URL received');
-      }
-    } catch (error) {
-      console.error('Stripe checkout error:', error);
-      alert('There was an error starting your trial. Please try again.');
-    } finally {
-      setIsProcessing(false);
-    }
+    onGetStarted();
   };
 
   const handleAuthSuccess = () => {
-    console.log('Auth success, selected plan:', selectedPlan);
     setShowAuthModal(false);
-    
-    // Immediately proceed with the selected plan after auth
-    if (selectedPlan) {
-      console.log('Proceeding with selected plan after auth');
-      // Small delay to ensure modal closes and state updates
-      setTimeout(() => {
-        handlePlanSelect(selectedPlan);
-      }, 100);
-    } else {
-      console.log('No plan selected, using default trial flow');
-      setTimeout(() => {
-        handleStartTrial();
-      }, 100);
-    }
-  };
-
-  const handlePlanSelect = async (planType: 'personal' | 'professional') => {
-    console.log(`[PAYMENT] Plan ${planType} selected`);
-    setSelectedPlan(planType);
-    
-    if (!user) {
-      console.log('[PAYMENT] Authentication required');
-      setShowAuthModal(true);
-      return;
-    }
-    
-    // Beautiful instant transition - no white box
-    setIsProcessing(true);
-    
-    try {
-      const priceId = planType === 'professional' 
-        ? 'price_1S97ORBgt7hUXmS2JXVMb0tu' 
-        : 'price_1S97NyBgt7hUXmS2a8tpOW6I';
-      
-      console.log(`[PAYMENT] Creating Stripe session for ${planType} - ${priceId}`);
-      
-      // Fast API call with immediate feedback
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { priceId }
-      });
-      
-      console.log('[PAYMENT] Stripe response:', { data, error });
-      
-      if (error) {
-        console.error('[PAYMENT] Error:', error);
-        setIsProcessing(false);
-        alert('Payment setup failed. Please try again.');
-        return;
-      }
-      
-      if (data?.url) {
-        console.log('[PAYMENT] Redirecting to Stripe:', data.url);
-        
-        // INSTANT redirect - no delays, no white screens
-        window.location.href = data.url;
-        
-        // Keep processing state for smooth transition
-        // Don't set to false - let the redirect handle it
-        
-      } else {
-        console.error('[PAYMENT] No URL received');
-        setIsProcessing(false);
-        alert('Payment setup failed. Please try again.');
-      }
-      
-    } catch (error) {
-      console.error('[PAYMENT] Exception:', error);
-      setIsProcessing(false);
-      alert('Connection error. Please check your internet and try again.');
-    }
+    onGetStarted();
   };
 
   return (
@@ -162,17 +51,16 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               <a href="#pricing" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Pricing</a>
               <a href="#about" className="text-slate-gray hover:text-charcoal transition-colors font-lato">About</a>
             </div>
-            <ExecutiveButton onClick={handleStartTrial} disabled={isProcessing} variant="primary">
-              {isProcessing ? 'Loading...' : 'Get Started'}
+            <ExecutiveButton onClick={handleGetStarted} variant="primary">
+              Get Started
               <ArrowRight className="w-4 h-4 ml-2" />
             </ExecutiveButton>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section - WRD Compliant */}
+      {/* Hero Section */}
       <section className="pt-32 pb-20 px-6 relative overflow-hidden bg-gradient-to-br from-midnight-blue via-midnight-blue to-midnight-blue/90">
-        {/* Professional background image overlay */}
         <div className="absolute inset-0 opacity-20" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23635BFF' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
         }}></div>
@@ -189,56 +77,6 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               <span className="text-vivid-indigo font-semibold">89% of users report higher confidence in just 15 minutes a day.</span><br />
               Master high-stakes scenarios through immersive roleplay and personalized AI coaching.
             </p>
-            
-            {/* Dual Plan Options - Personal & Professional */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 max-w-2xl mx-auto">
-              {/* Personal Plan */}
-              <div className="flex-1">
-                <ExecutiveButton 
-                  onClick={() => handlePlanSelect('personal')} 
-                  disabled={isProcessing}
-                  variant="outline" 
-                  className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 text-base font-semibold shadow-xl backdrop-blur-sm transition-all duration-200 hover:scale-105 !h-auto !min-h-[140px] !py-6 !px-4 flex flex-col items-center justify-center text-center whitespace-normal leading-relaxed payment-transition"
-                >
-                  <div className="space-y-1">
-                    <div className="font-bold text-lg">
-                      {isProcessing ? 'Redirecting...' : 'Personal Plan - $29/mo'}
-                    </div>
-                    <div className="text-sm opacity-80 font-normal break-words">
-                      Perfect for individual growth
-                    </div>
-                  </div>
-                </ExecutiveButton>
-              </div>
-              
-              {/* Professional Plan - Featured */}
-              <div className="flex-1 relative pt-4">
-                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full z-30 shadow-xl whitespace-nowrap">
-                  MOST POPULAR
-                </div>
-                <ExecutiveButton 
-                  onClick={() => handlePlanSelect('professional')} 
-                  disabled={isProcessing}
-                  size="hero" 
-                  variant="primary" 
-                  className="w-full bg-vivid-indigo hover:bg-vivid-indigo/90 text-white text-base font-semibold shadow-2xl hover:shadow-vivid-indigo/30 transform hover:scale-105 transition-all duration-200 !h-auto !min-h-[140px] !py-6 !px-4 flex flex-col items-center justify-center text-center whitespace-normal leading-relaxed payment-transition"
-                >
-                  <div className="space-y-1">
-                    <div className="font-bold text-lg">
-                      {isProcessing ? 'Redirecting...' : 'Professional Plan - $99/mo'}
-                    </div>
-                    <div className="text-sm opacity-90 font-normal break-words">
-                      Advanced executive training
-                    </div>
-                  </div>
-                </ExecutiveButton>
-              </div>
-            </div>
-            
-            {/* Free Trial Notice */}
-            <div className="text-center text-white/70 text-sm mb-4">
-              Both plans include a 3-day free trial • No credit card required • Cancel anytime
-            </div>
           </div>
 
           {/* Hero Stats */}
@@ -259,16 +97,14 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         </div>
       </section>
 
-      {/* Executive-Grade Training Section - Premium Redesign */}
+      {/* Features Section */}
       <section id="features" className="py-24 px-6 bg-gradient-to-br from-slate-50 via-white to-slate-50 relative overflow-hidden">
-        {/* Background Elements */}
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-10 right-10 w-96 h-96 bg-gradient-to-br from-blue-600/5 to-indigo-600/5 rounded-full blur-3xl"></div>
           <div className="absolute bottom-10 left-10 w-64 h-64 bg-gradient-to-tr from-amber-500/5 to-yellow-500/5 rounded-full blur-2xl"></div>
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
-          {/* Premium Header */}
           <div className="text-center mb-20">
             <h2 className="text-5xl md:text-7xl font-bold mb-8 font-playfair leading-tight">
               <span className="text-slate-900">Elite Executive Training.</span><br />
@@ -280,575 +116,193 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             </p>
           </div>
 
-          {/* Premium Interactive Cards - Staggered Layout */}
-          <div className="space-y-8">
-            {/* Row 1 - Left Aligned */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-              {/* AI Strategy Co-pilot */}
-              <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl hover:shadow-amber-500/25 transition-all duration-500 hover:-translate-y-2 lg:ml-0">
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="relative h-80 overflow-hidden">
-                  <img 
-                    src={aiCoaching} 
-                    alt="Elite AI-powered executive strategy session"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
-                </div>
-                <div className="relative p-8">
-                  <div className="flex items-center space-x-4 mb-6">
-                    <div className="w-14 h-14 bg-amber-500/20 rounded-xl flex items-center justify-center group-hover:bg-amber-500/30 transition-colors backdrop-blur-sm border border-amber-500/30">
-                      <Brain className="w-7 h-7 text-amber-400" />
-                    </div>
-                    <div className="w-3 h-3 bg-amber-400 rounded-full animate-pulse"></div>
-                  </div>
-                  <h3 className="text-3xl font-bold text-white mb-4 font-playfair group-hover:text-amber-100 transition-colors">
-                    AI Strategy Co-pilot
-                  </h3>
-                  <p className="text-amber-100/90 text-lg leading-relaxed font-lato">
-                    Get instant AI-powered insights and decision frameworks to drive executive-level results.
-                  </p>
-                </div>
+          {/* Feature Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl hover:shadow-amber-500/25 transition-all duration-500 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative h-64 overflow-hidden">
+                <img 
+                  src={aiCoaching} 
+                  alt="AI-powered executive coaching"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
               </div>
-
-              {/* Immersive Scenarios */}
-              <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl hover:shadow-blue-500/25 transition-all duration-500 hover:-translate-y-2 lg:ml-8 lg:mt-12">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="relative h-80 overflow-hidden">
-                  <img 
-                    src={executivePresentation} 
-                    alt="High-stakes boardroom scenario training"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
-                </div>
-                <div className="relative p-8">
-                  <div className="flex items-center space-x-4 mb-6">
-                    <div className="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center group-hover:bg-blue-500/30 transition-colors backdrop-blur-sm border border-blue-500/30">
-                      <Target className="w-7 h-7 text-blue-400" />
-                    </div>
-                    <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
+              <div className="relative p-8">
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-14 h-14 bg-amber-500/20 rounded-xl flex items-center justify-center">
+                    <Brain className="w-7 h-7 text-amber-400" />
                   </div>
-                  <h3 className="text-3xl font-bold text-white mb-4 font-playfair group-hover:text-blue-100 transition-colors">
-                    Immersive Scenarios
-                  </h3>
-                  <p className="text-blue-100/90 text-lg leading-relaxed font-lato">
-                    Step into investor boardrooms and crisis rooms. Train risk-free, perform under pressure.
-                  </p>
                 </div>
+                <h3 className="text-2xl font-bold text-white mb-4 font-playfair">
+                  AI Strategy Co-pilot
+                </h3>
+                <p className="text-amber-100/90 text-lg leading-relaxed font-lato">
+                  Get instant AI-powered insights and decision frameworks to drive executive-level results.
+                </p>
               </div>
             </div>
 
-            {/* Row 2 - Right Aligned */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-              {/* Voice & Presence */}
-              <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl hover:shadow-purple-500/25 transition-all duration-500 hover:-translate-y-2 lg:mr-8 lg:-mt-6 lg:order-2">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="relative h-80 overflow-hidden">
-                  <img 
-                    src={executiveBoardroom} 
-                    alt="Executive presence and leadership authority training"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
-                </div>
-                <div className="relative p-8">
-                  <div className="flex items-center space-x-4 mb-6">
-                    <div className="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center group-hover:bg-purple-500/30 transition-colors backdrop-blur-sm border border-purple-500/30">
-                      <Mic className="w-7 h-7 text-purple-400" />
-                    </div>
-                    <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse"></div>
-                  </div>
-                  <h3 className="text-3xl font-bold text-white mb-4 font-playfair group-hover:text-purple-100 transition-colors">
-                    Voice & Presence
-                  </h3>
-                  <p className="text-purple-100/90 text-lg leading-relaxed font-lato">
-                    Command the room. Refine your voice, body language, and executive presence.
-                  </p>
-                </div>
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl hover:shadow-blue-500/25 transition-all duration-500 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative h-64 overflow-hidden">
+                <img 
+                  src={executivePresentation} 
+                  alt="Executive scenario training"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
               </div>
-
-              {/* Performance Analytics */}
-              <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl hover:shadow-emerald-500/25 transition-all duration-500 hover:-translate-y-2 lg:order-1">
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="relative h-80 overflow-hidden">
-                  <img 
-                    src={realisticAnalytics} 
-                    alt="Executive performance analytics and growth tracking"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
-                  {/* Animated Analytics Elements */}
-                  <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-300">
-                    <div className="bg-emerald-500/20 backdrop-blur-sm rounded-lg p-3 border border-emerald-500/30">
-                      <BarChart3 className="w-6 h-6 text-emerald-400 animate-pulse" />
-                    </div>
+              <div className="relative p-8">
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                    <Target className="w-7 h-7 text-blue-400" />
                   </div>
                 </div>
-                <div className="relative p-8">
-                  <div className="flex items-center space-x-4 mb-6">
-                    <div className="w-14 h-14 bg-emerald-500/20 rounded-xl flex items-center justify-center group-hover:bg-emerald-500/30 transition-colors backdrop-blur-sm border border-emerald-500/30">
-                      <BarChart3 className="w-7 h-7 text-emerald-400" />
-                    </div>
-                    <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse"></div>
-                  </div>
-                  <h3 className="text-3xl font-bold text-white mb-4 font-playfair group-hover:text-emerald-100 transition-colors">
-                    Performance Analytics
-                  </h3>
-                  <p className="text-emerald-100/90 text-lg leading-relaxed font-lato">
-                    See the data behind your decisions. Measure growth, track strengths, and refine your edge.
-                  </p>
-                </div>
+                <h3 className="text-2xl font-bold text-white mb-4 font-playfair">
+                  Immersive Scenarios
+                </h3>
+                <p className="text-blue-100/90 text-lg leading-relaxed font-lato">
+                  Step into investor boardrooms and crisis rooms. Train risk-free, perform under pressure.
+                </p>
               </div>
             </div>
-          </div>
 
-          {/* Premium CTA */}
-          <div className="text-center mt-20">
-            <ExecutiveButton 
-              onClick={handleStartTrial}
-              disabled={isProcessing}
-              className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white text-xl font-bold px-12 py-6 rounded-2xl shadow-2xl hover:shadow-amber-500/30 transform hover:scale-105 transition-all duration-300 glow-effect"
-            >
-              {isProcessing ? 'Redirecting to Stripe...' : 'Start Your Executive Training'}
-              <ArrowRight className="w-6 h-6 ml-3" />
-            </ExecutiveButton>
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl hover:shadow-purple-500/25 transition-all duration-500 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative h-64 overflow-hidden">
+                <img 
+                  src={realisticAnalytics} 
+                  alt="Performance analytics dashboard"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+              </div>
+              <div className="relative p-8">
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center">
+                    <BarChart3 className="w-7 h-7 text-purple-400" />
+                  </div>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4 font-playfair">
+                  Performance Analytics
+                </h3>
+                <p className="text-purple-100/90 text-lg leading-relaxed font-lato">
+                  Track your leadership growth with detailed insights and personalized improvement plans.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Pricing Section - Alternating background */}
-      <section id="pricing" className="py-20 px-6 bg-background">
+      {/* Pricing Section - New Clean Implementation */}
+      <section id="pricing" className="py-24 px-6 bg-gradient-to-br from-background via-background to-primary/5">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-charcoal mb-6 font-playfair">
-              Choose Your Path
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 font-playfair">
+              Choose Your <span className="text-primary">Leadership</span> Path
             </h2>
-            <p className="text-xl text-slate-gray max-w-3xl mx-auto font-lato">
-              Flexible plans designed for every stage of your leadership journey. Start building executive presence today.
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-lato">
+              Start your transformation with a 3-day free trial. No credit card required. Cancel anytime.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* Personal Plan */}
-            <div className="bg-white border border-silver rounded-xl p-10 hover:shadow-xl transition-all duration-300">
-              <div className="mb-8">
-                <h3 className="text-2xl font-bold text-charcoal mb-2 font-playfair">Personal</h3>
-                <p className="text-slate-gray mb-6 font-lato">Perfect for individual professionals building their leadership foundation</p>
-                <div className="text-4xl font-bold text-charcoal mb-2 font-playfair">
-                  $29<span className="text-lg text-slate-gray font-lato">/month</span>
-                </div>
-                <p className="text-sm text-slate-gray font-lato">Billed monthly</p>
-              </div>
-
-              <div className="space-y-4 mb-8">
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
-                  <span className="text-slate-gray font-lato">Basic AI Strategy Co-pilot</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
-                  <span className="text-slate-gray font-lato">5 scenario simulations/month</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
-                  <span className="text-slate-gray font-lato">Performance habit tracking</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
-                  <span className="text-slate-gray font-lato">Basic analytics</span>
-                </div>
-              </div>
-
-              <ExecutiveButton 
-                onClick={() => handlePlanSelect('personal')}
-                disabled={isProcessing}
-                variant="outline" 
-                className="w-full border-vivid-indigo text-vivid-indigo hover:bg-vivid-indigo hover:text-white"
-              >
-                {isProcessing ? 'Loading...' : 'Start Personal Plan'}
-              </ExecutiveButton>
-            </div>
-
-            {/* Professional Plan */}
-            <div className="bg-white border border-silver rounded-xl p-10 hover:shadow-xl transition-all duration-300 relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-vivid-indigo text-white px-4 py-1 text-sm font-medium font-lato rounded-bl-lg">
-                RECOMMENDED
-              </div>
-              
-              <div className="mb-8 pt-6">
-                <h3 className="text-2xl font-bold text-charcoal mb-2 font-playfair pr-20">Professional</h3>
-                <p className="text-slate-gray mb-6 font-lato pr-4">Advanced training for senior leaders and executives</p>
-                <div className="text-4xl font-bold text-charcoal mb-2 font-playfair">
-                  $99<span className="text-lg text-slate-gray font-lato">/month</span>
-                </div>
-                <p className="text-sm text-slate-gray font-lato">Billed monthly</p>
-              </div>
-
-              <div className="space-y-4 mb-8">
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
-                  <span className="text-slate-gray font-lato">Advanced AI Strategy Co-pilot</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
-                  <span className="text-slate-gray font-lato">Unlimited scenario simulations</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
-                  <span className="text-slate-gray font-lato">Voice coaching & analysis</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
-                  <span className="text-slate-gray font-lato">Advanced performance analytics</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
-                  <span className="text-slate-gray font-lato">Weekly AI coaching reports</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-vivid-indigo" />
-                  <span className="text-slate-gray font-lato">Priority support</span>
-                </div>
-              </div>
-
-              <ExecutiveButton 
-                onClick={() => handlePlanSelect('professional')}
-                disabled={isProcessing}
-                variant="primary" 
-                className="w-full bg-vivid-indigo hover:bg-vivid-indigo/90"
-              >
-                {isProcessing ? 'Loading...' : 'Start Professional Plan'}
-              </ExecutiveButton>
-            </div>
-          </div>
+          <PaymentPlans />
 
           <div className="text-center mt-12">
-            <p className="text-slate-gray mb-4 font-lato">All plans include a 3-day free trial. No credit card required.</p>
-            <p className="text-sm text-slate-gray font-lato">
-              Need enterprise solutions? <a href="#contact" className="text-vivid-indigo hover:underline">Contact our team</a>
-            </p>
+            <div className="flex items-center justify-center space-x-8 text-sm text-muted-foreground">
+              <div className="flex items-center">
+                <Shield className="w-4 h-4 mr-2 text-green-500" />
+                Secure Payment
+              </div>
+              <div className="flex items-center">
+                <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
+                Cancel Anytime
+              </div>
+              <div className="flex items-center">
+                <Star className="w-4 h-4 mr-2 text-yellow-500" />
+                Trusted by 10,000+ Leaders
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Why Work at APEX Section - Alternating background */}
-      <section id="about" className="py-20 px-6 bg-light-gray">
+      {/* Testimonials Section */}
+      <section className="py-24 px-6 bg-gradient-to-br from-slate-50 to-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-6xl font-bold text-charcoal mb-6 font-playfair">
-              Why Work at APEX?
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 font-playfair">
+              Trusted by <span className="text-primary">Executive Leaders</span>
             </h2>
-            <p className="text-xl text-slate-gray max-w-3xl mx-auto leading-relaxed font-lato">
-              Join a team that's transforming leadership development with cutting-edge AI and executive expertise.
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            {/* Left side - Professional testimonial */}
-            <div className="relative">
-              <div className="bg-white rounded-xl p-12 shadow-lg border border-silver relative">
-                <div className="flex items-center justify-center mb-8">
-                  <div className="w-20 h-20 bg-gradient-to-br from-vivid-indigo to-vivid-indigo/70 rounded-2xl flex items-center justify-center shadow-lg">
-                    <Crown className="w-10 h-10 text-white" />
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Sarah Chen",
+                role: "CEO, TechCorp",
+                content: "APEX transformed my leadership style in just 3 weeks. The AI coaching is incredibly personalized and effective.",
+                rating: 5
+              },
+              {
+                name: "Michael Rodriguez",
+                role: "VP Strategy, Fortune 500",
+                content: "The scenario training prepared me for my biggest boardroom presentation. I felt confident and in control.",
+                rating: 5
+              },
+              {
+                name: "Dr. Emily Watson",
+                role: "Healthcare Executive",
+                content: "Finally, executive training that fits my schedule. 15 minutes a day delivered real results.",
+                rating: 5
+              }
+            ].map((testimonial, index) => (
+              <div key={index} className="bg-white rounded-xl p-8 shadow-lg border border-slate-200">
+                <div className="flex items-center mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                  ))}
                 </div>
-                
-                <blockquote className="text-center">
-                  <div className="text-6xl text-vivid-indigo/30 mb-4 font-bold font-playfair">"</div>
-                  <p className="text-2xl font-medium text-charcoal mb-6 leading-relaxed font-lato">
-                    At APEX, I've grown faster than in any role before. The technology we're building is genuinely transforming how leaders develop.
-                  </p>
-                  <footer className="text-slate-gray font-lato">
-                    <cite className="not-italic font-semibold text-charcoal">Sarah Chen</cite>
-                    <div className="text-sm">Senior AI Engineer</div>
-                  </footer>
-                </blockquote>
-              </div>
-            </div>
-
-            {/* Right side - Benefits grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-silver group">
-                <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-vivid-indigo/20 transition-colors">
-                  <Heart className="w-6 h-6 text-vivid-indigo" />
-                </div>
-                <h3 className="font-semibold text-charcoal mb-2 font-playfair">Health & Wellness</h3>
-                <p className="text-sm text-slate-gray font-lato">Comprehensive health coverage and wellness programs</p>
-              </div>
-
-              <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-silver group">
-                <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-vivid-indigo/20 transition-colors">
-                  <Clock className="w-6 h-6 text-vivid-indigo" />
-                </div>
-                <h3 className="font-semibold text-charcoal mb-2 font-playfair">Flexible Schedule</h3>
-                <p className="text-sm text-slate-gray font-lato">Work-life balance with flexible hours and remote options</p>
-              </div>
-
-              <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-silver group">
-                <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-vivid-indigo/20 transition-colors">
-                  <Award className="w-6 h-6 text-vivid-indigo" />
-                </div>
-                <h3 className="font-semibold text-charcoal mb-2 font-playfair">Growth Opportunities</h3>
-                <p className="text-sm text-slate-gray font-lato">Continuous learning and career development programs</p>
-              </div>
-
-              <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-silver group">
-                <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-vivid-indigo/20 transition-colors">
-                  <Globe className="w-6 h-6 text-vivid-indigo" />
-                </div>
-                <h3 className="font-semibold text-charcoal mb-2 font-playfair">Global Impact</h3>
-                <p className="text-sm text-slate-gray font-lato">Shape the future of leadership development worldwide</p>
-              </div>
-
-              <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-silver group">
-                <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-vivid-indigo/20 transition-colors">
-                  <Shield className="w-6 h-6 text-vivid-indigo" />
-                </div>
-                <h3 className="font-semibold text-charcoal mb-2 font-playfair">Job Security</h3>
-                <p className="text-sm text-slate-gray font-lato">Stable growth company with long-term vision</p>
-              </div>
-
-              <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-silver group">
-                <div className="w-12 h-12 bg-vivid-indigo/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-vivid-indigo/20 transition-colors">
-                  <Briefcase className="w-6 h-6 text-vivid-indigo" />
-                </div>
-                <h3 className="font-semibold text-charcoal mb-2 font-playfair">Stock Options</h3>
-                <p className="text-sm text-slate-gray font-lato">Equity participation in company success</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Trust and CTA Section */}
-      <section className="py-16 px-6 bg-background">
-        <div className="max-w-7xl mx-auto text-center">
-          <h3 className="text-2xl font-bold text-charcoal mb-8 font-playfair">Featured In</h3>
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60 mb-12">
-            <span className="text-lg font-semibold text-slate-gray font-lato">TechCrunch</span>
-            <span className="text-lg font-semibold text-slate-gray font-lato">Forbes</span>
-            <span className="text-lg font-semibold text-slate-gray font-lato">Harvard Business Review</span>
-            <span className="text-lg font-semibold text-slate-gray font-lato">Wired</span>
-          </div>
-          
-          <div className="max-w-2xl mx-auto">
-            <h3 className="text-3xl font-bold text-charcoal mb-6 font-playfair">Ready to Transform Your Leadership?</h3>
-            <p className="text-lg text-slate-gray mb-8 font-lato">
-              Join thousands of executives who are already using APEX to build unshakeable confidence and accelerate their careers.
-            </p>
-            <ExecutiveButton 
-              onClick={handleStartTrial} 
-              disabled={isProcessing}
-              variant="primary" 
-              size="lg"
-              className="bg-vivid-indigo hover:bg-vivid-indigo/90 text-white px-8 py-4 text-lg"
-            >
-              {isProcessing ? 'Opening Stripe Checkout...' : 'Start Your 3-Day Free Trial'}
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </ExecutiveButton>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-16 px-6 bg-midnight-blue text-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center space-x-2 mb-6">
-                <img 
-                  src={apexLogo} 
-                  alt="APEX Executive Logo" 
-                  className="h-12 w-auto"
-                />
-              </div>
-              <p className="text-white/70 mb-6 max-w-md font-lato">
-                AI-powered executive coaching for the modern leader. Build confidence, master high-stakes scenarios, and accelerate your career growth.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4 font-playfair">Product</h4>
-              <div className="space-y-2 font-lato">
-                <a href="#features" className="block text-white/70 hover:text-white transition-colors">Features</a>
-                <a href="#pricing" className="block text-white/70 hover:text-white transition-colors">Pricing</a>
-                <a href="#" className="block text-white/70 hover:text-white transition-colors">Enterprise</a>
-                <a href="#" className="block text-white/70 hover:text-white transition-colors">Security</a>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4 font-playfair">Company</h4>
-              <div className="space-y-2 font-lato">
-                <a href="#about" className="block text-white/70 hover:text-white transition-colors">About</a>
-                <a href="#" className="block text-white/70 hover:text-white transition-colors">Careers</a>
-                <a href="/contact" className="block text-white/70 hover:text-white transition-colors">Contact</a>
-                <a href="/privacy" className="block text-white/70 hover:text-white transition-colors">Privacy</a>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-white/20 mt-12 pt-8 text-center text-white/60 font-lato">
-            <p>&copy; 2025 APEX Executive. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
-
-      {/* Demo Modal */}
-      {showDemo && (
-        <div className="fixed inset-0 bg-midnight-blue/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-8">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-bold text-charcoal font-playfair">Experience APEX</h3>
-                <button 
-                  onClick={() => setShowDemo(false)}
-                  className="text-slate-gray hover:text-charcoal transition-colors"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-              
-              <div className="aspect-video bg-light-gray rounded-xl mb-6 flex items-center justify-center">
-                <Play className="w-16 h-16 text-vivid-indigo" />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="text-center">
-                  <Target className="w-8 h-8 text-vivid-indigo mx-auto mb-3" />
-                  <h4 className="font-semibold text-charcoal mb-2 font-playfair">Scenario Training</h4>
-                  <p className="text-sm text-slate-gray font-lato">Practice investor pitches, board meetings, and crisis situations</p>
-                </div>
-                <div className="text-center">
-                  <Brain className="w-8 h-8 text-vivid-indigo mx-auto mb-3" />
-                  <h4 className="font-semibold text-charcoal mb-2 font-playfair">AI Coaching</h4>
-                  <p className="text-sm text-slate-gray font-lato">Real-time feedback and personalized improvement strategies</p>
-                </div>
-                <div className="text-center">
-                  <BarChart3 className="w-8 h-8 text-vivid-indigo mx-auto mb-3" />
-                  <h4 className="font-semibold text-charcoal mb-2 font-playfair">Progress Tracking</h4>
-                  <p className="text-sm text-slate-gray font-lato">Detailed analytics on your leadership development journey</p>
+                <p className="text-slate-600 mb-6 italic">"{testimonial.content}"</p>
+                <div>
+                  <div className="font-semibold text-slate-900">{testimonial.name}</div>
+                  <div className="text-sm text-slate-500">{testimonial.role}</div>
                 </div>
               </div>
-
-              <div className="text-center">
-                <ExecutiveButton
-                  onClick={handleStartTrial}
-                  disabled={isProcessing}
-                  variant="primary"
-                  size="lg"
-                  className="bg-vivid-indigo hover:bg-vivid-indigo/90"
-                >
-                  {isProcessing ? 'Opening Stripe Checkout...' : 'Start Your 3-Day Free Trial'}
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </ExecutiveButton>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* REDESIGNED: Beautiful Payment Transition - No White Box */}
-      {isProcessing && (
-        <div className="fixed inset-0 z-50 overflow-hidden">
-          {/* Animated Background with Gradient Flow */}
-          <div className="absolute inset-0 bg-gradient-to-br from-vivid-indigo via-purple-600 to-blue-700 animate-gradient-x"></div>
-          
-          {/* Animated Particles */}
-          <div className="absolute inset-0">
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-2 h-2 bg-white/20 rounded-full animate-bounce"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 2}s`,
-                  animationDuration: `${2 + Math.random() * 2}s`
-                }}
-              />
             ))}
           </div>
-          
-          {/* Central Content */}
-          <div className="relative flex items-center justify-center min-h-screen p-6">
-            <div className="text-center max-w-md">
-              {/* APEX Logo with Pulse */}
-              <div className="mb-8">
-                <div className="w-24 h-24 mx-auto bg-white/10 backdrop-blur-xl rounded-3xl flex items-center justify-center animate-pulse shadow-2xl">
-                  <img 
-                    src={apexLogo} 
-                    alt="APEX" 
-                    className="w-16 h-16 object-contain filter brightness-0 invert"
-                  />
-                </div>
-              </div>
-              
-              {/* Dynamic Messaging */}
-              <div className="space-y-6 text-white">
-                <h1 className="text-4xl font-bold animate-pulse">
-                  Securing Your Experience
-                </h1>
-                
-                <div className="space-y-3">
-                  <p className="text-xl font-medium opacity-90">
-                    {selectedPlan === 'professional' 
-                      ? 'Preparing Professional Plan ($99/mo)'
-                      : 'Preparing Personal Plan ($29/mo)'
-                    }
-                  </p>
-                  
-                  <div className="flex justify-center space-x-1">
-                    {[...Array(3)].map((_, i) => (
-                      <div
-                        key={i}
-                        className="w-3 h-3 bg-white rounded-full animate-bounce"
-                        style={{ animationDelay: `${i * 0.2}s` }}
-                      />
-                    ))}
-                  </div>
-                  
-                  <p className="text-sm opacity-75">
-                    Redirecting to secure Stripe checkout...
-                  </p>
-                </div>
-                
-                {/* Progress Bar */}
-                <div className="w-full bg-white/20 rounded-full h-2 overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-white/60 to-white/80 rounded-full animate-pulse"></div>
-                </div>
-                
-                {/* Security Badges */}
-                <div className="flex items-center justify-center space-x-4 text-xs opacity-80">
-                  <div className="flex items-center space-x-1">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <span>SSL Secure</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                    <span>Stripe Protected</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Bottom Notice */}
-          <div className="absolute bottom-8 left-0 right-0 text-center">
-            <p className="text-white/60 text-sm">
-              If this takes more than 5 seconds, please check your internet connection
-            </p>
-          </div>
         </div>
-      )}
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 px-6 bg-gradient-to-br from-midnight-blue to-midnight-blue/90">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 font-playfair">
+            Ready to <span className="text-vivid-indigo">Transform</span> Your Leadership?
+          </h2>
+          <p className="text-xl text-white/80 mb-8 font-lato">
+            Join thousands of executives who have elevated their leadership with APEX.
+          </p>
+          <ExecutiveButton onClick={handleGetStarted} variant="primary" size="lg">
+            Start Your Free Trial
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </ExecutiveButton>
+          <p className="text-white/60 mt-4 text-sm">
+            3-day free trial • No credit card required • Cancel anytime
+          </p>
+        </div>
+      </section>
 
       {/* Auth Modal */}
-      <AuthModal 
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        onSuccess={handleAuthSuccess}
-      />
+      {showAuthModal && (
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={handleAuthSuccess}
+        />
+      )}
     </div>
   );
 }
