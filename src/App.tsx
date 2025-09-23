@@ -22,7 +22,8 @@ import DemoAdmin from "./pages/DemoAdmin";
 
 const queryClient = new QueryClient();
 
-const App = () => (
+const App = () => {
+  return (
   <QueryClientProvider client={queryClient}>
     <UserProvider>
       <TooltipProvider>
@@ -50,6 +51,7 @@ const App = () => (
       </TooltipProvider>
     </UserProvider>
   </QueryClientProvider>
-);
+  );
+};
 
 export default App;
