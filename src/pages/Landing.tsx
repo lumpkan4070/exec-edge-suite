@@ -7,6 +7,8 @@ import aiCoaching from "@/assets/ai-coaching.jpg";
 import executivePresentation from "@/assets/executive-presentation.jpg";
 import realisticAnalytics from "@/assets/realistic-analytics.jpg";
 import apexLogo from "@/assets/apex-logo-v3.png";
+import AuthModal from "@/components/auth/auth-modal";
+import { supabase } from '@/integrations/supabase/client';
 
 interface LandingProps {
   onGetStarted: () => void;
@@ -14,8 +16,50 @@ interface LandingProps {
 }
 
 export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
-  const { userData } = useUser();
+  const { userData, user } = useUser();
   const [showDemo, setShowDemo] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  
+  const handleStartTrial = async () => {
+    // Check if user is authenticated first
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    setIsProcessing(true);
+    
+    try {
+      // Use the Personal Plan trial price by default
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { priceId: 'price_1S97NyBgt7hUXmS2a8tpOW6I' } // Personal Plan ($29/month)
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (data?.url) {
+        // Redirect to Stripe Checkout in same tab
+        window.location.href = data.url;
+      } else {
+        throw new Error('No checkout URL received');
+      }
+    } catch (error) {
+      console.error('Stripe checkout error:', error);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleAuthSuccess = () => {
+    setShowAuthModal(false);
+    // After successful auth, automatically proceed to checkout
+    setTimeout(() => {
+      handleStartTrial();
+    }, 1000);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -35,8 +79,8 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               <a href="#pricing" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Pricing</a>
               <a href="#about" className="text-slate-gray hover:text-charcoal transition-colors font-lato">About</a>
             </div>
-            <ExecutiveButton onClick={onGetStarted} variant="primary">
-              Get Started
+            <ExecutiveButton onClick={handleStartTrial} disabled={isProcessing} variant="primary">
+              {isProcessing ? 'Loading...' : 'Get Started'}
               <ArrowRight className="w-4 h-4 ml-2" />
             </ExecutiveButton>
           </div>
@@ -66,12 +110,13 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             {/* Single prominent CTA as per WRD */}
             <div className="flex justify-center mb-12">
               <ExecutiveButton 
-                onClick={onGetStarted} 
+                onClick={handleStartTrial} 
+                disabled={isProcessing}
                 size="hero" 
                 variant="primary" 
                 className="bg-vivid-indigo hover:bg-vivid-indigo/90 text-white text-xl font-semibold px-12 py-6 shadow-2xl hover:shadow-vivid-indigo/30 transform hover:scale-105 transition-all duration-300"
               >
-                Start Your 3-Day Free Trial
+                {isProcessing ? 'Redirecting to Stripe...' : 'Start Your 3-Day Free Trial'}
                 <ArrowRight className="w-6 h-6 ml-3" />
               </ExecutiveButton>
             </div>
@@ -242,10 +287,11 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
           {/* Premium CTA */}
           <div className="text-center mt-20">
             <ExecutiveButton 
-              onClick={onGetStarted}
+              onClick={handleStartTrial}
+              disabled={isProcessing}
               className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white text-xl font-bold px-12 py-6 rounded-2xl shadow-2xl hover:shadow-amber-500/30 transform hover:scale-105 transition-all duration-300 glow-effect"
             >
-              Start Your Executive Training
+              {isProcessing ? 'Redirecting to Stripe...' : 'Start Your Executive Training'}
               <ArrowRight className="w-6 h-6 ml-3" />
             </ExecutiveButton>
           </div>
@@ -296,11 +342,12 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               </div>
 
               <ExecutiveButton 
-                onClick={() => onSelectPlan ? onSelectPlan('personal') : onGetStarted()} 
+                onClick={handleStartTrial}
+                disabled={isProcessing}
                 variant="outline" 
                 className="w-full border-vivid-indigo text-vivid-indigo hover:bg-vivid-indigo hover:text-white"
               >
-                Start Personal Plan
+                {isProcessing ? 'Loading...' : 'Start Personal Plan'}
               </ExecutiveButton>
             </div>
 
@@ -347,11 +394,36 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               </div>
 
               <ExecutiveButton 
-                onClick={() => onSelectPlan ? onSelectPlan('professional') : onGetStarted()} 
+                onClick={() => {
+                  if (!user) {
+                    setShowAuthModal(true);
+                    return;
+                  }
+                  
+                  setIsProcessing(true);
+                  
+                  supabase.functions.invoke('create-checkout', {
+                    body: { priceId: 'price_1S97ORBgt7hUXmS2JXVMb0tu' } // Professional Plan ($99/month)
+                  }).then(({ data, error }) => {
+                    if (error) {
+                      console.error('Stripe checkout error:', error);
+                      setIsProcessing(false);
+                      return;
+                    }
+                    
+                    if (data?.url) {
+                      window.location.href = data.url;
+                    }
+                  }).catch((error) => {
+                    console.error('Stripe checkout error:', error);
+                    setIsProcessing(false);
+                  });
+                }}
+                disabled={isProcessing}
                 variant="primary" 
                 className="w-full bg-vivid-indigo hover:bg-vivid-indigo/90"
               >
-                Start Professional Plan
+                {isProcessing ? 'Loading...' : 'Start Professional Plan'}
               </ExecutiveButton>
             </div>
           </div>
@@ -471,12 +543,13 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               Join thousands of executives who are already using APEX to build unshakeable confidence and accelerate their careers.
             </p>
             <ExecutiveButton 
-              onClick={onGetStarted} 
+              onClick={handleStartTrial} 
+              disabled={isProcessing}
               variant="primary" 
               size="lg"
               className="bg-vivid-indigo hover:bg-vivid-indigo/90 text-white px-8 py-4 text-lg"
             >
-              Start Your 3-Day Free Trial
+              {isProcessing ? 'Redirecting to Stripe...' : 'Start Your 3-Day Free Trial'}
               <ArrowRight className="w-5 h-5 ml-2" />
             </ExecutiveButton>
           </div>
@@ -565,16 +638,14 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               </div>
 
               <div className="text-center">
-                <ExecutiveButton 
-                  onClick={() => {
-                    setShowDemo(false);
-                    onGetStarted();
-                  }}
+                <ExecutiveButton
+                  onClick={handleStartTrial}
+                  disabled={isProcessing}
                   variant="primary"
                   size="lg"
                   className="bg-vivid-indigo hover:bg-vivid-indigo/90"
                 >
-                  Start Your 3-Day Free Trial
+                  {isProcessing ? 'Redirecting to Stripe...' : 'Start Your 3-Day Free Trial'}
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </ExecutiveButton>
               </div>
@@ -582,6 +653,13 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
           </div>
         </div>
       )}
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={handleAuthSuccess}
+      />
     </div>
   );
 }
