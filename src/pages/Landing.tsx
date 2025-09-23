@@ -6,7 +6,7 @@ import executiveBoardroom from "@/assets/executive-boardroom.jpg";
 import aiCoaching from "@/assets/ai-coaching.jpg";
 import executivePresentation from "@/assets/executive-presentation.jpg";
 import realisticAnalytics from "@/assets/realistic-analytics.jpg";
-import apexLogo from "@/assets/apex-logo-latest.png";
+import apexLogo from "@/assets/apex-logo-updated.png";
 
 interface LandingProps {
   onGetStarted: () => void;
@@ -27,7 +27,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               <img 
                 src={apexLogo} 
                 alt="APEX Executive Logo" 
-                className="h-16 w-auto"
+                className="h-20 w-auto"
               />
             </div>
             <div className="hidden md:flex items-center space-x-8">
@@ -492,7 +492,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                 <img 
                   src={apexLogo} 
                   alt="APEX Executive Logo" 
-                  className="h-8 w-auto"
+                  className="h-12 w-auto"
                 />
               </div>
               <p className="text-white/70 mb-6 max-w-md font-lato">
