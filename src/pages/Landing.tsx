@@ -191,8 +191,8 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               </div>
               
               {/* Professional Plan - Featured */}
-              <div className="flex-1 relative">
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-vivid-indigo text-white text-xs font-bold px-4 py-1 rounded-full">
+              <div className="flex-1 relative pt-4">
+                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full z-30 shadow-xl whitespace-nowrap">
                   MOST POPULAR
                 </div>
                 <ExecutiveButton 
