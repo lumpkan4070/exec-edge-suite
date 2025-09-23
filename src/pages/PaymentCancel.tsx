@@ -3,7 +3,7 @@ import { ExecutiveButton } from "@/components/ui/executive-button";
 
 export default function PaymentCancel() {
   const handleBackToPlans = () => {
-    window.location.href = '/#pricing';
+    window.location.href = '/';
   };
 
   const handleTryAgain = () => {

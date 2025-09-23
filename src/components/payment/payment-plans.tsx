@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Check, Zap, Crown } from 'lucide-react';
+import { Check, Zap, Crown, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
 
 const PLANS = {
   personal: {
@@ -48,6 +49,7 @@ interface PaymentPlansProps {
 
 export const PaymentPlans: React.FC<PaymentPlansProps> = ({ onPlanSelect }) => {
   const [loading, setLoading] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const handleStartTrial = async (plan: typeof PLANS.personal) => {
     setLoading(plan.id);
@@ -59,30 +61,58 @@ export const PaymentPlans: React.FC<PaymentPlansProps> = ({ onPlanSelect }) => {
       
       if (!session) {
         console.log('[PAYMENT] No session found, redirecting to auth');
-        window.location.href = '/auth';
+        toast({
+          title: "Authentication Required",
+          description: "Please sign in to start your free trial.",
+          variant: "destructive"
+        });
+        setLoading(null);
         return;
       }
 
       console.log('[PAYMENT] Creating checkout session...');
+      
+      // Show toast for loading state
+      toast({
+        title: "Redirecting to Secure Checkout...",
+        description: "Please wait while we prepare your checkout session.",
+      });
+
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: { priceId: plan.priceId }
       });
 
       if (error) {
         console.error('[PAYMENT] Error creating checkout:', error);
+        toast({
+          title: "Checkout Error",
+          description: "Failed to create checkout session. Please try again.",
+          variant: "destructive"
+        });
         setLoading(null);
         return;
       }
 
       if (data?.url) {
         console.log('[PAYMENT] Redirecting to Stripe:', data.url);
+        // Open Stripe checkout in same window for better UX
         window.location.href = data.url;
       } else {
         console.error('[PAYMENT] No checkout URL received');
+        toast({
+          title: "Checkout Error", 
+          description: "No checkout URL received. Please try again.",
+          variant: "destructive"
+        });
         setLoading(null);
       }
     } catch (error) {
       console.error('[PAYMENT] Checkout error:', error);
+      toast({
+        title: "Payment Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive"
+      });
       setLoading(null);
     }
   };
@@ -137,14 +167,14 @@ export const PaymentPlans: React.FC<PaymentPlansProps> = ({ onPlanSelect }) => {
               disabled={isLoading}
               className={`w-full py-3 text-lg font-medium transition-all duration-200 ${
                 plan.popular 
-                  ? 'bg-primary hover:bg-primary/90' 
-                  : 'bg-secondary hover:bg-secondary/90'
+                  ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
+                  : 'bg-secondary hover:bg-secondary/90 text-secondary-foreground'
               }`}
             >
               {isLoading ? (
                 <div className="flex items-center justify-center">
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                  Redirecting to Checkout...
+                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                  Redirecting to Secure Checkout...
                 </div>
               ) : (
                 'Start Free Trial'
