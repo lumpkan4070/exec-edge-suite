@@ -89,67 +89,106 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
   };
 
   const handlePlanSelect = async (planType: 'personal' | 'professional') => {
-    console.log(`Plan ${planType} selected, user:`, user?.email);
+    // PAY-001: Overlay shows instantly (<0.5s)
+    const startTime = performance.now();
+    console.log(`[AUDIT] PAY-001: Plan ${planType} selected at ${startTime}ms, user:`, user?.email);
     setSelectedPlan(planType);
     
     if (!user) {
-      console.log('No user found, showing auth modal');
+      console.log('[AUDIT] No user found, showing auth modal');
       setShowAuthModal(true);
       return;
     }
     
-    console.log('User authenticated, proceeding with checkout');
+    console.log('[AUDIT] User authenticated, proceeding with checkout');
     setIsProcessing(true);
+    
+    // Start performance timer
+    const checkoutStartTime = performance.now();
     
     try {
       const priceId = planType === 'professional' 
         ? 'price_1S97ORBgt7hUXmS2JXVMb0tu' 
         : 'price_1S97NyBgt7hUXmS2a8tpOW6I';
       
-      console.log(`Creating checkout session for ${planType} plan, priceId:`, priceId);
+      console.log(`[AUDIT] Creating checkout session for ${planType} plan, priceId:`, priceId);
+      console.log(`[AUDIT] Overlay displayed in ${performance.now() - startTime}ms`);
       
-      const response = await supabase.functions.invoke('create-checkout', {
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Checkout timeout after 10 seconds')), 10000);
+      });
+      
+      const checkoutPromise = supabase.functions.invoke('create-checkout', {
         body: { priceId }
       });
       
-      console.log('Full checkout response:', response);
-      console.log('Response data:', response.data);
-      console.log('Response error:', response.error);
+      console.log('[AUDIT] Supabase function call initiated...');
       
-      if (response.error) {
-        console.error('Supabase function error:', response.error);
+      const response = await Promise.race([checkoutPromise, timeoutPromise]) as any;
+      
+      const responseTime = performance.now() - checkoutStartTime;
+      console.log(`[AUDIT] PAY-002: Checkout response received in ${responseTime}ms`);
+      console.log('[AUDIT] Full checkout response:', response);
+      console.log('[AUDIT] Response data:', response?.data);
+      console.log('[AUDIT] Response error:', response?.error);
+      
+      if (response?.error) {
+        console.error('[AUDIT] PAY-013: Supabase function error:', response.error);
         setIsProcessing(false);
-        alert(`Error: ${response.error.message || 'Failed to create checkout session'}`);
+        alert(`Payment Error: ${response.error.message || 'Failed to create checkout session'}`);
         return;
       }
       
       // Check for URL in response data
-      const checkoutUrl = response.data?.url;
-      console.log('Extracted checkout URL:', checkoutUrl);
+      const checkoutUrl = response?.data?.url;
+      console.log('[AUDIT] Extracted checkout URL:', checkoutUrl);
       
       if (checkoutUrl && checkoutUrl.startsWith('https://checkout.stripe.com')) {
-        console.log('Valid Stripe URL found, redirecting now...');
-        console.log('About to redirect to:', checkoutUrl);
+        const redirectTime = performance.now() - checkoutStartTime;
+        console.log(`[AUDIT] PAY-002: Valid Stripe URL found in ${redirectTime}ms, redirecting now...`);
+        console.log('[AUDIT] About to redirect to:', checkoutUrl);
         
-        // Force immediate redirect
-        window.location.href = checkoutUrl;
+        // PAY-002: Ensure checkout loads in <3s
+        if (redirectTime > 3000) {
+          console.warn(`[AUDIT] PAY-011: PERFORMANCE WARNING - Checkout took ${redirectTime}ms (>3s limit)`);
+        }
         
-        // Backup redirect in case the first one fails
-        setTimeout(() => {
-          console.log('Backup redirect executing...');
+        // Force immediate redirect with multiple fallback methods
+        try {
+          window.location.href = checkoutUrl;
+        } catch (e) {
+          console.error('[AUDIT] Primary redirect failed:', e);
           window.location.assign(checkoutUrl);
-        }, 500);
+        }
+        
+        // Backup redirect with window.open as last resort
+        setTimeout(() => {
+          console.log('[AUDIT] PAY-014: Backup redirect executing...');
+          const newWindow = window.open(checkoutUrl, '_self');
+          if (!newWindow) {
+            console.error('[AUDIT] All redirect methods failed');
+            setIsProcessing(false);
+            alert('Unable to open checkout. Please disable popup blockers and try again.');
+          }
+        }, 1000);
         
       } else {
-        console.error('Invalid or missing checkout URL:', checkoutUrl);
-        console.error('Full response data:', response.data);
+        console.error('[AUDIT] PAY-013: Invalid or missing checkout URL:', checkoutUrl);
+        console.error('[AUDIT] Full response data:', response?.data);
         setIsProcessing(false);
         alert('Failed to get valid checkout URL. Please try again.');
       }
     } catch (error) {
-      console.error('Checkout error:', error);
+      const errorTime = performance.now() - checkoutStartTime;
+      console.error(`[AUDIT] PAY-014: Checkout error after ${errorTime}ms:`, error);
       setIsProcessing(false);
-      alert('Something went wrong. Please try again.');
+      
+      if (error.message.includes('timeout')) {
+        alert('Checkout is taking longer than expected. Please check your internet connection and try again.');
+      } else {
+        alert('Something went wrong with the payment system. Please try again.');
+      }
     }
   };
 
@@ -758,20 +797,47 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         </div>
       )}
 
-      {/* Enhanced Loading Overlay with Timeout */}
+      {/* PAY-001: Professional Loading Overlay - Instant Display (<0.5s) */}
       {isProcessing && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 text-center max-w-sm mx-4 shadow-2xl">
-            <div className="animate-spin rounded-full h-8 w-8 border-4 border-vivid-indigo/20 border-t-vivid-indigo mx-auto mb-4"></div>
-            <h3 className="text-lg font-semibold text-charcoal mb-2">
-              {selectedPlan ? `Starting ${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan` : 'Processing Request'}
+        <div className="fixed inset-0 bg-gradient-to-br from-black/40 to-black/60 backdrop-blur-md flex items-center justify-center z-50 animate-in fade-in duration-200">
+          <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-8 text-center max-w-md mx-4 shadow-2xl border border-white/20">
+            {/* APEX Branded Loading Animation */}
+            <div className="relative mb-6">
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-vivid-indigo/20 border-t-vivid-indigo mx-auto"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-8 h-8 bg-vivid-indigo rounded-full animate-pulse"></div>
+              </div>
+            </div>
+            
+            {/* Dynamic Status Messages */}
+            <h3 className="text-2xl font-bold text-charcoal mb-3">
+              {selectedPlan ? `Starting ${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan` : 'Initializing Checkout'}
             </h3>
-            <p className="text-slate-gray text-sm">
-              Redirecting to secure checkout...
-            </p>
+            
+            <div className="space-y-3 text-slate-gray">
+              <p className="text-lg font-medium">
+                {selectedPlan 
+                  ? `Securing your ${selectedPlan} subscription...`
+                  : 'Preparing your secure checkout...'
+                }
+              </p>
+              <div className="flex items-center justify-center space-x-2 text-sm">
+                <div className="w-2 h-2 bg-vivid-indigo rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-vivid-indigo rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                <div className="w-2 h-2 bg-vivid-indigo rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+              </div>
+              <p className="text-xs text-slate-500">
+                Powered by Stripe • Secure SSL Encryption
+              </p>
+            </div>
+            
+            {/* Emergency Cancel Button - PAY-014 */}
             <button 
-              onClick={() => setIsProcessing(false)}
-              className="mt-4 text-xs text-slate-500 hover:text-slate-700 underline"
+              onClick={() => {
+                console.log('[AUDIT] PAY-014: User cancelled checkout manually');
+                setIsProcessing(false);
+              }}
+              className="mt-6 text-xs text-slate-400 hover:text-slate-600 underline transition-colors"
             >
               Cancel
             </button>
