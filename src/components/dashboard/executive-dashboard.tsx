@@ -5,6 +5,7 @@ import StrategyCopilot from "@/components/ai-copilot/strategy-copilot";
 import SubscriptionScreen from "@/components/subscription/subscription-screen";
 import PerformanceHabits from "@/components/dashboard/performance-habits";
 import ScenarioLibrary from "@/components/dashboard/scenario-library";
+import apexLogo from "@/assets/apex-logo-v3.png";
 
 interface ExecutiveDashboardProps {
   userRole: string;
@@ -152,7 +153,7 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
               className="mr-4 p-3 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-105"
               title="Back to Home"
             >
-              <Crown className="w-6 h-6 text-electric" />
+              <img src={apexLogo} alt="APEX Executive" className="h-8 w-auto" />
             </button>
             <div>
               <h1 className="text-2xl font-bold text-foreground mb-1">

@@ -228,7 +228,7 @@
 }
 
 .feature-card {
-  @apply bg-gradient-to-br from-charcoal-black to-electric text-white rounded-2xl p-8 shadow-[0_8px_24px_rgba(0,102,255,0.2)];
+  @apply bg-gradient-to-br from-charcoal-black to-electric text-white rounded-2xl p-8 shadow-[0_8px_24px_rgba(99,91,255,0.2)];
 }
 
 .primary-card {
@@ -249,7 +249,7 @@
 }
 
 .executive-button-primary {
-  @apply executive-button bg-electric text-electric-foreground hover:bg-[#0052CC] active:bg-[#003D99] shadow-[0_2px_8px_rgba(0,102,255,0.2)] hover:shadow-[0_4px_12px_rgba(0,102,255,0.3)];
+  @apply executive-button bg-electric text-electric-foreground hover:bg-vivid-indigo/80 active:bg-vivid-indigo/70 shadow-[0_2px_8px_rgba(99,91,255,0.2)] hover:shadow-[0_4px_12px_rgba(99,91,255,0.3)];
 }
 
 .executive-button-secondary {
@@ -262,7 +262,7 @@
 
 /* Input System */
 .executive-input {
-  @apply flex h-12 w-full rounded-lg border border-input bg-background px-4 py-3 body-large ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-gray focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric focus-visible:ring-offset-2 focus-visible:shadow-[0_0_0_3px_rgba(0,102,255,0.1)] disabled:cursor-not-allowed disabled:opacity-50;
+  @apply flex h-12 w-full rounded-lg border border-input bg-background px-4 py-3 body-large ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-gray focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric focus-visible:ring-offset-2 focus-visible:shadow-[0_0_0_3px_rgba(99,91,255,0.1)] disabled:cursor-not-allowed disabled:opacity-50;
 }
 
 .search-input {
@@ -280,11 +280,11 @@
 
 /* Gradients */
 .gradient-primary {
-  background: linear-gradient(135deg, hsl(var(--charcoal-black)) 0%, hsl(var(--electric-blue)) 100%);
+  background: linear-gradient(135deg, var(--charcoal-black) 0%, var(--electric-blue) 100%);
 }
 
 .gradient-subtle-blue {
-  background: linear-gradient(135deg, hsl(var(--electric-blue)) 0%, #3B82F6 100%);
+  background: linear-gradient(135deg, var(--electric-blue) 0%, #3B82F6 100%);
 }
 
 .gradient-dark-overlay {

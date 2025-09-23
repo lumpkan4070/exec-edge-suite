@@ -147,9 +147,12 @@ export default function StrategyCopilot({ onBack, onHome, userRole, userObjectiv
             >
               <ArrowLeft className="w-6 h-6" />
             </button>
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">AI Strategy Co-pilot</h1>
-              <p className="text-muted-foreground font-medium">Executive performance insights</p>
+            <div className="flex items-center space-x-4">
+              <img src="/src/assets/apex-logo-v3.png" alt="APEX Executive" className="h-8 w-auto" />
+              <div>
+                <h1 className="text-2xl font-bold text-foreground">AI Strategy Co-pilot</h1>
+                <p className="text-muted-foreground font-medium">Executive performance insights</p>
+              </div>
             </div>
           </div>
           <div className="flex items-center space-x-2">

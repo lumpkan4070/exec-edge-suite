@@ -8,6 +8,7 @@ import { AchievementNotification } from "./achievement-notification";
 import { StreakTracker } from "./streak-tracker";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import apexLogo from "@/assets/apex-logo-v3.png";
 
 interface PerformanceHabitsProps {
   onBack: () => void;
@@ -225,9 +226,12 @@ export default function PerformanceHabits({ onBack, onHome, userRole }: Performa
             >
               <ArrowLeft className="w-6 h-6" />
             </button>
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">Executive Habits</h1>
-              <p className="text-muted-foreground font-medium">Mission-critical daily behaviors</p>
+            <div className="flex items-center space-x-4">
+              <img src={apexLogo} alt="APEX Executive" className="h-8 w-auto" />
+              <div>
+                <h1 className="text-2xl font-bold text-foreground">Executive Habits</h1>
+                <p className="text-muted-foreground font-medium">Mission-critical daily behaviors</p>
+              </div>
             </div>
           </div>
           <div className="flex items-center space-x-4">
