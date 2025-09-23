@@ -7,34 +7,27 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 
 export default function PaymentSuccess() {
-  const { setUserData } = useUser();
+  const { setUserData, checkSubscription } = useUser();
   const { toast } = useToast();
 
   useEffect(() => {
     // Check subscription status on successful payment
-    const checkSubscription = async () => {
+    const updateSubscriptionStatus = async () => {
       try {
-        const { data, error } = await supabase.functions.invoke('check-subscription');
+        // Use the updated checkSubscription from context
+        await checkSubscription();
         
-        if (error) {
-          console.error('Error checking subscription:', error);
-          return;
-        }
-
-        if (data?.subscribed && data?.tier) {
-          setUserData({ tier: data.tier });
-          toast({
-            title: "Welcome to APEX! 🎉",
-            description: `Your ${data.tier} subscription is now active.`,
-          });
-        }
+        toast({
+          title: "Welcome to APEX! 🎉",
+          description: "Your subscription is now active and you have full access.",
+        });
       } catch (error) {
         console.error('Error checking subscription:', error);
       }
     };
 
-    checkSubscription();
-  }, [setUserData, toast]);
+    updateSubscriptionStatus();
+  }, [checkSubscription, toast]);
 
   const handleGetStarted = () => {
     window.location.href = '/';

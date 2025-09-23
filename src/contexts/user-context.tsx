@@ -10,6 +10,9 @@ interface UserData {
   userId?: string;
   trialStartDate?: string;
   trialUsed?: boolean;
+  subscribed?: boolean;
+  subscriptionStatus?: string;
+  subscriptionEnd?: string;
 }
 
 interface UserContextType {
@@ -24,6 +27,8 @@ interface UserContextType {
   getTrialDaysRemaining: () => number;
   isTrialExpired: () => boolean;
   hasTrialExpired: boolean;
+  checkSubscription: () => Promise<void>;
+  hasActiveAccess: () => boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -47,6 +52,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         if (session?.user) {
           // User is authenticated, load their data from backend
           loadUserData(session.user.id);
+          // Check subscription status for authenticated users
+          setTimeout(() => checkSubscription(), 1000);
         } else if (event === 'SIGNED_OUT') {
           // Reset to guest mode on sign out
           setUserDataState({ isGuest: true });
@@ -61,6 +68,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       
       if (session?.user) {
         loadUserData(session.user.id);
+        // Check subscription status for authenticated users
+        setTimeout(() => checkSubscription(), 1000);
       } else {
         // Load guest data from localStorage
         loadGuestData();
@@ -189,6 +198,50 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const checkSubscription = async () => {
+    if (!user) return;
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('check-subscription');
+      if (error) {
+        console.error('Error checking subscription:', error);
+        return;
+      }
+      
+      if (data) {
+        setUserData({
+          subscribed: data.subscribed || false,
+          subscriptionStatus: data.status,
+          subscriptionEnd: data.subscription_end,
+          tier: data.product_id || userData.tier
+        });
+      }
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+    }
+  };
+
+  const hasActiveAccess = () => {
+    // User has access if:
+    // 1. They have an active subscription
+    // 2. They have an active trial (authenticated or guest)
+    // 3. They are in guest trial period
+    
+    if (userData.subscribed && userData.subscriptionStatus === 'active') {
+      return true;
+    }
+    
+    if (userData.subscriptionStatus === 'trialing') {
+      return true;
+    }
+    
+    if (userData.isGuest && userData.trialStartDate && !isTrialExpired()) {
+      return true;
+    }
+    
+    return false;
+  };
+
   return (
     <UserContext.Provider value={{
       user,
@@ -201,7 +254,9 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       startTrial,
       getTrialDaysRemaining,
       isTrialExpired,
-      hasTrialExpired
+      hasTrialExpired,
+      checkSubscription,
+      hasActiveAccess
     }}>
       {children}
     </UserContext.Provider>

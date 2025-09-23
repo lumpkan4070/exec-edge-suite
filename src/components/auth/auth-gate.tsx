@@ -12,12 +12,12 @@ interface AuthGateProps {
 }
 
 export function AuthGate({ children }: AuthGateProps) {
-  const { user, userData, hasTrialExpired } = useUser();
+  const { user, userData, hasTrialExpired, hasActiveAccess } = useUser();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Allow access if user is authenticated, has trial access, or trial hasn't expired
-  if (user || (userData.userId && !hasTrialExpired)) {
+  // Allow access if user has active subscription, trial, or guest trial access
+  if (hasActiveAccess()) {
     return <>{children}</>;
   }
 
