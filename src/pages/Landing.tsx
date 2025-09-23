@@ -89,106 +89,58 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
   };
 
   const handlePlanSelect = async (planType: 'personal' | 'professional') => {
-    // PAY-001: Overlay shows instantly (<0.5s)
-    const startTime = performance.now();
-    console.log(`[AUDIT] PAY-001: Plan ${planType} selected at ${startTime}ms, user:`, user?.email);
+    console.log(`[PAYMENT] Plan ${planType} selected`);
     setSelectedPlan(planType);
     
     if (!user) {
-      console.log('[AUDIT] No user found, showing auth modal');
+      console.log('[PAYMENT] Authentication required');
       setShowAuthModal(true);
       return;
     }
     
-    console.log('[AUDIT] User authenticated, proceeding with checkout');
+    // Beautiful instant transition - no white box
     setIsProcessing(true);
-    
-    // Start performance timer
-    const checkoutStartTime = performance.now();
     
     try {
       const priceId = planType === 'professional' 
         ? 'price_1S97ORBgt7hUXmS2JXVMb0tu' 
         : 'price_1S97NyBgt7hUXmS2a8tpOW6I';
       
-      console.log(`[AUDIT] Creating checkout session for ${planType} plan, priceId:`, priceId);
-      console.log(`[AUDIT] Overlay displayed in ${performance.now() - startTime}ms`);
+      console.log(`[PAYMENT] Creating Stripe session for ${planType} - ${priceId}`);
       
-      // Add timeout to prevent hanging
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Checkout timeout after 10 seconds')), 10000);
-      });
-      
-      const checkoutPromise = supabase.functions.invoke('create-checkout', {
+      // Fast API call with immediate feedback
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: { priceId }
       });
       
-      console.log('[AUDIT] Supabase function call initiated...');
+      console.log('[PAYMENT] Stripe response:', { data, error });
       
-      const response = await Promise.race([checkoutPromise, timeoutPromise]) as any;
-      
-      const responseTime = performance.now() - checkoutStartTime;
-      console.log(`[AUDIT] PAY-002: Checkout response received in ${responseTime}ms`);
-      console.log('[AUDIT] Full checkout response:', response);
-      console.log('[AUDIT] Response data:', response?.data);
-      console.log('[AUDIT] Response error:', response?.error);
-      
-      if (response?.error) {
-        console.error('[AUDIT] PAY-013: Supabase function error:', response.error);
+      if (error) {
+        console.error('[PAYMENT] Error:', error);
         setIsProcessing(false);
-        alert(`Payment Error: ${response.error.message || 'Failed to create checkout session'}`);
+        alert('Payment setup failed. Please try again.');
         return;
       }
       
-      // Check for URL in response data
-      const checkoutUrl = response?.data?.url;
-      console.log('[AUDIT] Extracted checkout URL:', checkoutUrl);
-      
-      if (checkoutUrl && checkoutUrl.startsWith('https://checkout.stripe.com')) {
-        const redirectTime = performance.now() - checkoutStartTime;
-        console.log(`[AUDIT] PAY-002: Valid Stripe URL found in ${redirectTime}ms, redirecting now...`);
-        console.log('[AUDIT] About to redirect to:', checkoutUrl);
+      if (data?.url) {
+        console.log('[PAYMENT] Redirecting to Stripe:', data.url);
         
-        // PAY-002: Ensure checkout loads in <3s
-        if (redirectTime > 3000) {
-          console.warn(`[AUDIT] PAY-011: PERFORMANCE WARNING - Checkout took ${redirectTime}ms (>3s limit)`);
-        }
+        // INSTANT redirect - no delays, no white screens
+        window.location.href = data.url;
         
-        // Force immediate redirect with multiple fallback methods
-        try {
-          window.location.href = checkoutUrl;
-        } catch (e) {
-          console.error('[AUDIT] Primary redirect failed:', e);
-          window.location.assign(checkoutUrl);
-        }
-        
-        // Backup redirect with window.open as last resort
-        setTimeout(() => {
-          console.log('[AUDIT] PAY-014: Backup redirect executing...');
-          const newWindow = window.open(checkoutUrl, '_self');
-          if (!newWindow) {
-            console.error('[AUDIT] All redirect methods failed');
-            setIsProcessing(false);
-            alert('Unable to open checkout. Please disable popup blockers and try again.');
-          }
-        }, 1000);
+        // Keep processing state for smooth transition
+        // Don't set to false - let the redirect handle it
         
       } else {
-        console.error('[AUDIT] PAY-013: Invalid or missing checkout URL:', checkoutUrl);
-        console.error('[AUDIT] Full response data:', response?.data);
+        console.error('[PAYMENT] No URL received');
         setIsProcessing(false);
-        alert('Failed to get valid checkout URL. Please try again.');
+        alert('Payment setup failed. Please try again.');
       }
-    } catch (error) {
-      const errorTime = performance.now() - checkoutStartTime;
-      console.error(`[AUDIT] PAY-014: Checkout error after ${errorTime}ms:`, error);
-      setIsProcessing(false);
       
-      if (error.message.includes('timeout')) {
-        alert('Checkout is taking longer than expected. Please check your internet connection and try again.');
-      } else {
-        alert('Something went wrong with the payment system. Please try again.');
-      }
+    } catch (error) {
+      console.error('[PAYMENT] Exception:', error);
+      setIsProcessing(false);
+      alert('Connection error. Please check your internet and try again.');
     }
   };
 
@@ -246,11 +198,11 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                   onClick={() => handlePlanSelect('personal')} 
                   disabled={isProcessing}
                   variant="outline" 
-                  className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 text-base font-semibold shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 !h-auto !min-h-[140px] !py-6 !px-4 flex flex-col items-center justify-center text-center whitespace-normal leading-relaxed"
+                  className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20 text-base font-semibold shadow-xl backdrop-blur-sm transition-all duration-200 hover:scale-105 !h-auto !min-h-[140px] !py-6 !px-4 flex flex-col items-center justify-center text-center whitespace-normal leading-relaxed payment-transition"
                 >
                   <div className="space-y-1">
                     <div className="font-bold text-lg">
-                      {isProcessing ? 'Loading...' : 'Personal Plan - $29/mo'}
+                      {isProcessing ? 'Redirecting...' : 'Personal Plan - $29/mo'}
                     </div>
                     <div className="text-sm opacity-80 font-normal break-words">
                       Perfect for individual growth
@@ -269,11 +221,11 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                   disabled={isProcessing}
                   size="hero" 
                   variant="primary" 
-                  className="w-full bg-vivid-indigo hover:bg-vivid-indigo/90 text-white text-base font-semibold shadow-2xl hover:shadow-vivid-indigo/30 transform hover:scale-105 transition-all duration-300 !h-auto !min-h-[140px] !py-6 !px-4 flex flex-col items-center justify-center text-center whitespace-normal leading-relaxed"
+                  className="w-full bg-vivid-indigo hover:bg-vivid-indigo/90 text-white text-base font-semibold shadow-2xl hover:shadow-vivid-indigo/30 transform hover:scale-105 transition-all duration-200 !h-auto !min-h-[140px] !py-6 !px-4 flex flex-col items-center justify-center text-center whitespace-normal leading-relaxed payment-transition"
                 >
                   <div className="space-y-1">
                     <div className="font-bold text-lg">
-                      {isProcessing ? 'Loading...' : 'Professional Plan - $99/mo'}
+                      {isProcessing ? 'Redirecting...' : 'Professional Plan - $99/mo'}
                     </div>
                     <div className="text-sm opacity-90 font-normal break-words">
                       Advanced executive training
@@ -797,50 +749,96 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         </div>
       )}
 
-      {/* PAY-001: Professional Loading Overlay - Instant Display (<0.5s) */}
+      {/* REDESIGNED: Beautiful Payment Transition - No White Box */}
       {isProcessing && (
-        <div className="fixed inset-0 bg-gradient-to-br from-black/40 to-black/60 backdrop-blur-md flex items-center justify-center z-50 animate-in fade-in duration-200">
-          <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-8 text-center max-w-md mx-4 shadow-2xl border border-white/20">
-            {/* APEX Branded Loading Animation */}
-            <div className="relative mb-6">
-              <div className="animate-spin rounded-full h-16 w-16 border-4 border-vivid-indigo/20 border-t-vivid-indigo mx-auto"></div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-8 h-8 bg-vivid-indigo rounded-full animate-pulse"></div>
+        <div className="fixed inset-0 z-50 overflow-hidden">
+          {/* Animated Background with Gradient Flow */}
+          <div className="absolute inset-0 bg-gradient-to-br from-vivid-indigo via-purple-600 to-blue-700 animate-gradient-x"></div>
+          
+          {/* Animated Particles */}
+          <div className="absolute inset-0">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-2 h-2 bg-white/20 rounded-full animate-bounce"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 2}s`,
+                  animationDuration: `${2 + Math.random() * 2}s`
+                }}
+              />
+            ))}
+          </div>
+          
+          {/* Central Content */}
+          <div className="relative flex items-center justify-center min-h-screen p-6">
+            <div className="text-center max-w-md">
+              {/* APEX Logo with Pulse */}
+              <div className="mb-8">
+                <div className="w-24 h-24 mx-auto bg-white/10 backdrop-blur-xl rounded-3xl flex items-center justify-center animate-pulse shadow-2xl">
+                  <img 
+                    src={apexLogo} 
+                    alt="APEX" 
+                    className="w-16 h-16 object-contain filter brightness-0 invert"
+                  />
+                </div>
+              </div>
+              
+              {/* Dynamic Messaging */}
+              <div className="space-y-6 text-white">
+                <h1 className="text-4xl font-bold animate-pulse">
+                  Securing Your Experience
+                </h1>
+                
+                <div className="space-y-3">
+                  <p className="text-xl font-medium opacity-90">
+                    {selectedPlan === 'professional' 
+                      ? 'Preparing Professional Plan ($99/mo)'
+                      : 'Preparing Personal Plan ($29/mo)'
+                    }
+                  </p>
+                  
+                  <div className="flex justify-center space-x-1">
+                    {[...Array(3)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="w-3 h-3 bg-white rounded-full animate-bounce"
+                        style={{ animationDelay: `${i * 0.2}s` }}
+                      />
+                    ))}
+                  </div>
+                  
+                  <p className="text-sm opacity-75">
+                    Redirecting to secure Stripe checkout...
+                  </p>
+                </div>
+                
+                {/* Progress Bar */}
+                <div className="w-full bg-white/20 rounded-full h-2 overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-white/60 to-white/80 rounded-full animate-pulse"></div>
+                </div>
+                
+                {/* Security Badges */}
+                <div className="flex items-center justify-center space-x-4 text-xs opacity-80">
+                  <div className="flex items-center space-x-1">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span>SSL Secure</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                    <span>Stripe Protected</span>
+                  </div>
+                </div>
               </div>
             </div>
-            
-            {/* Dynamic Status Messages */}
-            <h3 className="text-2xl font-bold text-charcoal mb-3">
-              {selectedPlan ? `Starting ${selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan` : 'Initializing Checkout'}
-            </h3>
-            
-            <div className="space-y-3 text-slate-gray">
-              <p className="text-lg font-medium">
-                {selectedPlan 
-                  ? `Securing your ${selectedPlan} subscription...`
-                  : 'Preparing your secure checkout...'
-                }
-              </p>
-              <div className="flex items-center justify-center space-x-2 text-sm">
-                <div className="w-2 h-2 bg-vivid-indigo rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-vivid-indigo rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                <div className="w-2 h-2 bg-vivid-indigo rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-              </div>
-              <p className="text-xs text-slate-500">
-                Powered by Stripe • Secure SSL Encryption
-              </p>
-            </div>
-            
-            {/* Emergency Cancel Button - PAY-014 */}
-            <button 
-              onClick={() => {
-                console.log('[AUDIT] PAY-014: User cancelled checkout manually');
-                setIsProcessing(false);
-              }}
-              className="mt-6 text-xs text-slate-400 hover:text-slate-600 underline transition-colors"
-            >
-              Cancel
-            </button>
+          </div>
+          
+          {/* Bottom Notice */}
+          <div className="absolute bottom-8 left-0 right-0 text-center">
+            <p className="text-white/60 text-sm">
+              If this takes more than 5 seconds, please check your internet connection
+            </p>
           </div>
         </div>
       )}
