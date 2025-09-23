@@ -47,15 +47,16 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
       }
 
       if (data?.url) {
-        console.log('Redirecting to Stripe:', data.url);
+        console.log('Opening Stripe checkout in new tab:', data.url);
         
-        // Add visual feedback before redirect
-        document.body.style.cursor = 'wait';
+        // Open Stripe checkout in new tab (more reliable than same-tab redirect)
+        const stripeWindow = window.open(data.url, '_blank');
         
-        // Small delay to ensure UI updates, then redirect
-        setTimeout(() => {
+        // Check if popup was blocked
+        if (!stripeWindow || stripeWindow.closed || typeof stripeWindow.closed === 'undefined') {
+          // Fallback to same tab if popup blocked
           window.location.href = data.url;
-        }, 100);
+        }
       } else {
         throw new Error('No checkout URL received');
       }
