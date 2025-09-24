@@ -8,6 +8,7 @@ import { UserProvider } from "@/contexts/user-context";
 import { AuthGate } from "@/components/auth/auth-gate";
 import { PageTransition } from "@/components/ui/page-transition";
 import Index from "./pages/Index";
+import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
@@ -35,6 +36,7 @@ const App = () => {
           <PageTransition>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/onboarding" element={<EnhancedOnboarding onComplete={() => window.location.href = '/dashboard'} />} />
               <Route path="/about" element={<About />} />
