@@ -47,10 +47,21 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               <a href="#get-started" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Get Started</a>
               <a href="#about" className="text-slate-gray hover:text-charcoal transition-colors font-lato">About</a>
             </div>
-            <ExecutiveButton onClick={handleGetStarted} variant="primary">
-              Get Started
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </ExecutiveButton>
+            <div className="flex items-center space-x-4">
+              {user ? (
+                <ExecutiveButton onClick={() => window.location.href = '/dashboard'} variant="secondary">
+                  Dashboard
+                </ExecutiveButton>
+              ) : (
+                <ExecutiveButton onClick={() => window.location.href = '/auth'} variant="secondary">
+                  Login
+                </ExecutiveButton>
+              )}
+              <ExecutiveButton onClick={handleGetStarted} variant="primary">
+                Get Started
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </ExecutiveButton>
+            </div>
           </div>
         </div>
       </nav>
