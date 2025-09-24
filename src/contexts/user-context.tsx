@@ -102,27 +102,56 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
   const loadUserData = async (userId: string) => {
     try {
-      // Load user profile from database
-      const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', userId)
-        .single();
+      console.log('Loading user data for:', userId);
+      
+      // Use the safe function to get or create profile
+      const { data: profileData, error } = await supabase
+        .rpc('get_or_create_user_profile', { user_id_param: userId });
 
       if (error) {
         console.error('Error loading user profile:', error);
-        // User might not have completed onboarding yet
-        setUserDataState(prev => ({ ...prev, isGuest: false, userId }));
+        // Fallback: try direct query
+        const { data: directProfile, error: directError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('user_id', userId)
+          .maybeSingle();
+          
+        if (directError) {
+          console.error('Error with direct profile query:', directError);
+          setUserDataState(prev => ({ ...prev, isGuest: false, userId }));
+          return;
+        }
+        
+        if (directProfile) {
+          setUserDataState(prev => ({ 
+            ...prev, 
+            isGuest: false, 
+            userId,
+            role: directProfile.role,
+            tier: directProfile.tier || 'trial'
+          }));
+        } else {
+          console.log('No profile found, user needs onboarding');
+          setUserDataState(prev => ({ ...prev, isGuest: false, userId }));
+        }
         return;
       }
 
-      setUserDataState(prev => ({ 
-        ...prev, 
-        isGuest: false, 
-        userId,
-        role: profile.role,
-        tier: profile.tier || 'trial'
-      }));
+      if (profileData && profileData.length > 0) {
+        const profile = profileData[0];
+        console.log('Profile loaded successfully:', profile);
+        setUserDataState(prev => ({ 
+          ...prev, 
+          isGuest: false, 
+          userId,
+          role: profile.role,
+          tier: profile.tier || 'trial'
+        }));
+      } else {
+        console.log('No profile data returned, user needs onboarding');
+        setUserDataState(prev => ({ ...prev, isGuest: false, userId }));
+      }
     } catch (error) {
       console.error('Error in loadUserData:', error);
       setUserDataState(prev => ({ ...prev, isGuest: false, userId }));

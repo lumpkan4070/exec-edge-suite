@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { MessageSquare, Target, BarChart3, Settings, Zap, TrendingUp, Users, Brain, Trophy, Clock, Crown, Lock } from "lucide-react";
+import { MessageSquare, Target, BarChart3, Settings, Zap, TrendingUp, Users, Brain, Trophy, Clock, Crown, Lock, CheckCircle } from "lucide-react";
 import StrategyCopilot from "@/components/ai-copilot/strategy-copilot";
 import SubscriptionScreen from "@/components/subscription/subscription-screen";
 import SubscriptionStatus from "@/components/subscription/subscription-status";
@@ -283,20 +283,20 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
             <h3 className="text-lg font-bold text-foreground mb-4">This Week's Impact</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Meetings Prepped</span>
-                <span className="metric-display">{performanceMetrics.meetingsPrepped}</span>
+                <span className="text-muted-foreground">Habits Completed</span>
+                <span className="metric-display">{habits.filter(h => h.completedToday).length}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Deals Advanced</span>
-                <span className="metric-display">{performanceMetrics.dealsAdvanced}</span>
+                <span className="text-muted-foreground">Active Streak</span>
+                <span className="metric-display">{Math.max(...habits.map(h => h.streak), 0)} days</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Team Interactions</span>
-                <span className="metric-display">{performanceMetrics.teamInteractions}</span>
+                <span className="text-muted-foreground">Weekly Progress</span>
+                <span className="metric-display">{habits.reduce((acc, h) => acc + h.weeklyProgress, 0)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Weekly Growth</span>
-                <span className="metric-display">+{performanceMetrics.weeklyGrowth}%</span>
+                <span className="text-muted-foreground">Completion Rate</span>
+                <span className="metric-display">{habits.length > 0 ? Math.round((habits.filter(h => h.completedToday).length / habits.length) * 100) : 0}%</span>
               </div>
             </div>
           </div>
@@ -334,34 +334,37 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
           </div>
         )}
 
-        {/* Enhanced Engagement Features */}
+        {/* Real Habit Tracker */}
         <div className="space-y-6">
-          {/* Smart Reminders */}
-          <SmartReminders 
-            habits={habits} 
-            onReminderAction={(id, action) => {
-              console.log('Reminder action:', id, action);
-            }}
-          />
-
-          {/* Achievement System */}
-          {showAchievements && (
-            <AchievementSystem 
-              habits={habits} 
-              onAchievementUnlocked={handleAchievementUnlocked}
-            />
-          )}
-          
-          {/* Streak Tracker */}
-          {showStreaks && <StreakTracker habits={habits} />}
-          
-          {/* Personal Challenges */}
-          <PersonalChallenges 
-            habits={habits}
-            onChallengeComplete={(challenge) => {
-              console.log('Challenge completed:', challenge);
-            }}
-          />
+          <div className="executive-card p-6 shadow-lg">
+            <h3 className="text-lg font-bold text-foreground mb-4">Your Performance Habits</h3>
+            {habits.map((habit) => (
+              <div key={habit.id} className="flex items-center justify-between p-3 border border-border rounded-lg mb-3">
+                <div className="flex items-center space-x-3">
+                  <button
+                    onClick={() => handleToggleHabit(habit.id)}
+                    className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
+                      habit.completedToday
+                        ? 'bg-green-500 border-green-500 text-white'
+                        : 'border-muted-foreground hover:border-green-500'
+                    }`}
+                  >
+                    {habit.completedToday && <CheckCircle className="w-4 h-4" />}
+                  </button>
+                  <div>
+                    <h4 className={`font-medium ${habit.completedToday ? 'text-muted-foreground line-through' : 'text-foreground'}`}>
+                      {habit.title}
+                    </h4>
+                    <p className="text-sm text-muted-foreground">{habit.category}</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                  <span>{habit.streak} day streak</span>
+                  <Zap className="w-4 h-4 text-electric" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Upgrade CTA */}

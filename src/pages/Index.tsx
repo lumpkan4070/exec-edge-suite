@@ -1,24 +1,47 @@
 import { useState, useEffect } from "react";
 import { useUser } from "@/contexts/user-context";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Landing from "./Landing";
-import Dashboard from "./Dashboard";
 import PaymentHandler from "@/components/payment/payment-handler";
 
 export default function Index() {
-  const { userData, setUserData } = useUser();
+  const { user, userData } = useUser();
   const location = useLocation();
-  const [showDashboard, setShowDashboard] = useState(false);
+  const navigate = useNavigate();
   const [showPayment, setShowPayment] = useState(false);
   const [selectedTier, setSelectedTier] = useState<string>("");
 
+  // Handle tier selection from navigation state
+  useEffect(() => {
+    const state = location.state as any;
+    if (state?.selectedTier) {
+      setSelectedTier(state.selectedTier);
+      setShowPayment(true);
+      // Clear the state to prevent re-triggering
+      window.history.replaceState({}, '', location.pathname);
+    }
+  }, [location.state]);
+
   // Reset to landing page when user navigates directly to home
   useEffect(() => {
-    if (location.pathname === "/" && !location.search) {
-      setShowDashboard(false);
+    if (location.pathname === "/" && !location.search && !location.state) {
       setShowPayment(false);
     }
   }, [location]);
+
+  const handleGetStarted = () => {
+    if (user) {
+      // User is authenticated, check if they need onboarding
+      if (!userData.role) {
+        navigate('/onboarding');
+      } else {
+        navigate('/dashboard');
+      }
+    } else {
+      // Not authenticated, start guest trial or show auth
+      navigate('/auth');
+    }
+  };
 
   const handlePlanSelection = (tier: string) => {
     setSelectedTier(tier);
@@ -26,13 +49,13 @@ export default function Index() {
   };
 
   const handlePaymentSuccess = () => {
-    setUserData({ tier: selectedTier });
     setShowPayment(false);
-    setShowDashboard(true);
+    navigate('/dashboard');
   };
 
   const handlePaymentError = (error: string) => {
     console.error("Payment error:", error);
+    setShowPayment(false);
     // Could show toast or error handling here
   };
 
@@ -56,14 +79,9 @@ export default function Index() {
     );
   }
 
-  // Only show dashboard if explicitly requested by user clicking Get Started
-  if (showDashboard) {
-    return <Dashboard />;
-  }
-
   return (
     <Landing 
-      onGetStarted={() => setShowDashboard(true)}
+      onGetStarted={handleGetStarted}
       onSelectPlan={handlePlanSelection}
     />
   );
