@@ -63,8 +63,12 @@ export default function SubscriptionPlans() {
       if (error) throw error;
 
       if (data?.url) {
-        // Open checkout in same tab with smooth transition
-        window.location.href = data.url;
+        // Open checkout in new tab for better user experience
+        const newWindow = window.open(data.url, '_blank');
+        if (!newWindow) {
+          // Fallback to same tab if popup blocked
+          window.location.href = data.url;
+        }
       } else {
         throw new Error("No checkout URL received");
       }
