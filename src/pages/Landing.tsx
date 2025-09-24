@@ -47,7 +47,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             <div className="hidden lg:flex items-center space-x-8">
               <a href="#features" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Features</a>
               <a href="#get-started" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Get Started</a>
-              <a href="#about" className="text-slate-gray hover:text-charcoal transition-colors font-lato">About</a>
+              <a href="/privacy" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Privacy</a>
             </div>
             
             {/* Auth Buttons - Always Visible */}
