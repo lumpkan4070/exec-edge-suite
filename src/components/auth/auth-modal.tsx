@@ -78,7 +78,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
     }
   };
 
-  const handleSocialLogin = async (provider: 'google' | 'linkedin_oidc') => {
+  const handleSocialLogin = async (provider: 'google' | 'linkedin_oidc' | 'apple') => {
     setIsLoading(true);
     try {
       const { error } = await supabase.auth.signInWithOAuth({
@@ -117,6 +117,19 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
 
         {/* Social Login Buttons */}
         <div className="space-y-3 mb-6">
+          <button
+            type="button"
+            onClick={() => handleSocialLogin('apple')}
+            disabled={isLoading}
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-border rounded-lg hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-electric focus:ring-offset-2 disabled:opacity-50"
+            aria-label="Sign in with Apple"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12.017 1.5c-.2 0-.393.009-.583.024-1.27.105-2.46.68-3.297 1.578-.75.8-1.406 1.95-1.235 3.1.034.268.063.337.181.337.086 0 .215-.034.329-.069 1.235-.378 2.342-.034 3.197.68.615.515.993 1.235 1.146 1.985.119.588.034 1.14-.181 1.664-.017.043-.034.086-.051.129-.069.163-.138.326-.163.523-.069.515.034 1.03.309 1.476.241.394.583.714.993.93.394.206.837.309 1.287.309.446 0 .898-.103 1.287-.309.41-.216.752-.536.993-.93.275-.446.378-.961.309-1.476-.025-.197-.094-.36-.163-.523-.017-.043-.034-.086-.051-.129-.215-.524-.3-1.076-.181-1.664.153-.75.531-1.47 1.146-1.985.855-.714 1.962-1.058 3.197-.68.114.035.243.069.329.069.118 0 .147-.069.181-.337.171-1.15-.485-2.3-1.235-3.1-.837-.898-2.027-1.473-3.297-1.578-.19-.015-.383-.024-.583-.024z"/>
+            </svg>
+            <span className="text-sm font-medium">Continue with Apple</span>
+          </button>
+          
           <button
             type="button"
             onClick={() => handleSocialLogin('google')}
