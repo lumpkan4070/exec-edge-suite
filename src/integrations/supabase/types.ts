@@ -359,6 +359,21 @@ export type Database = {
         Args: { p_user_id: string }
         Returns: number
       }
+      get_or_create_user_profile: {
+        Args: { user_id_param: string }
+        Returns: {
+          created_at: string
+          display_name: string
+          email: string
+          goals: string[]
+          id: string
+          preferences: Json
+          role: string
+          tier: string
+          updated_at: string
+          user_id: string
+        }[]
+      }
       update_user_progress: {
         Args: { p_user_id: string }
         Returns: undefined
