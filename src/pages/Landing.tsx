@@ -55,21 +55,21 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               {user ? (
                 <button 
                   onClick={() => window.location.href = '/dashboard'} 
-                  className="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors"
                 >
                   Dashboard
                 </button>
               ) : (
                 <button 
                   onClick={() => window.location.href = '/auth'} 
-                  className="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors"
                 >
                   Login
                 </button>
               )}
               <button 
                 onClick={handleGetStarted} 
-                className="px-4 py-2 text-sm font-medium text-white bg-vivid-indigo rounded-md hover:bg-vivid-indigo/90 transition-colors flex items-center"
+                className="px-4 py-2 text-sm font-medium text-white bg-vivid-indigo border-2 border-vivid-indigo rounded-md hover:bg-transparent hover:text-vivid-indigo transition-colors flex items-center"
               >
                 <span className="hidden sm:inline">Get Started</span>
                 <span className="sm:hidden">Start</span>
