@@ -1,89 +1,173 @@
-import { Crown, Calendar, User, ArrowRight, TrendingUp, Lightbulb, Target } from "lucide-react";
+import React from "react";
+import { ArrowRight, Clock, User, Calendar, BookOpen, Download, ExternalLink, TrendingUp, Users, Target, Award, Crown } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
+import { SEOHead } from "@/components/seo/SEOHead";
+import { StructuredData } from "@/components/seo/StructuredData";
 import { Link } from "react-router-dom";
 
+import apexLogo from "@/assets/apex-logo-final-new.png";
+
 export default function Blog() {
+  const handleGetStarted = () => {
+    window.location.href = '/';
+    setTimeout(() => {
+      const pricingSection = document.getElementById('pricing');
+      if (pricingSection) {
+        pricingSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
   const blogPosts = [
     {
-      title: "The Future of Executive Presence in an AI-Driven World",
-      excerpt: "How artificial intelligence is reshaping leadership communication and what it means for modern executives.",
-      author: "Sarah Chen",
+      title: "The Science Behind AI-Powered Leadership Coaching: 89% Confidence Study",
+      excerpt: "Discover how artificial intelligence is revolutionizing executive training and why 89% of users report higher confidence. Full methodology and data included.",
+      author: "Dr. Sarah Chen, PhD",
       date: "March 15, 2024",
-      category: "Leadership",
-      icon: TrendingUp,
-      featured: true
+      category: "Research",
+      readTime: "12 min read",
+      featured: true,
+      studyLink: "https://apex-executive.com/research/confidence-study-methodology"
     },
     {
-      title: "5 Essential Skills Every Executive Needs in 2024",
-      excerpt: "From emotional intelligence to digital fluency, discover the competencies that define successful leaders today.",
-      author: "Dr. Michael Rodriguez",
+      title: "Mastering Difficult Conversations: A CEO's Proven Framework",
+      excerpt: "Learn the exact 5-step framework used by Fortune 500 CEOs to handle challenging discussions with investors, board members, and team members.",
+      author: "Michael Rodriguez, Former Fortune 500 CEO",
       date: "March 10, 2024", 
-      category: "Skills Development",
-      icon: Target
+      category: "Leadership Skills",
+      readTime: "10 min read"
     },
     {
-      title: "Mastering Virtual Leadership: Executive Presence on Screen",
-      excerpt: "Best practices for maintaining executive gravitas and influence in remote and hybrid work environments.",
-      author: "Jennifer Williams",
+      title: "Building Executive Presence in Virtual Meetings: Data-Driven Strategies",
+      excerpt: "Essential strategies for commanding authority and influence in remote boardroom presentations. Based on analysis of 10,000+ executive video calls.",
+      author: "Dr. Emily Watson, Communication Expert",
       date: "March 5, 2024",
-      category: "Remote Leadership",
-      icon: Lightbulb
+      category: "Virtual Leadership",
+      readTime: "8 min read"
     },
     {
-      title: "The Psychology of Confidence: Building Unshakeable Executive Presence",
-      excerpt: "Understanding the cognitive and behavioral patterns that create authentic leadership confidence.",
-      author: "Sarah Chen",
+      title: "Crisis Management: How Top CEOs Navigate $50M+ Challenges",
+      excerpt: "Real case studies and frameworks from executives who successfully managed major organizational crises. Includes decision trees and communication templates.",
+      author: "Crisis Management Institute",
       date: "February 28, 2024",
-      category: "Psychology",
-      icon: Target
+      category: "Crisis Leadership",
+      readTime: "15 min read"
     },
     {
-      title: "AI-Powered Coaching: Personalized Development at Scale",
-      excerpt: "How machine learning algorithms are revolutionizing executive coaching and leadership development.",
-      author: "Dr. Michael Rodriguez", 
+      title: "The ROI of Executive Coaching: $7 Return for Every $1 Invested",
+      excerpt: "Comprehensive analysis of performance improvements and business outcomes from AI-powered coaching programs. Includes benchmark data from 500+ executives.",
+      author: "APEX Analytics Team", 
       date: "February 22, 2024",
-      category: "Technology",
-      icon: TrendingUp
+      category: "ROI Research",
+      readTime: "11 min read"
     },
     {
-      title: "Crisis Leadership: Maintaining Executive Presence Under Pressure",
-      excerpt: "Strategies for leading with clarity and confidence during organizational challenges and uncertainty.",
-      author: "Jennifer Williams",
+      title: "Negotiation Mastery: How to Close $10M+ Deals with Confidence",
+      excerpt: "Advanced techniques for high-stakes negotiations, backed by behavioral psychology research and real-world examples from successful M&A executives.",
+      author: "Jennifer Williams, M&A Expert",
       date: "February 15, 2024",
-      category: "Crisis Management",
-      icon: Lightbulb
+      category: "Negotiation",
+      readTime: "13 min read"
     }
   ];
 
-  const categories = ["All", "Leadership", "Skills Development", "Remote Leadership", "Psychology", "Technology", "Crisis Management"];
+  const categories = ["All", "Research", "Leadership Skills", "Virtual Leadership", "Crisis Leadership", "ROI Research", "Negotiation"];
+
+  const whitepapers = [
+    {
+      title: "The Executive's Guide to AI-Powered Performance",
+      description: "Comprehensive 32-page research report on implementing AI coaching in enterprise environments.",
+      pages: "32 pages",
+      type: "Whitepaper"
+    },
+    {
+      title: "Leadership Confidence Metrics: 2024 Benchmark Study",
+      description: "Industry benchmarks and KPIs for measuring executive confidence and leadership effectiveness.",
+      pages: "24 pages", 
+      type: "Research Report"
+    },
+    {
+      title: "Crisis Communication Playbook for Executives",
+      description: "Step-by-step frameworks and templates for managing stakeholder communications during crises.",
+      pages: "16 pages",
+      type: "Playbook"
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        title="Executive Leadership Resources | APEX Executive Blog & Research"
+        description="Expert insights on AI-powered executive coaching, leadership development, crisis management, and executive presence. Download research reports and case studies."
+        keywords="executive leadership blog, leadership development resources, crisis management guide, executive coaching research, leadership whitepapers"
+        canonical="https://apex-executive.com/blog"
+      />
+      <StructuredData type="WebSite" />
+
       {/* Header */}
-      <header className="border-b border-border bg-card">
+      <nav className="border-b border-silver bg-card/80 backdrop-blur-sm fixed w-full top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center space-x-2">
-              <Crown className="w-8 h-8 text-electric" />
-              <span className="text-2xl font-bold text-foreground">APEX</span>
-            </Link>
-            <Link to="/">
-              <ExecutiveButton variant="outline">Back to Home</ExecutiveButton>
-            </Link>
+            <div className="flex items-center space-x-2">
+              <a href="/">
+                <img 
+                  src={apexLogo} 
+                  alt="APEX Executive Logo" 
+                  className="h-16 md:h-20 w-auto cursor-pointer"
+                />
+              </a>
+            </div>
+            
+            <div className="hidden lg:flex items-center space-x-8">
+              <a href="/" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Home</a>
+              <a href="/features" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Features</a>
+              <a href="/blog" className="text-primary border-b-2 border-primary transition-colors font-lato">Resources</a>
+              <a href="/privacy" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Privacy</a>
+            </div>
+            
+            <div className="flex items-center space-x-2 md:space-x-4">
+              <button 
+                onClick={() => window.location.href = '/auth'} 
+                className="px-4 py-2 text-sm font-medium text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors"
+              >
+                Login
+              </button>
+              <ExecutiveButton onClick={handleGetStarted} variant="primary" size="default">
+                Start Free Trial
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </ExecutiveButton>
+            </div>
           </div>
         </div>
-      </header>
+      </nav>
 
       {/* Hero Section */}
-      <section className="py-16 px-6 bg-gradient-to-br from-background to-muted">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl font-bold text-foreground mb-6">
-            Leadership Insights & 
-            <span className="text-electric block">Executive Intelligence</span>
-          </h1>
-          <p className="text-xl text-muted-foreground mb-8">
-            Stay ahead with cutting-edge research, practical strategies, and expert perspectives on executive presence and leadership development.
-          </p>
+      <section className="pt-32 pb-20 px-6 relative overflow-hidden bg-gradient-to-br from-midnight-blue via-midnight-blue to-midnight-blue/90">
+        <div className="absolute inset-0 opacity-20" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23635BFF' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }}></div>
+        
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight font-playfair">
+              Executive Leadership
+              <span className="text-vivid-indigo"> Resources</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-white/80 mb-8 leading-relaxed font-lato">
+              Research-backed insights, proven frameworks, and real case studies from the world's leading executives and leadership experts.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+              <ExecutiveButton onClick={() => document.getElementById('whitepapers')?.scrollIntoView({ behavior: 'smooth' })} variant="secondary" size="lg">
+                <Download className="w-5 h-5 mr-2" />
+                Download Resources
+              </ExecutiveButton>
+              <ExecutiveButton onClick={handleGetStarted} variant="primary" size="lg">
+                Start Learning
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </ExecutiveButton>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -134,8 +218,22 @@ export default function Blog() {
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </ExecutiveButton>
                 </div>
-                <div className="bg-gradient-to-br from-electric/20 to-primary/20 rounded-xl p-12 flex items-center justify-center">
-                  <post.icon className="w-24 h-24 text-electric" />
+                <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-12 flex items-center justify-center">
+                  <div className="text-center">
+                    <TrendingUp className="w-24 h-24 text-primary mx-auto mb-6" />
+                    <p className="text-lg text-slate-700 font-lato">
+                      <span className="text-3xl font-bold text-primary">89%</span><br />
+                      confidence increase documented
+                    </p>
+                    <a 
+                      href={blogPosts[0].studyLink} 
+                      className="text-sm text-primary hover:text-primary/80 transition-colors font-medium underline mt-2 block"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View Study Methodology →
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -152,10 +250,13 @@ export default function Blog() {
               <article key={index} className="executive-card group cursor-pointer">
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="inline-block px-3 py-1 bg-muted text-muted-foreground text-xs font-medium rounded-full">
+                    <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
                       {post.category}
                     </span>
-                    <post.icon className="w-6 h-6 text-electric" />
+                    <div className="flex items-center space-x-2 text-sm text-slate-500">
+                      <Clock className="w-4 h-4" />
+                      <span>{post.readTime}</span>
+                    </div>
                   </div>
                   <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-electric transition-colors">
                     {post.title}

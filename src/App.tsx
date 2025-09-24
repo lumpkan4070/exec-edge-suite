@@ -11,6 +11,7 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
+import Features from "./pages/Features";
 import Blog from "./pages/Blog";
 import Careers from "./pages/Careers";
 import HelpCenter from "./pages/HelpCenter";
@@ -40,6 +41,7 @@ const App = () => {
               <Route path="/auth" element={<Auth />} />
               <Route path="/onboarding" element={<EnhancedOnboarding onComplete={() => window.location.href = '/dashboard'} />} />
               <Route path="/about" element={<About />} />
+              <Route path="/features" element={<Features />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/careers" element={<Careers />} />
               <Route path="/help" element={<HelpCenter />} />
