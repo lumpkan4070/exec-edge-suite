@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { MessageSquare, Target, BarChart3, Settings, Zap, TrendingUp, Users, Brain, Trophy, Clock, Crown } from "lucide-react";
+import { MessageSquare, Target, BarChart3, Settings, Zap, TrendingUp, Users, Brain, Trophy, Clock, Crown, Lock } from "lucide-react";
 import StrategyCopilot from "@/components/ai-copilot/strategy-copilot";
 import SubscriptionScreen from "@/components/subscription/subscription-screen";
+import SubscriptionStatus from "@/components/subscription/subscription-status";
 import PerformanceHabits from "@/components/dashboard/performance-habits";
 import ScenarioLibrary from "@/components/dashboard/scenario-library";
 import { AchievementSystem } from "./achievement-system";
@@ -11,6 +12,7 @@ import { AchievementNotification } from './achievement-notification';
 import { SmartReminders } from './smart-reminders';
 import { PersonalChallenges } from './personal-challenges';
 import { TrialStatus } from './trial-status';
+import { useUser } from '@/contexts/user-context';
 import { cn } from "@/lib/utils";
 import apexLogo from "@/assets/apex-logo-final-new.png";
 
@@ -22,6 +24,7 @@ interface ExecutiveDashboardProps {
 }
 
 export default function ExecutiveDashboard({ userRole, userObjective, tier, onUpgrade }: ExecutiveDashboardProps) {
+  const { hasActiveAccess } = useUser();
   const [showStrategyCopilot, setShowStrategyCopilot] = useState(false);
   const [showPerformanceHabits, setShowPerformanceHabits] = useState(false);
   const [showScenarioLibrary, setShowScenarioLibrary] = useState(false);
@@ -216,29 +219,41 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <ExecutiveButton
             variant="outline"
-            onClick={() => setShowStrategyCopilot(true)}
-            className="h-20 flex-col space-y-2"
+            onClick={() => hasActiveAccess() ? setShowStrategyCopilot(true) : setShowSubscription(true)}
+            className="h-20 flex-col space-y-2 relative"
+            disabled={!hasActiveAccess()}
           >
             <MessageSquare className="w-6 h-6" />
             <span>AI Strategy Co-pilot</span>
+            {!hasActiveAccess() && (
+              <Crown className="w-4 h-4 absolute top-2 right-2 text-amber-500" />
+            )}
           </ExecutiveButton>
           
           <ExecutiveButton
             variant="outline"
-            onClick={() => setShowScenarioLibrary(true)}
-            className="h-20 flex-col space-y-2"
+            onClick={() => hasActiveAccess() ? setShowScenarioLibrary(true) : setShowSubscription(true)}
+            className="h-20 flex-col space-y-2 relative"
+            disabled={!hasActiveAccess()}
           >
             <Target className="w-6 h-6" />
             <span>Scenario Library</span>
+            {!hasActiveAccess() && (
+              <Crown className="w-4 h-4 absolute top-2 right-2 text-amber-500" />
+            )}
           </ExecutiveButton>
           
           <ExecutiveButton
             variant="outline"
-            onClick={() => setShowPerformanceHabits(true)}
-            className="h-20 flex-col space-y-2"
+            onClick={() => hasActiveAccess() ? setShowPerformanceHabits(true) : setShowSubscription(true)}
+            className="h-20 flex-col space-y-2 relative"
+            disabled={!hasActiveAccess()}
           >
             <Trophy className="w-6 h-6" />
             <span>Performance Habits</span>
+            {!hasActiveAccess() && (
+              <Crown className="w-4 h-4 absolute top-2 right-2 text-amber-500" />
+            )}
           </ExecutiveButton>
         </div>
 
@@ -287,11 +302,37 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
           </div>
         </div>
 
+        {/* Subscription Status */}
+        <SubscriptionStatus />
+
         {/* Trial Status */}
         <TrialStatus 
           onUpgrade={() => setShowSubscription(true)}
           onCancel={() => console.log('Trial canceled')}
         />
+
+        {/* Access Control for Premium Features */}
+        {!hasActiveAccess() && (
+          <div className="executive-card p-6 shadow-lg bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
+                <Lock className="w-6 h-6 text-amber-600" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-amber-900 mb-2">Premium Features Locked</h3>
+                <p className="text-amber-800">
+                  Get full access to all training modules, advanced scenarios, and AI coaching features.
+                </p>
+              </div>
+              <ExecutiveButton
+                variant="primary"
+                onClick={() => setShowSubscription(true)}
+              >
+                Get Access
+              </ExecutiveButton>
+            </div>
+          </div>
+        )}
 
         {/* Enhanced Engagement Features */}
         <div className="space-y-6">

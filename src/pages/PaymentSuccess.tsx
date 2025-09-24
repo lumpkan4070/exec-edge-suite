@@ -3,13 +3,25 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { CheckCircle, Calendar, Crown, ArrowRight } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { Card } from "@/components/ui/card";
+import { useUser } from "@/contexts/user-context";
 import apexLogo from "@/assets/apex-logo-final-new.png";
 
 export default function PaymentSuccess() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(5);
+  const { checkSubscription, user } = useUser();
   const sessionId = searchParams.get("session_id");
+
+  // Check subscription status when component mounts
+  useEffect(() => {
+    if (user && sessionId) {
+      // Small delay to ensure Stripe has processed the payment
+      setTimeout(() => {
+        checkSubscription();
+      }, 2000);
+    }
+  }, [user, sessionId, checkSubscription]);
 
   useEffect(() => {
     const timer = setInterval(() => {
