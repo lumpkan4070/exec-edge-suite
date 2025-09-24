@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, CheckCircle, Target, Brain, BarChart3, Zap, Crown, Users, Shield, Star, Clock, Globe, Award, MessageSquare, TrendingUp, BookOpen } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { SEOHead } from "@/components/seo/SEOHead";
@@ -10,18 +11,14 @@ import realisticAnalytics from "@/assets/realistic-analytics.jpg";
 import apexLogo from "@/assets/apex-logo-final-new.png";
 
 export default function Features() {
+  const navigate = useNavigate();
+  
   const handleGetStarted = () => {
-    window.location.href = '/';
-    setTimeout(() => {
-      const pricingSection = document.getElementById('pricing');
-      if (pricingSection) {
-        pricingSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100);
+    navigate('/', { state: { scrollTo: 'pricing' } });
   };
 
   const handleDemo = () => {
-    window.location.href = '/?demo=true';
+    navigate('/', { state: { demo: true } });
   };
 
   return (
@@ -39,29 +36,29 @@ export default function Features() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <a href="/">
+              <Link to="/">
                 <img 
                   src={apexLogo} 
                   alt="APEX Executive Logo" 
                   className="h-16 md:h-20 w-auto cursor-pointer"
                 />
-              </a>
+              </Link>
             </div>
             
             <div className="hidden lg:flex items-center space-x-8">
-              <a href="/" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Home</a>
-              <a href="/features" className="text-primary border-b-2 border-primary transition-colors font-lato">Features</a>
-              <a href="/blog" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Resources</a>
-              <a href="/privacy" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Privacy</a>
+              <Link to="/" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Home</Link>
+              <Link to="/features" className="text-primary border-b-2 border-primary transition-colors font-lato">Features</Link>
+              <Link to="/blog" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Resources</Link>
+              <Link to="/privacy" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Privacy</Link>
             </div>
             
             <div className="flex items-center space-x-2 md:space-x-4">
-              <button 
-                onClick={() => window.location.href = '/auth'} 
+              <Link 
+                to="/auth"
                 className="px-4 py-2 text-sm font-medium text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors"
               >
                 Login
-              </button>
+              </Link>
               <ExecutiveButton onClick={handleGetStarted} variant="primary" size="default">
                 Start Free Trial
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -379,6 +376,57 @@ export default function Features() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-midnight-blue border-t border-slate-800 py-16 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="md:col-span-2">
+              <img 
+                src={apexLogo} 
+                alt="APEX Executive Logo" 
+                className="h-12 w-auto mb-4"
+              />
+              <p className="text-slate-400 mb-6 max-w-md font-lato">
+                AI-powered executive coaching that transforms leaders in just 15 minutes a day.
+              </p>
+              <div className="flex space-x-4">
+                <div className="flex items-center text-green-400 text-sm">
+                  <CheckCircle className="w-4 h-4 mr-2" />
+                  3-Day Free Trial
+                </div>
+                <div className="flex items-center text-green-400 text-sm">
+                  <Shield className="w-4 h-4 mr-2" />
+                  Cancel Anytime
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="text-white font-bold mb-4 font-playfair">Product</h4>
+              <ul className="space-y-2">
+                <li><Link to="/features" className="text-slate-400 hover:text-white transition-colors font-lato">Features</Link></li>
+                <li><Link to="/blog" className="text-slate-400 hover:text-white transition-colors font-lato">Resources</Link></li>
+                <li><Link to="/privacy" className="text-slate-400 hover:text-white transition-colors font-lato">Privacy</Link></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="text-white font-bold mb-4 font-playfair">Support</h4>
+              <ul className="space-y-2">
+                <li><Link to="/help" className="text-slate-400 hover:text-white transition-colors font-lato">Help Center</Link></li>
+                <li><Link to="/contact" className="text-slate-400 hover:text-white transition-colors font-lato">Contact</Link></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-slate-800 mt-12 pt-8 text-center">
+            <p className="text-slate-400 font-lato">
+              © 2024 APEX Executive. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
