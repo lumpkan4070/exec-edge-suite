@@ -8,7 +8,7 @@ import aiCoaching from "@/assets/ai-coaching.jpg";
 import executivePresentation from "@/assets/executive-presentation.jpg";
 import realisticAnalytics from "@/assets/realistic-analytics.jpg";
 import apexLogo from "@/assets/apex-logo-final-new.png";
-import AuthModal from "@/components/auth/auth-modal";
+
 import SubscriptionPlans from "@/components/payment/subscription-plans";
 
 interface LandingProps {
@@ -19,7 +19,7 @@ interface LandingProps {
 export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
   const { userData, user } = useUser();
   const [showDemo, setShowDemo] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  
 
   const handleGetStarted = () => {
     // Scroll to the pricing section instead of taking to dashboard

@@ -58,7 +58,7 @@ export default function Privacy() {
             Your privacy is our priority. Learn how we collect, use, and protect your data while delivering world-class AI-powered training.
           </p>
           <p className="text-sm text-muted-foreground">
-            Last updated: March 19, 2024
+            Last updated: January 24, 2025
           </p>
         </div>
       </section>
@@ -91,16 +91,20 @@ export default function Privacy() {
               </div>
               <div className="space-y-6 text-muted-foreground">
                 <div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">Personal Information</h3>
-                  <p>When you create an account, we collect your name, email address, company information, and billing details. This information is necessary to provide our services and process payments.</p>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">Account Information</h3>
+                  <p>When you create an account, we collect your email address, display name, professional role (executive, entrepreneur, sales leader), and business objectives. This information personalizes your coaching experience.</p>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">Training Data</h3>
-                  <p>During training sessions, we collect voice recordings, performance metrics, interaction patterns, and feedback responses. This data is used exclusively to personalize your training experience and track your progress.</p>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">Performance Data</h3>
+                  <p>We track your habit completions, progress streaks, achievement unlocks, and goal setting. This data helps measure your executive development and provides personalized AI recommendations.</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">AI Interaction Data</h3>
+                  <p>When you use our AI Strategy Co-pilot, we store your questions and our responses to improve personalization and provide relevant coaching insights based on your role and objectives.</p>
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-foreground mb-2">Usage Analytics</h3>
-                  <p>We collect information about how you use our platform, including features accessed, time spent in training modules, and technical performance data to improve our services.</p>
+                  <p>We collect information about feature usage, time spent in training modules, and app performance to improve our platform and user experience.</p>
                 </div>
               </div>
             </div>
@@ -113,11 +117,12 @@ export default function Privacy() {
               </div>
               <div className="space-y-4 text-muted-foreground">
                 <ul className="space-y-3 list-disc list-inside">
-                  <li>Deliver personalized AI-powered coaching and training experiences</li>
-                  <li>Track your progress and provide performance analytics</li>
-                  <li>Process payments and manage your subscription</li>
-                  <li>Communicate with you about updates, features, and support</li>
-                  <li>Improve our platform through aggregated, anonymized data analysis</li>
+                  <li>Provide personalized executive coaching and habit recommendations based on your role</li>
+                  <li>Track your performance progress, streaks, and achievement milestones</li>
+                  <li>Deliver AI-powered strategic insights tailored to your business objectives</li>
+                  <li>Process subscription payments and manage your account</li>
+                  <li>Send progress updates, coaching tips, and platform notifications</li>
+                  <li>Improve our coaching algorithms through aggregated, anonymized usage data</li>
                   <li>Ensure platform security and prevent unauthorized access</li>
                 </ul>
               </div>
@@ -180,7 +185,7 @@ export default function Privacy() {
                   <li><strong className="text-foreground">Opt-out:</strong> Unsubscribe from marketing communications</li>
                   <li><strong className="text-foreground">Restrict Processing:</strong> Limit how we use your data</li>
                 </ul>
-                <p className="mt-4">To exercise these rights, contact us at <span className="text-electric">privacy@apex-training.com</span></p>
+                <p className="mt-4">To exercise these rights, contact us at <span className="text-electric">privacy@apexexecutive.app</span></p>
               </div>
             </div>
 
@@ -190,10 +195,11 @@ export default function Privacy() {
               <div className="space-y-4 text-muted-foreground">
                 <p>We retain your data for as long as necessary to provide our services and fulfill legal obligations:</p>
                 <ul className="space-y-2 list-disc list-inside">
-                  <li>Account data: While your account is active and for 12 months after cancellation</li>
-                  <li>Training recordings: 24 months after creation or until you request deletion</li>
+                  <li>Account and profile data: While your account is active and for 30 days after deletion request</li>
+                  <li>Habit tracking and progress data: While your account is active and for 12 months after cancellation</li>
+                  <li>AI interaction history: 12 months after creation or until you request deletion</li>
                   <li>Billing information: 7 years for tax and legal compliance</li>
-                  <li>Support communications: 3 years after resolution</li>
+                  <li>Support communications: 2 years after resolution</li>
                 </ul>
               </div>
             </div>
@@ -204,9 +210,9 @@ export default function Privacy() {
               <div className="text-muted-foreground space-y-2">
                 <p>If you have questions about this Privacy Policy or our data practices, please contact us:</p>
                 <div className="space-y-1">
-                  <p><strong className="text-foreground">Email:</strong> privacy@apex-training.com</p>
-                  <p><strong className="text-foreground">Mail:</strong> APEX Privacy Team, 123 Market Street, Suite 500, San Francisco, CA 94105</p>
-                  <p><strong className="text-foreground">Phone:</strong> +1 (555) 123-4567</p>
+                  <p><strong className="text-foreground">Email:</strong> privacy@apexexecutive.app</p>
+                  <p><strong className="text-foreground">Mail:</strong> APEX Privacy Team, 548 Market Street, PMB 29148, San Francisco, CA 94104</p>
+                  <p><strong className="text-foreground">Support:</strong> Via our Help Center at /help</p>
                 </div>
               </div>
             </div>
