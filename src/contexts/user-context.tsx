@@ -101,8 +101,32 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   };
 
   const loadUserData = async (userId: string) => {
-    // TODO: Load user data from Supabase when profiles table is created
-    setUserDataState(prev => ({ ...prev, isGuest: false, userId }));
+    try {
+      // Load user profile from database
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      if (error) {
+        console.error('Error loading user profile:', error);
+        // User might not have completed onboarding yet
+        setUserDataState(prev => ({ ...prev, isGuest: false, userId }));
+        return;
+      }
+
+      setUserDataState(prev => ({ 
+        ...prev, 
+        isGuest: false, 
+        userId,
+        role: profile.role,
+        tier: profile.tier || 'trial'
+      }));
+    } catch (error) {
+      console.error('Error in loadUserData:', error);
+      setUserDataState(prev => ({ ...prev, isGuest: false, userId }));
+    }
   };
 
   const setUserData = (data: Partial<UserData>) => {
@@ -190,11 +214,32 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const migrateGuestData = async () => {
     if (!userData.isGuest || !user) return;
     
-    // TODO: Migrate guest data to authenticated user profile
     const guestData = localStorage.getItem('apex_guest_data');
     if (guestData) {
-      // This will be implemented when we create the profiles table
-      localStorage.removeItem('apex_guest_data');
+      try {
+        const parsed = JSON.parse(guestData);
+        // Migrate guest data to user profile if they haven't completed onboarding
+        const { data: existingProfile } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('user_id', user.id)
+          .single();
+
+        if (!existingProfile && parsed.role) {
+          // Complete onboarding with guest data
+          await supabase.functions.invoke('user-onboarding', {
+            body: {
+              role: parsed.role,
+              goals: parsed.objective ? [parsed.objective] : [],
+              display_name: user.email?.split('@')[0]
+            }
+          });
+        }
+        
+        localStorage.removeItem('apex_guest_data');
+      } catch (error) {
+        console.error('Error migrating guest data:', error);
+      }
     }
   };
 

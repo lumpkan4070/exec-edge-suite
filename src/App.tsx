@@ -19,6 +19,8 @@ import Audit from "./pages/Audit";
 import DemoAdmin from "./pages/DemoAdmin";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancel from "./pages/PaymentCancel";
+import Auth from "./pages/Auth";
+import EnhancedOnboarding from "./components/onboarding/enhanced-onboarding";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +35,8 @@ const App = () => {
           <PageTransition>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/onboarding" element={<EnhancedOnboarding onComplete={() => window.location.href = '/dashboard'} />} />
               <Route path="/about" element={<About />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/careers" element={<Careers />} />
