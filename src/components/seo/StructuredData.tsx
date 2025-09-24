@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 
 interface StructuredDataProps {
-  type?: "WebSite" | "SoftwareApplication" | "Article" | "Organization";
+  type?: "WebSite" | "SoftwareApplication" | "Article" | "Organization" | "Product" | "Offer" | "Review";
   data?: Record<string, any>;
 }
 
@@ -72,6 +72,67 @@ export function StructuredData({ type = "SoftwareApplication", data }: Structure
         "telephone": "+1-555-123-4567",
         "contactType": "customer service",
         "email": "hello@apex-executive.com"
+      }
+    },
+    Product: {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "APEX Executive - AI Coach",
+      "description": "AI-powered executive coaching platform for leaders, entrepreneurs, and sales professionals",
+      "brand": {
+        "@type": "Brand",
+        "name": "APEX Executive"
+      },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Personal Plan",
+          "price": "29.00",
+          "priceCurrency": "USD",
+          "priceValidUntil": "2025-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://apex-executive.com/#pricing"
+        },
+        {
+          "@type": "Offer",
+          "name": "Professional Plan", 
+          "price": "99.00",
+          "priceCurrency": "USD",
+          "priceValidUntil": "2025-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://apex-executive.com/#pricing"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "127",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    },
+    Article: {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "publisher": {
+        "@type": "Organization",
+        "name": "APEX Executive",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://apex-executive.com/assets/aso/logo.png"
+        }
+      },
+      "author": {
+        "@type": "Organization", 
+        "name": "APEX Executive"
+      }
+    },
+    Review: {
+      "@context": "https://schema.org",
+      "@type": "Review",
+      "itemReviewed": {
+        "@type": "SoftwareApplication",
+        "name": "APEX Executive - AI Coach"
       }
     }
   };

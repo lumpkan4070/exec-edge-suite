@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { ArrowRight, CheckCircle, Target, Brain, Zap, Crown, Users, BarChart3, Star, Shield, Briefcase, Heart, Clock, Globe, Award } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { useUser } from "@/contexts/user-context";
+import { SEOHead } from "@/components/seo/SEOHead";
+import { StructuredData } from "@/components/seo/StructuredData";
+import { TestimonialStructuredData } from "@/components/seo/TestimonialStructuredData";
 
 import executiveBoardroom from "@/assets/executive-boardroom.jpg";
 import aiCoaching from "@/assets/ai-coaching.jpg";
@@ -20,6 +23,29 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
   const { userData, user } = useUser();
   const [showDemo, setShowDemo] = useState(false);
   
+  const testimonials = [
+    {
+      name: "Michael Chen",
+      role: "CEO", 
+      company: "TechScale Ventures",
+      content: "APEX Executive has transformed how I approach leadership decisions. The AI coaching provides insights I never would have considered, and the confidence-building exercises have made me a more effective communicator in high-stakes situations.",
+      rating: 5
+    },
+    {
+      name: "Sarah Williams",
+      role: "VP of Operations",
+      company: "Global Dynamics", 
+      content: "The scenario library is incredibly comprehensive. Practicing investor pitches and board presentations with AI feedback has significantly improved my executive presence. I now feel confident in any leadership situation.",
+      rating: 5
+    },
+    {
+      name: "David Rodriguez",
+      role: "Managing Director",
+      company: "Summit Capital",
+      content: "What sets APEX apart is the real-time coaching during actual meetings. The voice analysis and feedback have helped me become a more persuasive negotiator and decision-maker. ROI has been phenomenal.",
+      rating: 5
+    }
+  ];
 
   const handleGetStarted = () => {
     // Scroll to the pricing section instead of taking to dashboard
@@ -31,8 +57,17 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        title="APEX Executive - AI Coach for Leaders | Executive Coaching Platform"
+        description="AI-powered executive coaching platform for leaders, entrepreneurs, and sales professionals. Boost executive presence, master negotiations, and track performance growth with personalized AI coaching."
+        keywords="executive coaching, AI coaching, leadership training, performance coaching, executive presence, negotiation training, leadership development, AI coach"
+        canonical="https://apex-executive.com"
+      />
+      <StructuredData type="SoftwareApplication" />
+      <StructuredData type="Product" />
+      <TestimonialStructuredData testimonials={testimonials} />
       {/* Navigation */}
-      <nav className="border-b border-silver bg-card/80 backdrop-blur-sm fixed w-full top-0 z-50">
+      <nav className="border-b border-silver bg-card/80 backdrop-blur-sm fixed w-full top-0 z-50" role="navigation" aria-label="Main navigation">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
@@ -45,10 +80,10 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">
-              <a href="/features" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Features</a>
-              <a href="/blog" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Resources</a>
-              <a href="#get-started" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Get Started</a>
-              <a href="/privacy" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Privacy</a>
+              <a href="/features" className="text-slate-gray hover:text-charcoal transition-colors font-lato focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded">Features</a>
+              <a href="/blog" className="text-slate-gray hover:text-charcoal transition-colors font-lato focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded">Resources</a>
+              <a href="#get-started" className="text-slate-gray hover:text-charcoal transition-colors font-lato focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded">Get Started</a>
+              <a href="/privacy" className="text-slate-gray hover:text-charcoal transition-colors font-lato focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded">Privacy</a>
             </div>
             
             {/* Auth Buttons - Always Visible */}
@@ -56,25 +91,28 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               {user ? (
                 <button 
                   onClick={() => window.location.href = '/dashboard'} 
-                  className="px-4 py-2 text-sm font-medium text-slate-900 bg-white border-2 border-white rounded-md hover:bg-slate-100 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-slate-900 bg-white border-2 border-white rounded-md hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  aria-label="Go to dashboard"
                 >
                   Dashboard
                 </button>
               ) : (
                 <button 
                   onClick={() => window.location.href = '/auth'} 
-                  className="px-4 py-2 text-sm font-medium text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  aria-label="Sign in to your account"
                 >
                   Login
                 </button>
               )}
               <button 
                 onClick={handleGetStarted} 
-                className="px-4 py-2 text-sm font-medium text-white bg-vivid-indigo border-2 border-vivid-indigo rounded-md hover:bg-transparent hover:text-vivid-indigo transition-colors flex items-center"
+                className="px-4 py-2 text-sm font-medium text-white bg-vivid-indigo border-2 border-vivid-indigo rounded-md hover:bg-transparent hover:text-vivid-indigo transition-colors flex items-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                aria-label="Get started with APEX Executive"
               >
                 <span className="hidden sm:inline">Get Started</span>
                 <span className="sm:hidden">Start</span>
-                <ArrowRight className="w-4 h-4 ml-1 sm:ml-2" />
+                <ArrowRight className="w-4 h-4 ml-1 sm:ml-2" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -82,7 +120,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 relative overflow-hidden bg-gradient-to-br from-midnight-blue via-midnight-blue to-midnight-blue/90">
+      <header className="pt-32 pb-20 px-6 relative overflow-hidden bg-gradient-to-br from-midnight-blue via-midnight-blue to-midnight-blue/90">
         <div className="absolute inset-0 opacity-20" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23635BFF' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
         }}></div>
@@ -137,7 +175,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             </div>
           </div>
         </div>
-      </section>
+      </header>
 
       {/* Features Section */}
       <section id="features" className="py-24 px-6 bg-gradient-to-br from-slate-50 via-white to-slate-50 relative overflow-hidden">

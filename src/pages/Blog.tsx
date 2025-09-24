@@ -3,6 +3,7 @@ import { ArrowRight, Clock, User, Calendar, BookOpen, Download, ExternalLink, Tr
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { SEOHead } from "@/components/seo/SEOHead";
 import { StructuredData } from "@/components/seo/StructuredData";
+import { BlogStructuredData } from "@/components/seo/BlogStructuredData";
 import { Link, useNavigate } from "react-router-dom";
 
 import apexLogo from "@/assets/apex-logo-final-new.png";
@@ -103,7 +104,16 @@ export default function Blog() {
         keywords="executive leadership blog, leadership development resources, crisis management guide, executive coaching research, leadership whitepapers"
         canonical="https://apex-executive.com/blog"
       />
-      <StructuredData type="WebSite" />
+      <StructuredData type="Organization" />
+      {filteredPosts.slice(0, 3).map((post, index) => (
+        <BlogStructuredData
+          key={index}
+          title={post.title}
+          excerpt={post.excerpt}
+          category={post.category}
+          url={`https://apex-executive.com/blog/${post.title.toLowerCase().replace(/\s+/g, '-')}`}
+        />
+      ))}
 
       {/* Header */}
       <nav className="border-b border-silver bg-card/80 backdrop-blur-sm fixed w-full top-0 z-50">
@@ -175,21 +185,26 @@ export default function Blog() {
       {/* Categories */}
       <section className="py-8 px-6 border-b border-border bg-card">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-wrap gap-4 justify-center">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  category === selectedCategory 
-                    ? "bg-electric text-electric-foreground" 
-                    : "bg-muted text-muted-foreground hover:bg-electric/20 hover:text-electric"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
+          <nav aria-label="Article categories" role="tablist">
+            <div className="flex flex-wrap gap-4 justify-center">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-electric focus:ring-offset-2 ${
+                    category === selectedCategory 
+                      ? "bg-electric text-electric-foreground" 
+                      : "bg-muted text-muted-foreground hover:bg-electric/20 hover:text-electric"
+                  }`}
+                  role="tab"
+                  aria-selected={category === selectedCategory}
+                  aria-controls="articles-section"
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </nav>
         </div>
       </section>
 
@@ -244,7 +259,7 @@ export default function Blog() {
       ))}
 
       {/* Blog Posts Grid */}
-      <section className="py-16 px-6">
+      <section id="articles-section" className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-foreground mb-12 text-center">
             {selectedCategory === "All" ? "Latest Articles" : `${selectedCategory} Articles`}
@@ -258,7 +273,7 @@ export default function Blog() {
                       {post.category}
                     </span>
                     <div className="flex items-center space-x-2 text-sm text-slate-500">
-                      <Clock className="w-4 h-4" />
+                      <Clock className="w-4 h-4" aria-hidden="true" />
                       <span>{post.readTime}</span>
                     </div>
                   </div>
@@ -269,15 +284,15 @@ export default function Blog() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center space-x-2">
-                        <User className="w-3 h-3 text-muted-foreground" />
+                        <User className="w-3 h-3 text-muted-foreground" aria-hidden="true" />
                         <span className="text-xs text-muted-foreground">{post.author}</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Calendar className="w-3 h-3 text-muted-foreground" />
+                        <Calendar className="w-3 h-3 text-muted-foreground" aria-hidden="true" />
                         <span className="text-xs text-muted-foreground">{post.date}</span>
                       </div>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-electric group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 text-electric group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </div>
                 </div>
               </article>
