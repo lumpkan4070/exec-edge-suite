@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
-import { MessageSquare, Target, BarChart3, Settings, Zap, TrendingUp, Users, Brain, Trophy, Clock, Crown, Lock, CheckCircle } from "lucide-react";
+import { MessageSquare, Target, BarChart3, Settings, Zap, TrendingUp, Users, Brain, Trophy, Clock, Crown, Lock, CheckCircle, LogOut } from "lucide-react";
 import StrategyCopilot from "@/components/ai-copilot/strategy-copilot";
 import SubscriptionScreen from "@/components/subscription/subscription-screen";
 import SubscriptionStatus from "@/components/subscription/subscription-status";
@@ -15,6 +15,9 @@ import { TrialStatus } from './trial-status';
 import { useUser } from '@/contexts/user-context';
 import { cn } from "@/lib/utils";
 import apexLogo from "@/assets/apex-logo-final-new.png";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 interface ExecutiveDashboardProps {
   userRole: string;
@@ -25,6 +28,7 @@ interface ExecutiveDashboardProps {
 
 export default function ExecutiveDashboard({ userRole, userObjective, tier, onUpgrade }: ExecutiveDashboardProps) {
   const { hasActiveAccess } = useUser();
+  const navigate = useNavigate();
   const [showStrategyCopilot, setShowStrategyCopilot] = useState(false);
   const [showPerformanceHabits, setShowPerformanceHabits] = useState(false);
   const [showScenarioLibrary, setShowScenarioLibrary] = useState(false);
@@ -120,6 +124,17 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
     setShowSubscription(false);
   };
 
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast.success("Logged out successfully");
+      navigate('/');
+    } catch (error) {
+      toast.error("Error logging out");
+      console.error('Logout error:', error);
+    }
+  };
+
   if (showStrategyCopilot) {
     return (
       <div className="animate-fade-in">
@@ -196,12 +211,22 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
               <p className="text-muted-foreground font-medium">Let's frame your day for executive success</p>
             </div>
           </div>
-          <button
-            onClick={() => setShowSubscription(true)}
-            className="p-3 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-105"
-          >
-            <Settings className="w-6 h-6 text-muted-foreground" />
-          </button>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={handleLogout}
+              className="p-3 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-105"
+              title="Logout"
+            >
+              <LogOut className="w-6 h-6 text-muted-foreground" />
+            </button>
+            <button
+              onClick={() => setShowSubscription(true)}
+              className="p-3 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-105"
+              title="Settings"
+            >
+              <Settings className="w-6 h-6 text-muted-foreground" />
+            </button>
+          </div>
         </div>
       </header>
 
