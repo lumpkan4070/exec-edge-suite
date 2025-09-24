@@ -39,27 +39,32 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               <img 
                 src={apexLogo} 
                 alt="APEX Executive Logo" 
-                className="h-20 w-auto"
+                className="h-16 md:h-20 w-auto"
               />
             </div>
-            <div className="hidden md:flex items-center space-x-8">
+            
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-8">
               <a href="#features" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Features</a>
               <a href="#get-started" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Get Started</a>
               <a href="#about" className="text-slate-gray hover:text-charcoal transition-colors font-lato">About</a>
             </div>
-            <div className="flex items-center space-x-4">
+            
+            {/* Auth Buttons - Always Visible */}
+            <div className="flex items-center space-x-2 md:space-x-4">
               {user ? (
-                <ExecutiveButton onClick={() => window.location.href = '/dashboard'} variant="secondary">
+                <ExecutiveButton onClick={() => window.location.href = '/dashboard'} variant="secondary" size="sm">
                   Dashboard
                 </ExecutiveButton>
               ) : (
-                <ExecutiveButton onClick={() => window.location.href = '/auth'} variant="secondary">
+                <ExecutiveButton onClick={() => window.location.href = '/auth'} variant="secondary" size="sm">
                   Login
                 </ExecutiveButton>
               )}
-              <ExecutiveButton onClick={handleGetStarted} variant="primary">
-                Get Started
-                <ArrowRight className="w-4 h-4 ml-2" />
+              <ExecutiveButton onClick={handleGetStarted} variant="primary" size="sm">
+                <span className="hidden sm:inline">Get Started</span>
+                <span className="sm:hidden">Start</span>
+                <ArrowRight className="w-4 h-4 ml-1 sm:ml-2" />
               </ExecutiveButton>
             </div>
           </div>
