@@ -71,8 +71,28 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             </h1>
             <p className="text-xl md:text-2xl text-white/80 mb-8 leading-relaxed font-lato">
               <span className="text-vivid-indigo font-semibold">89% of users report higher confidence in just 15 minutes a day.</span><br />
-              Master high-stakes scenarios through immersive roleplay and personalized AI coaching.
+              Practice investor pitches, crisis management, and difficult conversations with AI that adapts to your leadership style.
             </p>
+            
+            {/* Value Proposition Bullets */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mt-8 mb-12">
+              <div className="flex items-center space-x-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4">
+                <div className="w-3 h-3 bg-vivid-indigo rounded-full flex-shrink-0"></div>
+                <span className="text-white font-lato">Practice high-stakes boardroom presentations</span>
+              </div>
+              <div className="flex items-center space-x-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4">
+                <div className="w-3 h-3 bg-vivid-indigo rounded-full flex-shrink-0"></div>
+                <span className="text-white font-lato">Master crisis management and difficult conversations</span>
+              </div>
+              <div className="flex items-center space-x-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4">
+                <div className="w-3 h-3 bg-vivid-indigo rounded-full flex-shrink-0"></div>
+                <span className="text-white font-lato">Get AI-powered feedback on your leadership style</span>
+              </div>
+              <div className="flex items-center space-x-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4">
+                <div className="w-3 h-3 bg-vivid-indigo rounded-full flex-shrink-0"></div>
+                <span className="text-white font-lato">Build executive presence and confidence</span>
+              </div>
+            </div>
           </div>
 
           {/* Hero Stats */}
@@ -134,7 +154,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                   AI Strategy Co-pilot
                 </h3>
                 <p className="text-amber-100/90 text-lg leading-relaxed font-lato">
-                  Get instant AI-powered insights and decision frameworks to drive executive-level results.
+                  Your personal executive coach available 24/7. Get strategic advice, practice tough conversations, and receive personalized feedback on your leadership decisions.
                 </p>
               </div>
             </div>
@@ -159,7 +179,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                   Immersive Scenarios
                 </h3>
                 <p className="text-blue-100/90 text-lg leading-relaxed font-lato">
-                  Step into investor boardrooms and crisis rooms. Train risk-free, perform under pressure.
+                  Practice real scenarios: investor pitches, board meetings, team conflicts, and crisis situations. Build muscle memory for high-pressure moments.
                 </p>
               </div>
             </div>
@@ -184,9 +204,55 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                   Performance Analytics
                 </h3>
                 <p className="text-purple-100/90 text-lg leading-relaxed font-lato">
-                  Track your leadership growth with detailed insights and personalized improvement plans.
+                  See exactly how you're improving. Track confidence levels, communication effectiveness, and decision-making speed with detailed performance metrics.
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-24 px-6 bg-gradient-to-br from-white via-slate-50 to-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 font-playfair">
+              How <span className="text-primary">APEX</span> Works
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-lato">
+              Transform your leadership in just 15 minutes a day with AI-powered training designed for busy executives.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="text-3xl font-bold text-primary">1</div>
+              </div>
+              <h3 className="text-2xl font-bold mb-4 font-playfair">Choose Your Scenario</h3>
+              <p className="text-muted-foreground font-lato">
+                Select from investor pitches, board meetings, crisis management, or team conflicts. Each scenario is tailored to real executive challenges.
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="text-3xl font-bold text-primary">2</div>
+              </div>
+              <h3 className="text-2xl font-bold mb-4 font-playfair">Practice with AI</h3>
+              <p className="text-muted-foreground font-lato">
+                Engage in realistic conversations with AI that adapts to your responses. Practice until you feel confident and natural.
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="text-3xl font-bold text-primary">3</div>
+              </div>
+              <h3 className="text-2xl font-bold mb-4 font-playfair">Get Feedback & Improve</h3>
+              <p className="text-muted-foreground font-lato">
+                Receive detailed feedback on your communication style, decision-making, and leadership presence. Track your progress over time.
+              </p>
             </div>
           </div>
         </div>
@@ -199,7 +265,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             Ready to <span className="text-primary">Transform</span> Your Leadership?
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto font-lato">
-            Start your 3-day free trial and experience the full power of AI-driven executive training.
+            Join hundreds of executives who've improved their leadership confidence in just 15 minutes a day.
           </p>
           <ExecutiveButton onClick={handleGetStarted} variant="primary" size="lg">
             Start Free Trial
