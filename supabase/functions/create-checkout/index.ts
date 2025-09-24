@@ -32,31 +32,43 @@ serve(async (req) => {
       throw new Error("Invalid plan specified");
     }
 
+    let userEmail = null;
+    let userId = null;
+    
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) {
-      throw new Error("No authorization header provided");
+    if (authHeader) {
+      try {
+        const token = authHeader.replace("Bearer ", "");
+        const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
+        if (!userError && userData.user) {
+          userEmail = userData.user.email;
+          userId = userData.user.id;
+          logStep("User authenticated", { userId, email: userEmail });
+        }
+      } catch (error) {
+        logStep("Auth header present but invalid, proceeding without authentication");
+      }
+    } else {
+      logStep("No authentication header, proceeding as guest");
     }
-
-    const token = authHeader.replace("Bearer ", "");
-    const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
-    if (userError) throw new Error(`Authentication error: ${userError.message}`);
-    const user = userData.user;
-    if (!user?.email) throw new Error("User not authenticated or email not available");
-    logStep("User authenticated", { userId: user.id, email: user.email });
 
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     if (!stripeKey) throw new Error("STRIPE_SECRET_KEY is not set");
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
 
-    // Check if customer exists
-    const customers = await stripe.customers.list({ email: user.email, limit: 1 });
+    // Check if customer exists (only if we have email)
     let customerId;
-    if (customers.data.length > 0) {
-      customerId = customers.data[0].id;
-      logStep("Found existing customer", { customerId });
+    if (userEmail) {
+      const customers = await stripe.customers.list({ email: userEmail, limit: 1 });
+      if (customers.data.length > 0) {
+        customerId = customers.data[0].id;
+        logStep("Found existing customer", { customerId });
+      } else {
+        logStep("No existing customer found for authenticated user");
+      }
     } else {
-      logStep("No existing customer found");
+      logStep("No user email, customer will be created at checkout");
     }
 
     // Define price IDs based on the existing products
@@ -71,9 +83,7 @@ serve(async (req) => {
     const origin = req.headers.get("origin") || "http://localhost:3000";
 
     // Create checkout session with 3-day trial
-    const session = await stripe.checkout.sessions.create({
-      customer: customerId,
-      customer_email: customerId ? undefined : user.email,
+    const sessionData: any = {
       line_items: [
         {
           price: priceId,
@@ -84,8 +94,8 @@ serve(async (req) => {
       subscription_data: {
         trial_period_days: 3,
         metadata: {
-          user_id: user.id,
           plan: plan,
+          ...(userId && { user_id: userId }),
         },
       },
       success_url: `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
@@ -93,7 +103,17 @@ serve(async (req) => {
       allow_promotion_codes: true,
       billing_address_collection: "auto",
       payment_method_types: ["card"],
-    });
+    };
+
+    // Add customer info if available
+    if (customerId) {
+      sessionData.customer = customerId;
+    } else if (userEmail) {
+      sessionData.customer_email = userEmail;
+    }
+    // If no user email, Stripe will collect it during checkout
+
+    const session = await stripe.checkout.sessions.create(sessionData);
 
     logStep("Checkout session created", { sessionId: session.id, url: session.url });
 

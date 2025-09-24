@@ -48,15 +48,6 @@ export default function SubscriptionPlans() {
   ];
 
   const handleSelectPlan = async (planId: string) => {
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please sign in to start your free trial.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setLoading(planId);
     
     try {

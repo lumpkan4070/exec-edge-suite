@@ -22,18 +22,12 @@ export function AuthGate({ children }: AuthGateProps) {
   }
 
   const handleStartTrial = async () => {
-    // Check if user is authenticated first
-    if (!user) {
-      setShowAuthModal(true);
-      return;
-    }
-
     setIsProcessing(true);
     
     try {
-      // Use the Personal Plan trial price by default
+      // Use the Personal Plan trial by default
       const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { priceId: 'price_1S97NyBgt7hUXmS2a8tpOW6I' } // Personal Plan ($29/month)
+        body: { plan: 'personal' } // Personal Plan ($29.99/month)
       });
 
       if (error) {
