@@ -11,6 +11,7 @@ import { AchievementNotification } from './achievement-notification';
 import { SmartReminders } from './smart-reminders';
 import { PersonalChallenges } from './personal-challenges';
 import { TrialStatus } from './trial-status';
+import { cn } from "@/lib/utils";
 import apexLogo from "@/assets/apex-logo-v3.png";
 
 interface ExecutiveDashboardProps {
@@ -349,8 +350,4 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
       />
     </div>
   );
-}
-
-function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
 }

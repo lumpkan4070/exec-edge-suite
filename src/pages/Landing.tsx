@@ -22,16 +22,11 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const handleGetStarted = () => {
-    if (!user) {
-      setShowAuthModal(true);
-      return;
+    // Scroll to the pricing section instead of taking to dashboard
+    const pricingSection = document.getElementById('pricing');
+    if (pricingSection) {
+      pricingSection.scrollIntoView({ behavior: 'smooth' });
     }
-    onGetStarted();
-  };
-
-  const handleAuthSuccess = () => {
-    setShowAuthModal(false);
-    onGetStarted();
   };
 
   return (
@@ -278,7 +273,9 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
       </section>
 
       {/* Pricing Section */}
-      <SubscriptionPlans />
+      <div id="pricing">
+        <SubscriptionPlans />
+      </div>
 
       {/* CTA Section */}
       <section className="py-24 px-6 bg-gradient-to-br from-midnight-blue to-midnight-blue/90">
@@ -295,15 +292,6 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
           </ExecutiveButton>
         </div>
       </section>
-
-      {/* Auth Modal */}
-      {showAuthModal && (
-        <AuthModal
-          isOpen={showAuthModal}
-          onClose={() => setShowAuthModal(false)}
-          onSuccess={handleAuthSuccess}
-        />
-      )}
     </div>
   );
 }
