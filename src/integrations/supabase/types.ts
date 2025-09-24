@@ -374,6 +374,21 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_user_profile: {
+        Args: { target_user_id?: string }
+        Returns: {
+          created_at: string
+          display_name: string
+          email: string
+          goals: string[]
+          id: string
+          preferences: Json
+          role: string
+          tier: string
+          updated_at: string
+          user_id: string
+        }[]
+      }
       update_user_progress: {
         Args: { p_user_id: string }
         Returns: undefined
