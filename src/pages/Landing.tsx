@@ -53,19 +53,28 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             {/* Auth Buttons - Always Visible */}
             <div className="flex items-center space-x-2 md:space-x-4">
               {user ? (
-                <ExecutiveButton onClick={() => window.location.href = '/dashboard'} variant="secondary" size="sm">
+                <button 
+                  onClick={() => window.location.href = '/dashboard'} 
+                  className="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors"
+                >
                   Dashboard
-                </ExecutiveButton>
+                </button>
               ) : (
-                <ExecutiveButton onClick={() => window.location.href = '/auth'} variant="secondary" size="sm">
+                <button 
+                  onClick={() => window.location.href = '/auth'} 
+                  className="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors"
+                >
                   Login
-                </ExecutiveButton>
+                </button>
               )}
-              <ExecutiveButton onClick={handleGetStarted} variant="primary" size="sm">
+              <button 
+                onClick={handleGetStarted} 
+                className="px-4 py-2 text-sm font-medium text-white bg-vivid-indigo rounded-md hover:bg-vivid-indigo/90 transition-colors flex items-center"
+              >
                 <span className="hidden sm:inline">Get Started</span>
                 <span className="sm:hidden">Start</span>
                 <ArrowRight className="w-4 h-4 ml-1 sm:ml-2" />
-              </ExecutiveButton>
+              </button>
             </div>
           </div>
         </div>
