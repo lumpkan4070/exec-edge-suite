@@ -28,7 +28,7 @@ export default function AuthRouteGuard({
     const checkUserProfile = async () => {
       if (!user || !session) {
         if (requireAuth) {
-          navigate('/auth', { state: { from: location } });
+          navigate('/auth');
           return;
         }
         setCheckingProfile(false);

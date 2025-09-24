@@ -9,9 +9,10 @@ import apexLogo from "@/assets/apex-logo-final-new.png";
 
 export default function Blog() {
   const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = React.useState("All");
   
   const handleGetStarted = () => {
-    navigate('/', { state: { scrollTo: 'pricing' } });
+    navigate('/');
   };
 
   const blogPosts = [
@@ -68,6 +69,10 @@ export default function Blog() {
   ];
 
   const categories = ["All", "Research", "Leadership Skills", "Virtual Leadership", "Crisis Leadership", "ROI Research", "Negotiation"];
+  
+  const filteredPosts = selectedCategory === "All" 
+    ? blogPosts 
+    : blogPosts.filter(post => post.category === selectedCategory);
 
   const whitepapers = [
     {
@@ -174,8 +179,9 @@ export default function Blog() {
             {categories.map((category) => (
               <button
                 key={category}
+                onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  category === "All" 
+                  category === selectedCategory 
                     ? "bg-electric text-electric-foreground" 
                     : "bg-muted text-muted-foreground hover:bg-electric/20 hover:text-electric"
                 }`}
@@ -240,9 +246,11 @@ export default function Blog() {
       {/* Blog Posts Grid */}
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-foreground mb-12 text-center">Latest Articles</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-12 text-center">
+            {selectedCategory === "All" ? "Latest Articles" : `${selectedCategory} Articles`}
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.filter(post => !post.featured).map((post, index) => (
+            {filteredPosts.filter(post => !post.featured).map((post, index) => (
               <article key={index} className="executive-card group cursor-pointer">
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">

@@ -14,11 +14,11 @@ export default function Features() {
   const navigate = useNavigate();
   
   const handleGetStarted = () => {
-    navigate('/', { state: { scrollTo: 'pricing' } });
+    navigate('/');
   };
 
   const handleDemo = () => {
-    navigate('/', { state: { demo: true } });
+    navigate('/');
   };
 
   return (
@@ -155,6 +155,8 @@ export default function Features() {
                 src={aiCoaching} 
                 alt="AI Strategy Co-pilot interface showing executive coaching conversation"
                 className="rounded-2xl shadow-2xl w-full"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-amber-500/20 to-transparent rounded-2xl"></div>
             </div>
@@ -167,6 +169,8 @@ export default function Features() {
                 src={executivePresentation} 
                 alt="Executive practicing boardroom presentation with AI feedback"
                 className="rounded-2xl shadow-2xl w-full"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-blue-500/20 to-transparent rounded-2xl"></div>
             </div>
@@ -253,6 +257,8 @@ export default function Features() {
                 src={realisticAnalytics} 
                 alt="Performance analytics dashboard showing leadership improvement metrics"
                 className="rounded-2xl shadow-2xl w-full"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-purple-500/20 to-transparent rounded-2xl"></div>
             </div>
