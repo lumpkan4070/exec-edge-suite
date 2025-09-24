@@ -3,19 +3,15 @@ import { ArrowRight, Clock, User, Calendar, BookOpen, Download, ExternalLink, Tr
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { SEOHead } from "@/components/seo/SEOHead";
 import { StructuredData } from "@/components/seo/StructuredData";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import apexLogo from "@/assets/apex-logo-final-new.png";
 
 export default function Blog() {
+  const navigate = useNavigate();
+  
   const handleGetStarted = () => {
-    window.location.href = '/';
-    setTimeout(() => {
-      const pricingSection = document.getElementById('pricing');
-      if (pricingSection) {
-        pricingSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100);
+    navigate('/', { state: { scrollTo: 'pricing' } });
   };
 
   const blogPosts = [
@@ -109,29 +105,29 @@ export default function Blog() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <a href="/">
+              <Link to="/">
                 <img 
                   src={apexLogo} 
                   alt="APEX Executive Logo" 
                   className="h-16 md:h-20 w-auto cursor-pointer"
                 />
-              </a>
+              </Link>
             </div>
             
             <div className="hidden lg:flex items-center space-x-8">
-              <a href="/" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Home</a>
-              <a href="/features" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Features</a>
-              <a href="/blog" className="text-primary border-b-2 border-primary transition-colors font-lato">Resources</a>
-              <a href="/privacy" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Privacy</a>
+              <Link to="/" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Home</Link>
+              <Link to="/features" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Features</Link>
+              <Link to="/blog" className="text-primary border-b-2 border-primary transition-colors font-lato">Resources</Link>
+              <Link to="/privacy" className="text-slate-gray hover:text-charcoal transition-colors font-lato">Privacy</Link>
             </div>
             
             <div className="flex items-center space-x-2 md:space-x-4">
-              <button 
-                onClick={() => window.location.href = '/auth'} 
+              <Link 
+                to="/auth"
                 className="px-4 py-2 text-sm font-medium text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors"
               >
                 Login
-              </button>
+              </Link>
               <ExecutiveButton onClick={handleGetStarted} variant="primary" size="default">
                 Start Free Trial
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -277,6 +273,38 @@ export default function Blog() {
                   </div>
                 </div>
               </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Whitepapers & Resources */}
+      <section id="whitepapers" className="py-16 px-6 bg-slate-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-foreground mb-4">Executive Resources & Whitepapers</h2>
+            <p className="text-lg text-muted-foreground">
+              In-depth research reports and frameworks for strategic decision-making
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {whitepapers.map((paper, index) => (
+              <div key={index} className="executive-card">
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-medium rounded-full">
+                      {paper.type}
+                    </span>
+                    <span className="text-sm text-muted-foreground">{paper.pages}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-3">{paper.title}</h3>
+                  <p className="text-muted-foreground mb-6">{paper.description}</p>
+                  <ExecutiveButton variant="secondary" size="sm" className="w-full">
+                    <Download className="w-4 h-4 mr-2" />
+                    Download PDF
+                  </ExecutiveButton>
+                </div>
+              </div>
             ))}
           </div>
         </div>
