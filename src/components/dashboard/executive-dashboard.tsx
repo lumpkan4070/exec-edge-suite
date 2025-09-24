@@ -12,7 +12,7 @@ import { SmartReminders } from './smart-reminders';
 import { PersonalChallenges } from './personal-challenges';
 import { TrialStatus } from './trial-status';
 import { cn } from "@/lib/utils";
-import apexLogo from "@/assets/apex-logo-v3.png";
+import apexLogo from "@/assets/apex-logo-final-new.png";
 
 interface ExecutiveDashboardProps {
   userRole: string;

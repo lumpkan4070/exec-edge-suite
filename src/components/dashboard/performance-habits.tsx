@@ -8,7 +8,7 @@ import { AchievementNotification } from "./achievement-notification";
 import { StreakTracker } from "./streak-tracker";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import apexLogo from "@/assets/apex-logo-v3.png";
+import apexLogo from "@/assets/apex-logo-final-new.png";
 
 interface PerformanceHabitsProps {
   onBack: () => void;

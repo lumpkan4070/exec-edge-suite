@@ -1,7 +1,7 @@
 import { Crown, Shield, Lock, Eye, Database, Users } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { Link } from "react-router-dom";
-import apexLogo from "@/assets/apex-logo-v3.png";
+import apexLogo from "@/assets/apex-logo-final-new.png";
 
 export default function Privacy() {
   const principles = [

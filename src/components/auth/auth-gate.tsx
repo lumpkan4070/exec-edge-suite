@@ -3,7 +3,7 @@ import { useUser } from '@/contexts/user-context';
 import { ExecutiveButton } from '@/components/ui/executive-button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Sparkles, Clock } from "lucide-react";
-import apexLogo from '@/assets/apex-logo-v3.png';
+import apexLogo from '@/assets/apex-logo-final-new.png';
 import { supabase } from '@/integrations/supabase/client';
 import AuthModal from '@/components/auth/auth-modal';
 

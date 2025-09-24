@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { ArrowRight, DollarSign, Zap, Crown, Home } from "lucide-react";
 import { Link } from "react-router-dom";
-import apexLogo from "@/assets/apex-logo-v3.png";
+import apexLogo from "@/assets/apex-logo-final-new.png";
 
 interface ObjectiveScreenProps {
   role: string;

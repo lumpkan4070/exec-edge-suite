@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { XCircle, ArrowLeft, RefreshCw } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { Card } from "@/components/ui/card";
-import apexLogo from "@/assets/apex-logo-v3.png";
+import apexLogo from "@/assets/apex-logo-final-new.png";
 
 export default function PaymentCancel() {
   const navigate = useNavigate();

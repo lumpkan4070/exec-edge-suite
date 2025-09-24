@@ -2,7 +2,7 @@ import { Crown, Mail, Phone, MapPin, MessageCircle, Clock, Send } from "lucide-r
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import apexLogo from "@/assets/apex-logo-v3.png";
+import apexLogo from "@/assets/apex-logo-final-new.png";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
