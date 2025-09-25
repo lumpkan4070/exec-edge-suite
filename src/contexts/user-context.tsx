@@ -13,6 +13,7 @@ interface UserData {
   subscribed?: boolean;
   subscriptionStatus?: string;
   subscriptionEnd?: string;
+  isDemoAccount?: boolean;
 }
 
 interface UserContextType {
@@ -287,7 +288,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           subscribed: data.subscribed || false,
           subscriptionStatus: data.status,
           subscriptionEnd: data.subscription_end,
-          tier: data.product_id || userData.tier
+          tier: data.product_id || userData.tier,
+          isDemoAccount: data.demo_mode || false
         });
       }
     } catch (error) {
@@ -297,9 +299,14 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
   const hasActiveAccess = () => {
     // User has access if:
-    // 1. They have an active subscription
-    // 2. They have an active trial (authenticated or guest)
-    // 3. They are in guest trial period
+    // 1. They are the demo account (always has access)
+    // 2. They have an active subscription
+    // 3. They have an active trial (authenticated or guest)
+    // 4. They are in guest trial period
+    
+    if (userData.isDemoAccount) {
+      return true;
+    }
     
     if (userData.subscribed && userData.subscriptionStatus === 'active') {
       return true;

@@ -43,6 +43,22 @@ serve(async (req) => {
     if (!user?.email) throw new Error("User not authenticated or email not available");
     logStep("User authenticated", { userId: user.id, email: user.email });
 
+    // Check if this is the demo account
+    if (user.email === "demo@apexexecutive.com") {
+      logStep("Demo account detected, returning active subscription");
+      return new Response(JSON.stringify({
+        subscribed: true,
+        status: "active",
+        product_id: "demo_pro",
+        subscription_end: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year from now
+        subscription_id: "demo_subscription",
+        demo_mode: true
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
+
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
     

@@ -18,6 +18,7 @@ import apexLogo from "@/assets/apex-logo-final-new.png";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import DemoBanner from "@/components/admin/demo-banner";
 
 interface ExecutiveDashboardProps {
   userRole: string;
@@ -27,7 +28,7 @@ interface ExecutiveDashboardProps {
 }
 
 export default function ExecutiveDashboard({ userRole, userObjective, tier, onUpgrade }: ExecutiveDashboardProps) {
-  const { hasActiveAccess } = useUser();
+  const { hasActiveAccess, userData } = useUser();
   const navigate = useNavigate();
   const [showStrategyCopilot, setShowStrategyCopilot] = useState(false);
   const [showPerformanceHabits, setShowPerformanceHabits] = useState(false);
@@ -209,6 +210,13 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
                 {getTimeOfDay()}, Executive
               </h1>
               <p className="text-muted-foreground font-medium">Let's frame your day for executive success</p>
+              {userData.isDemoAccount && (
+                <div className="mt-1">
+                  <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-emerald-100 text-emerald-800 rounded-full">
+                    Demo Mode: Full Access Enabled
+                  </span>
+                </div>
+              )}
             </div>
           </div>
           <div className="flex items-center space-x-2">

@@ -24,13 +24,25 @@ export default function PaymentHandler({ tier, priceId, amount, onSuccess, onErr
   const [errorMessage, setErrorMessage] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const { toast } = useToast();
-  const { user, session } = useUser();
+  const { user, session, userData } = useUser();
 
   // Check authentication and handle Stripe checkout
   const handleStripeCheckout = async () => {
     // Check if user is authenticated
     if (!user || !session) {
       setShowAuthModal(true);
+      return;
+    }
+
+    // Demo account bypasses payment
+    if (userData.isDemoAccount) {
+      setPaymentStatus('success');
+      toast({
+        title: "Demo Account Access",
+        description: "Full access granted for demo purposes",
+        variant: "default",
+      });
+      onSuccess();
       return;
     }
 

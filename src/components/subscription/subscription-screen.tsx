@@ -1,6 +1,9 @@
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { ArrowLeft, Check, Crown, Zap, TrendingUp, Users, Target, Briefcase, Heart, Home } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useUser } from "@/contexts/user-context";
+import DemoBanner from "@/components/admin/demo-banner";
+import { cn } from "@/lib/utils";
 
 interface SubscriptionScreenProps {
   onBack: () => void;
@@ -51,6 +54,7 @@ const roiMetrics = [
 ];
 
 export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }: SubscriptionScreenProps) {
+  const { userData } = useUser();
   
   const getTierTheme = () => {
     switch (currentTier) {
@@ -87,6 +91,7 @@ export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }:
       </header>
 
       <div className="p-6 space-y-10 max-w-4xl mx-auto">
+        <DemoBanner />
         {/* Header Content */}
         <div className="flex items-center">
           <button
@@ -204,8 +209,4 @@ export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }:
       </div>
     </div>
   );
-}
-
-function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
 }
