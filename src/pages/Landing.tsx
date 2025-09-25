@@ -91,23 +91,25 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               {user ? (
                 <button 
                   onClick={() => window.location.href = '/dashboard'} 
-                  className="px-4 py-2 text-sm font-medium text-slate-900 bg-white border-2 border-white rounded-md hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  className="px-6 py-3 text-sm font-medium text-slate-900 bg-white border-2 border-white rounded-md hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                   aria-label="Go to dashboard"
                 >
                   Dashboard
                 </button>
               ) : (
-                <button 
-                  onClick={() => window.location.href = '/auth'} 
-                  className="px-4 py-2 text-sm font-medium text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                  aria-label="Sign in to your account"
-                >
-                  Login
-                </button>
+                <>
+                  <button 
+                    onClick={() => window.location.href = '/auth'} 
+                    className="px-6 py-3 text-sm font-bold text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    aria-label="Sign in to your account"
+                  >
+                    LOGIN
+                  </button>
+                </>
               )}
               <button 
                 onClick={handleGetStarted} 
-                className="px-4 py-2 text-sm font-medium text-white bg-vivid-indigo border-2 border-vivid-indigo rounded-md hover:bg-transparent hover:text-vivid-indigo transition-colors flex items-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                className="px-6 py-3 text-sm font-medium text-white bg-vivid-indigo border-2 border-vivid-indigo rounded-md hover:bg-transparent hover:text-vivid-indigo transition-colors flex items-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                 aria-label="Get started with APEX Executive"
               >
                 <span className="hidden sm:inline">Get Started</span>
@@ -157,6 +159,27 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                 <span className="text-white font-lato">Build executive presence and confidence</span>
               </div>
             </div>
+            
+            {/* CTA Buttons */}
+            {!user && (
+              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mt-12">
+                <button 
+                  onClick={() => window.location.href = '/auth'} 
+                  className="w-full sm:w-auto px-8 py-4 text-lg font-bold text-midnight-blue bg-white border-2 border-white rounded-lg hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 shadow-lg"
+                  aria-label="Sign in to your account"
+                >
+                  LOGIN / SIGN UP
+                </button>
+                <button 
+                  onClick={handleGetStarted} 
+                  className="w-full sm:w-auto px-8 py-4 text-lg font-bold text-white bg-vivid-indigo border-2 border-vivid-indigo rounded-lg hover:bg-transparent hover:text-vivid-indigo transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 shadow-lg"
+                  aria-label="Get started with APEX Executive"
+                >
+                  Try Demo
+                  <ArrowRight className="w-5 h-5 ml-2" aria-hidden="true" />
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Hero Stats */}
