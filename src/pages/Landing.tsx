@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle, Target, Brain, Zap, Crown, Users, BarChart3, S
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { useUser } from "@/contexts/user-context";
 import { supabase } from "@/integrations/supabase/client";
+import { DemoToggle } from "@/components/admin/demo-toggle";
 import { SEOHead } from "@/components/seo/SEOHead";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { TestimonialStructuredData } from "@/components/seo/TestimonialStructuredData";
@@ -459,6 +460,9 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
           </ExecutiveButton>
         </div>
       </section>
+      
+      {/* Demo testing toggle */}
+      <DemoToggle />
     </div>
   );
 }

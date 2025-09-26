@@ -301,7 +301,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     // User has access if:
     // 1. They are the demo account (always has access)
     // 2. They have an active subscription
-    // 3. They have an active trial (authenticated or guest)
+    // 3. They have an active trial (authenticated users with tier "trial")
     // 4. They are in guest trial period
     
     if (userData.isDemoAccount) {
@@ -313,6 +313,11 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     }
     
     if (userData.subscriptionStatus === 'trialing') {
+      return true;
+    }
+    
+    // Authenticated users with trial tier should have access
+    if (user && userData.tier === 'trial') {
       return true;
     }
     
