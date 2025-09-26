@@ -92,11 +92,11 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               {/* Smart LOGIN/LOGOUT button */}
               {user ? (
                 <button 
-                  onClick={() => {
-                    supabase.auth.signOut();
+                  onClick={async () => {
+                    await supabase.auth.signOut();
                     window.location.reload();
                   }} 
-                  className="px-6 py-3 text-lg font-bold text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  className="px-6 py-3 text-lg font-bold text-white bg-red-600 border-2 border-red-600 rounded-md hover:bg-red-700 hover:border-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                   aria-label="Sign out"
                 >
                   LOGOUT
