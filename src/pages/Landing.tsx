@@ -88,7 +88,16 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             
             {/* Auth Buttons - Always Visible */}
             <div className="flex items-center space-x-2 md:space-x-4">
-              {user ? (
+              {/* Always show LOGIN button prominently */}
+              <button 
+                onClick={() => window.location.href = '/auth'} 
+                className="px-6 py-3 text-lg font-bold text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                aria-label="Sign in to your account"
+              >
+                LOGIN
+              </button>
+              
+              {user && (
                 <button 
                   onClick={() => window.location.href = '/dashboard'} 
                   className="px-6 py-3 text-sm font-medium text-slate-900 bg-white border-2 border-white rounded-md hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
@@ -96,17 +105,8 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
                 >
                   Dashboard
                 </button>
-              ) : (
-                <>
-                  <button 
-                    onClick={() => window.location.href = '/auth'} 
-                    className="px-6 py-3 text-sm font-bold text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                    aria-label="Sign in to your account"
-                  >
-                    LOGIN
-                  </button>
-                </>
               )}
+              
               <button 
                 onClick={handleGetStarted} 
                 className="px-6 py-3 text-sm font-medium text-white bg-vivid-indigo border-2 border-vivid-indigo rounded-md hover:bg-transparent hover:text-vivid-indigo transition-colors flex items-center focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
