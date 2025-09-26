@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ArrowRight, CheckCircle, Target, Brain, Zap, Crown, Users, BarChart3, Star, Shield, Briefcase, Heart, Clock, Globe, Award } from "lucide-react";
 import { ExecutiveButton } from "@/components/ui/executive-button";
 import { useUser } from "@/contexts/user-context";
+import { supabase } from "@/integrations/supabase/client";
 import { SEOHead } from "@/components/seo/SEOHead";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { TestimonialStructuredData } from "@/components/seo/TestimonialStructuredData";
@@ -88,14 +89,27 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
             
             {/* Auth Buttons - Always Visible */}
             <div className="flex items-center space-x-2 md:space-x-4">
-              {/* Always show LOGIN button prominently */}
-              <button 
-                onClick={() => window.location.href = '/auth'} 
-                className="px-6 py-3 text-lg font-bold text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                aria-label="Sign in to your account"
-              >
-                LOGIN
-              </button>
+              {/* Smart LOGIN/LOGOUT button */}
+              {user ? (
+                <button 
+                  onClick={() => {
+                    supabase.auth.signOut();
+                    window.location.reload();
+                  }} 
+                  className="px-6 py-3 text-lg font-bold text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  aria-label="Sign out"
+                >
+                  LOGOUT
+                </button>
+              ) : (
+                <button 
+                  onClick={() => window.location.href = '/auth'} 
+                  className="px-6 py-3 text-lg font-bold text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  aria-label="Sign in to your account"
+                >
+                  LOGIN
+                </button>
+              )}
               
               {user && (
                 <button 
