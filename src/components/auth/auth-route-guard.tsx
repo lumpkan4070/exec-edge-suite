@@ -40,7 +40,10 @@ export default function AuthRouteGuard({
         const hasRole = userData.role && userData.role !== '';
         const hasTier = userData.tier && userData.tier !== '';
         
-        if (!hasRole || !hasTier) {
+        // Demo account should always have complete status
+        if (userData.isDemoAccount || user.email === 'demo@apexexecutive.com') {
+          setProfileStatus('complete');
+        } else if (!hasRole || !hasTier) {
           setProfileStatus('incomplete');
         } else {
           setProfileStatus('complete');
