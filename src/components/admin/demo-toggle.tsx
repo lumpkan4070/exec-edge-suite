@@ -6,7 +6,7 @@ import { ExecutiveButton } from '@/components/ui/executive-button';
 
 export const DemoToggle = () => {
   const [isLogging, setIsLogging] = useState(false);
-  const { user } = useUser();
+  const { user, setUserData } = useUser();
   const { toast } = useToast();
 
   const handleDemoLogin = async () => {
@@ -52,7 +52,14 @@ export const DemoToggle = () => {
     
     setIsLogging(true);
     try {
-      // Force reload to dashboard with full access
+      // Update user data to grant full access
+      setUserData({
+        tier: 'premium',
+        role: 'executive',
+        objective: 'Testing all features',
+        isDemoAccount: true
+      });
+      
       toast({
         title: "Full Access Granted",
         description: "You now have access to all features for testing. Redirecting...",
