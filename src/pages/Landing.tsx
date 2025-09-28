@@ -393,52 +393,6 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-24 px-6 bg-gradient-to-br from-slate-50 to-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6 font-playfair">
-              Trusted by <span className="text-primary">Executive Leaders</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Sarah Chen",
-                role: "CEO, TechCorp",
-                content: "APEX transformed my leadership style in just 3 weeks. The AI coaching is incredibly personalized and effective.",
-                rating: 5
-              },
-              {
-                name: "Michael Rodriguez",
-                role: "VP Strategy, Fortune 500",
-                content: "The scenario training prepared me for my biggest boardroom presentation. I felt confident and in control.",
-                rating: 5
-              },
-              {
-                name: "Dr. Emily Watson",
-                role: "Healthcare Executive",
-                content: "Finally, executive training that fits my schedule. 15 minutes a day delivered real results.",
-                rating: 5
-              }
-            ].map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-xl p-8 shadow-lg border border-slate-200">
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-slate-600 mb-6 italic">"{testimonial.content}"</p>
-                <div>
-                  <div className="font-semibold text-slate-900">{testimonial.name}</div>
-                  <div className="text-sm text-slate-500">{testimonial.role}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Pricing Section */}
       <div id="pricing">
