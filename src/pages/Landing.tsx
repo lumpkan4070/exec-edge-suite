@@ -9,9 +9,9 @@ import { StructuredData } from "@/components/seo/StructuredData";
 import { TestimonialStructuredData } from "@/components/seo/TestimonialStructuredData";
 
 import executiveBoardroom from "@/assets/executive-boardroom.jpg";
-import aiCoaching from "@/assets/ai-coaching.jpg";
-import executivePresentation from "@/assets/executive-presentation.jpg";
-import realisticAnalytics from "@/assets/realistic-analytics.jpg";
+import aiStrategyPremium from "@/assets/ai-strategy-premium.jpg";
+import executiveLeadershipMoment from "@/assets/executive-leadership-moment.jpg";
+import performanceDashboardPremium from "@/assets/performance-dashboard-premium.jpg";
 import apexLogo from "@/assets/apex-logo-final-new.png";
 
 import SubscriptionPlans from "@/components/payment/subscription-plans";
@@ -240,7 +240,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative h-64 overflow-hidden">
                 <img 
-                  src={aiCoaching} 
+                  src={aiStrategyPremium} 
                   alt="AI-powered executive coaching"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
@@ -265,7 +265,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative h-64 overflow-hidden">
                 <img 
-                  src={executivePresentation} 
+                  src={executiveLeadershipMoment} 
                   alt="Executive scenario training"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
@@ -290,7 +290,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative h-64 overflow-hidden">
                 <img 
-                  src={realisticAnalytics} 
+                  src={performanceDashboardPremium} 
                   alt="Performance analytics dashboard"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
