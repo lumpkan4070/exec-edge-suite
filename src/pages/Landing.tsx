@@ -69,8 +69,8 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
       <StructuredData type="Product" />
       <TestimonialStructuredData testimonials={testimonials} />
       {/* Navigation */}
-      <nav className="border-b border-silver bg-card/80 backdrop-blur-sm fixed w-full top-0 z-50" role="navigation" aria-label="Main navigation">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+      <nav className="border-b border-silver bg-card/80 backdrop-blur-sm fixed w-full top-0 z-50 pt-safe" role="navigation" aria-label="Main navigation">
+        <div className="max-w-7xl mx-auto px-6 py-4 pt-8 md:pt-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <img 
