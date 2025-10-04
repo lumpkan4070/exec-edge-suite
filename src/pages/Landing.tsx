@@ -105,7 +105,7 @@ export default function Landing({ onGetStarted, onSelectPlan }: LandingProps) {
               ) : (
                 <button 
                   onClick={() => window.location.href = '/auth'} 
-                  className="px-6 py-3 text-lg font-bold text-white bg-transparent border-2 border-white rounded-md hover:bg-white hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  className="px-6 py-3 text-lg font-bold text-slate-900 bg-white border-2 border-white rounded-md hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                   aria-label="Sign in to your account"
                 >
                   LOGIN
