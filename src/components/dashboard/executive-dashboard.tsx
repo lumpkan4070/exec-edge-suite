@@ -228,7 +228,7 @@ export default function ExecutiveDashboard({ userRole, userObjective, tier, onUp
               <LogOut className="w-6 h-6 text-muted-foreground" />
             </button>
             <button
-              onClick={() => setShowSubscription(true)}
+              onClick={() => navigate('/settings')}
               className="p-3 hover:bg-muted rounded-xl transition-all duration-200 hover:scale-105"
               title="Settings"
             >

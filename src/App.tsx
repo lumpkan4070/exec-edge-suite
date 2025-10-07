@@ -21,6 +21,7 @@ const Careers = lazy(() => import("./pages/Careers"));
 const HelpCenter = lazy(() => import("./pages/HelpCenter"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Privacy = lazy(() => import("./pages/Privacy"));
+const Settings = lazy(() => import("./pages/Settings"));
 const Audit = lazy(() => import("./pages/Audit"));
 const DemoAdmin = lazy(() => import("./pages/DemoAdmin"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
@@ -53,6 +54,7 @@ const App = () => {
                   <Route path="/help" element={<HelpCenter />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/settings" element={<Settings />} />
                   <Route path="/audit" element={<Audit />} />
                   <Route path="/demo-admin" element={<DemoAdmin />} />
                   <Route path="/admin-demo" element={<DemoAdmin />} />
