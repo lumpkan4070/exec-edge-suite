@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useUser } from "@/contexts/user-context";
 import DemoBanner from "@/components/admin/demo-banner";
 import { cn } from "@/lib/utils";
+import IAPSubscription from './iap-subscription';
+import { iapManager } from '@/lib/iap-manager';
 
 interface SubscriptionScreenProps {
   onBack: () => void;
@@ -55,6 +57,7 @@ const roiMetrics = [
 
 export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }: SubscriptionScreenProps) {
   const { userData } = useUser();
+  const isNative = iapManager.isNativePlatform();
   
   const getTierTheme = () => {
     switch (currentTier) {
@@ -125,9 +128,14 @@ export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }:
           </div>
         </div>
 
-        {/* Subscription Tiers */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {allTiers.map((tier) => {
+        {/* Show IAP on native platforms, Stripe on web */}
+        {isNative ? (
+          <IAPSubscription onPurchaseSuccess={() => onSubscribe('professional')} />
+        ) : (
+          <>
+            {/* Subscription Tiers */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {allTiers.map((tier) => {
             const Icon = tier.icon;
             return (
               <div
@@ -194,18 +202,20 @@ export default function SubscriptionScreen({ onBack, onSubscribe, currentTier }:
                 </div>
               </div>
             );
-          })}
-        </div>
+              })}
+            </div>
 
-        {/* Trial Info */}
-        <div className="text-center space-y-2">
-          <p className="text-sm text-muted-foreground">
-            3-day free trial • Cancel anytime • Results guaranteed
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Join 2,847+ executives already transforming their performance
-          </p>
-        </div>
+            {/* Trial Info */}
+            <div className="text-center space-y-2">
+              <p className="text-sm text-muted-foreground">
+                3-day free trial • Cancel anytime • Results guaranteed
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Join 2,847+ executives already transforming their performance
+              </p>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
