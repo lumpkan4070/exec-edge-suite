@@ -160,10 +160,22 @@ export default function IAPSubscription({ onPurchaseSuccess }: IAPSubscriptionPr
       </Card>
 
       <Card className="p-4 bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
-        <p className="text-sm text-blue-800 dark:text-blue-200">
-          <strong>Note:</strong> Subscriptions are managed through your Apple ID. You can cancel or modify
-          your subscription anytime in your iOS Settings → [Your Name] → Subscriptions.
-        </p>
+        <div className="space-y-3 text-sm text-blue-800 dark:text-blue-200">
+          <p>
+            <strong>Subscription Details:</strong> Auto-renewable subscriptions. Payment charged to Apple ID at confirmation. Subscription automatically renews unless cancelled at least 24 hours before the end of the current period.
+          </p>
+          <p>
+            <strong>Manage Subscription:</strong> Cancel or modify in iOS Settings → [Your Name] → Subscriptions.
+          </p>
+          <div className="flex gap-4 pt-2">
+            <a href="/privacy" className="text-blue-600 dark:text-blue-400 underline font-medium">
+              Privacy Policy
+            </a>
+            <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline font-medium">
+              Terms of Use (EULA)
+            </a>
+          </div>
+        </div>
       </Card>
     </div>
   );

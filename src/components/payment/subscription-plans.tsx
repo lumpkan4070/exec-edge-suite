@@ -5,11 +5,28 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useUser } from "@/contexts/user-context";
+import { iapManager } from '@/lib/iap-manager';
 
 export default function SubscriptionPlans() {
   const [loading, setLoading] = useState<string | null>(null);
   const { toast } = useToast();
   const { user } = useUser();
+  const isNative = iapManager.isNativePlatform();
+
+  // CRITICAL: Block Stripe checkout on native platforms per Apple Guidelines 3.1.1
+  if (isNative) {
+    return (
+      <Card className="p-8 text-center bg-muted/50 max-w-2xl mx-auto my-12">
+        <h3 className="text-xl font-bold mb-4">Subscription Management</h3>
+        <p className="text-muted-foreground mb-4">
+          To subscribe on mobile, please use the subscription screen which supports Apple In-App Purchase.
+        </p>
+        <p className="text-sm text-muted-foreground">
+          This payment method is only available on the web version.
+        </p>
+      </Card>
+    );
+  }
 
   const plans = [
     {
