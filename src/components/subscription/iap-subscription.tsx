@@ -138,7 +138,10 @@ export default function IAPSubscription({ onPurchaseSuccess }: IAPSubscriptionPr
                     <h4 className="font-bold text-foreground mb-1">{product.title}</h4>
                     <p className="text-sm text-muted-foreground mb-3">{product.description}</p>
                     <p className="text-2xl font-bold text-primary">
-                      {product.price} <span className="text-sm text-muted-foreground">/ month</span>
+                      {product.price} 
+                      <span className="text-sm text-muted-foreground">
+                        {product.id.includes('yearly') ? ' / year' : ' / month'}
+                      </span>
                     </p>
                   </div>
                   <ExecutiveButton

@@ -2,7 +2,8 @@ import { Capacitor } from '@capacitor/core';
 
 // Product IDs for App Store (must match App Store Connect)
 export const IAP_PRODUCT_IDS = {
-  LEADERSHIP_PLAN: 'com.apex.leadershipplan',
+  YEARLY_SUBSCRIPTION: 'com.company.apex.subs.yearly',
+  MONTHLY_SUBSCRIPTION: 'com.company.apex.subs',
 } as const;
 
 export interface IAPProduct {
@@ -46,16 +47,28 @@ class IAPManager {
 
     try {
       console.log('[IAP] Initializing StoreKit...');
-      console.log('[IAP] Product ID:', IAP_PRODUCT_IDS.LEADERSHIP_PLAN);
+      console.log('[IAP] Product IDs:', {
+        yearly: IAP_PRODUCT_IDS.YEARLY_SUBSCRIPTION,
+        monthly: IAP_PRODUCT_IDS.MONTHLY_SUBSCRIPTION
+      });
       
       // TODO: Native developer - Initialize StoreKit here
       // Example with cordova-plugin-purchase:
       // const { store, ProductType, Platform } = CdvPurchase;
-      // store.register([{
-      //   id: IAP_PRODUCT_IDS.LEADERSHIP_PLAN,
-      //   type: ProductType.PAID_SUBSCRIPTION,
-      //   platform: Platform.APPLE_APPSTORE
-      // }]);
+      // 
+      // // Register both subscription products (in descending order: Yearly first, Monthly second)
+      // store.register([
+      //   {
+      //     id: IAP_PRODUCT_IDS.YEARLY_SUBSCRIPTION,
+      //     type: ProductType.PAID_SUBSCRIPTION,
+      //     platform: Platform.APPLE_APPSTORE
+      //   },
+      //   {
+      //     id: IAP_PRODUCT_IDS.MONTHLY_SUBSCRIPTION,
+      //     type: ProductType.PAID_SUBSCRIPTION,
+      //     platform: Platform.APPLE_APPSTORE
+      //   }
+      // ]);
       // 
       // store.when().approved((transaction) => {
       //   transaction.verify();
@@ -65,6 +78,7 @@ class IAPManager {
       //   this.validateReceipt(receipt.payload);
       // });
       //
+      // // Automatically handles sandbox vs production environment
       // await store.initialize([Platform.APPLE_APPSTORE]);
       
       this.isInitialized = true;
@@ -92,25 +106,47 @@ class IAPManager {
       
       // TODO: Native developer - Replace with actual StoreKit call
       // Example with cordova-plugin-purchase:
-      // const product = store.get(IAP_PRODUCT_IDS.LEADERSHIP_PLAN);
-      // if (!product) throw new Error('Product not found');
+      // const yearlyProduct = store.get(IAP_PRODUCT_IDS.YEARLY_SUBSCRIPTION);
+      // const monthlyProduct = store.get(IAP_PRODUCT_IDS.MONTHLY_SUBSCRIPTION);
       // 
-      // return [{
-      //   id: product.id,
-      //   title: product.title,
-      //   description: product.description,
-      //   price: product.pricing.price,
-      //   currency: product.pricing.currency,
-      // }];
+      // const products = [];
+      // if (yearlyProduct) {
+      //   products.push({
+      //     id: yearlyProduct.id,
+      //     title: yearlyProduct.title,
+      //     description: yearlyProduct.description,
+      //     price: yearlyProduct.pricing.price,
+      //     currency: yearlyProduct.pricing.currency,
+      //   });
+      // }
+      // if (monthlyProduct) {
+      //   products.push({
+      //     id: monthlyProduct.id,
+      //     title: monthlyProduct.title,
+      //     description: monthlyProduct.description,
+      //     price: monthlyProduct.pricing.price,
+      //     currency: monthlyProduct.pricing.currency,
+      //   });
+      // }
+      // return products;
       
-      // Placeholder for development
-      return [{
-        id: IAP_PRODUCT_IDS.LEADERSHIP_PLAN,
-        title: 'Leadership Plan',
-        description: 'Premium access to all leadership features',
-        price: '$4.99',
-        currency: 'USD',
-      }];
+      // Placeholder for development (in descending order: Yearly first, Monthly second)
+      return [
+        {
+          id: IAP_PRODUCT_IDS.YEARLY_SUBSCRIPTION,
+          title: 'Yearly Subscription',
+          description: 'Premium access to all leadership features - Best Value',
+          price: '$49.99',
+          currency: 'USD',
+        },
+        {
+          id: IAP_PRODUCT_IDS.MONTHLY_SUBSCRIPTION,
+          title: 'Monthly Subscription',
+          description: 'Premium access to all leadership features',
+          price: '$4.99',
+          currency: 'USD',
+        }
+      ];
     } catch (error) {
       console.error('[IAP] Failed to fetch products:', error);
       return [];
