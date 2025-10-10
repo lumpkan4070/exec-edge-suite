@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { UserProvider } from "@/contexts/user-context";
 import { PageTransition } from "@/components/ui/page-transition";
+import { iapManager } from "@/lib/iap-manager";
 
 // Critical routes loaded immediately
 import Index from "./pages/Index";
@@ -32,6 +33,15 @@ const EnhancedOnboarding = lazy(() => import("./components/onboarding/enhanced-o
 const queryClient = new QueryClient();
 
 const App = () => {
+  // Initialize IAP on app startup (native platforms only)
+  useEffect(() => {
+    if (iapManager.isNativePlatform()) {
+      iapManager.initialize().catch(error => {
+        console.error('[App] Failed to initialize IAP:', error);
+      });
+    }
+  }, []);
+
   return (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>

@@ -24,11 +24,17 @@ export default function IAPSubscription({ onPurchaseSuccess }: IAPSubscriptionPr
   const loadProducts = async () => {
     setLoading(true);
     try {
+      // Initialize IAP first (if not already done)
+      await iapManager.initialize();
       const availableProducts = await iapManager.getProducts();
       setProducts(availableProducts);
+      
+      if (availableProducts.length === 0) {
+        toast.info('Loading subscription options...');
+      }
     } catch (error) {
       console.error('Error loading products:', error);
-      toast.error('Failed to load products');
+      toast.error('Failed to load subscription options');
     } finally {
       setLoading(false);
     }
