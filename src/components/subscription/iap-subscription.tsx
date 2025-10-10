@@ -168,17 +168,20 @@ export default function IAPSubscription({ onPurchaseSuccess }: IAPSubscriptionPr
       <Card className="p-4 bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
         <div className="space-y-3 text-sm text-blue-800 dark:text-blue-200">
           <p>
-            <strong>Subscription Details:</strong> Auto-renewable subscriptions. Payment charged to Apple ID at confirmation. Subscription automatically renews unless cancelled at least 24 hours before the end of the current period.
+            <strong>Payment & Renewal:</strong> Payment charged to Apple ID at purchase confirmation. Subscription automatically renews unless cancelled at least 24 hours before the end of the current period.
           </p>
           <p>
-            <strong>Manage Subscription:</strong> Cancel or modify in iOS Settings → [Your Name] → Subscriptions.
+            <strong>Manage Subscription:</strong> Cancel or modify anytime in iOS Settings → [Your Name] → Subscriptions.
           </p>
-          <div className="flex gap-4 pt-2">
-            <a href="/privacy" className="text-blue-600 dark:text-blue-400 underline font-medium">
+          <div className="flex flex-wrap gap-4 pt-2">
+            <a href="/privacy" className="text-blue-600 dark:text-blue-400 underline font-medium hover:text-blue-700 dark:hover:text-blue-300">
               Privacy Policy
             </a>
-            <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline font-medium">
+            <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline font-medium hover:text-blue-700 dark:hover:text-blue-300">
               Terms of Use (EULA)
+            </a>
+            <a href="https://aclpublishing.com/support" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline font-medium hover:text-blue-700 dark:hover:text-blue-300">
+              Support
             </a>
           </div>
         </div>

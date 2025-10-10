@@ -6,8 +6,8 @@ declare const CdvPurchase: any;
 
 // Product IDs for App Store (must match App Store Connect exactly)
 export const IAP_PRODUCT_IDS = {
-  YEARLY_SUBSCRIPTION: 'com.company.apex.subs.yearly',
-  MONTHLY_SUBSCRIPTION: 'com.company.apex.subs',
+  YEARLY_SUBSCRIPTION: 'com.apexexec.yearly',
+  MONTHLY_SUBSCRIPTION: 'com.apexexec.monthly',
 } as const;
 
 export interface IAPProduct {

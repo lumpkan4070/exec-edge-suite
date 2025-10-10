@@ -271,6 +271,19 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
           </ExecutiveButton>
         </form>
 
+        {isSignUp && (
+          <div className="mt-4 text-center text-xs text-muted-foreground">
+            By creating an account, you agree to our{' '}
+            <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener noreferrer" className="text-electric hover:underline">
+              Terms of Service
+            </a>{' '}
+            and{' '}
+            <a href="/privacy" className="text-electric hover:underline">
+              Privacy Policy
+            </a>
+          </div>
+        )}
+
         <div className="mt-6 text-center">
           <button
             type="button"
