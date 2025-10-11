@@ -41,42 +41,49 @@ export default function IAPSubscription({ onPurchaseSuccess }: IAPSubscriptionPr
   };
 
   const handlePurchase = async (productId: string) => {
+    console.log('[IAPSubscription] Starting purchase for:', productId);
     setLoading(true);
+    
     try {
+      console.log('[IAPSubscription] Calling iapManager.purchase...');
       const result = await iapManager.purchase(productId);
+      console.log('[IAPSubscription] Purchase result:', result);
       
       if (result.success) {
-        toast.success('Purchase successful!');
-        if (onPurchaseSuccess) {
-          onPurchaseSuccess();
-        }
+        toast.success('Purchase initiated! Complete the payment in App Store.');
+        // Note: actual success happens in the store callbacks, not here
       } else {
-        toast.error(result.error || 'Purchase failed');
+        console.error('[IAPSubscription] Purchase failed:', result.error);
+        toast.error(result.error || 'Purchase failed. Please try again.');
       }
     } catch (error) {
-      console.error('Error purchasing:', error);
-      toast.error('Purchase failed. Please try again.');
+      console.error('[IAPSubscription] Error purchasing:', error);
+      toast.error(error instanceof Error ? error.message : 'Purchase failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleRestore = async () => {
+    console.log('[IAPSubscription] Starting restore purchases...');
     setRestoring(true);
+    
     try {
+      console.log('[IAPSubscription] Calling iapManager.restorePurchases...');
       const result = await iapManager.restorePurchases();
+      console.log('[IAPSubscription] Restore result:', result);
       
       if (result.success) {
-        toast.success('Purchases restored successfully!');
-        if (onPurchaseSuccess) {
-          onPurchaseSuccess();
-        }
+        toast.success('Checking for previous purchases...');
+        // Note: actual restoration happens in the store callbacks
+        await loadProducts(); // Reload to show updated status
       } else {
+        console.error('[IAPSubscription] Restore failed:', result.error);
         toast.error(result.error || 'No purchases to restore');
       }
     } catch (error) {
-      console.error('Error restoring purchases:', error);
-      toast.error('Failed to restore purchases');
+      console.error('[IAPSubscription] Error restoring purchases:', error);
+      toast.error(error instanceof Error ? error.message : 'Failed to restore purchases');
     } finally {
       setRestoring(false);
     }

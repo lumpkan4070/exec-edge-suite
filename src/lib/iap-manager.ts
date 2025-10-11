@@ -44,21 +44,27 @@ class IAPManager {
    * Sets up StoreKit listeners and product catalog
    */
   async initialize(): Promise<void> {
-    if (!this.isNativePlatform() || this.isInitialized) {
-      console.log('[IAP] Skipping initialization - not on native platform or already initialized');
+    if (!this.isNativePlatform()) {
+      console.log('[IAP] ⏭️ Skipping initialization - not on native platform');
+      return;
+    }
+    
+    if (this.isInitialized) {
+      console.log('[IAP] ✅ Already initialized');
       return;
     }
 
     try {
-      console.log('[IAP] Initializing StoreKit...');
+      console.log('[IAP] 🚀 Initializing StoreKit...');
       
       if (typeof CdvPurchase === 'undefined') {
-        console.warn('[IAP] cordova-plugin-purchase not available, skipping initialization');
-        return;
+        console.error('[IAP] ❌ cordova-plugin-purchase not available!');
+        throw new Error('In-app purchase plugin not installed. Please install the mobile app from the App Store.');
       }
 
       const { store, ProductType, Platform } = CdvPurchase;
       
+      console.log('[IAP] 📦 Registering products...');
       // Register both subscription products (in descending order per Apple requirements)
       store.register([
         {
@@ -75,40 +81,45 @@ class IAPManager {
       
       // Handle approved transactions - verify receipt
       store.when().approved((transaction: any) => {
-        console.log('[IAP] Transaction approved:', transaction.id);
+        console.log('[IAP] ✅ Transaction approved:', transaction.id);
         transaction.verify();
       });
 
       // Handle verified receipts - validate with backend
       store.when().verified(async (receipt: any) => {
-        console.log('[IAP] Receipt verified, validating with backend...');
-        const isValid = await this.validateReceipt(receipt.payload);
-        if (isValid) {
-          console.log('[IAP] Receipt validated successfully');
-          receipt.finish();
-        } else {
-          console.error('[IAP] Receipt validation failed');
+        console.log('[IAP] 🔐 Receipt verified, validating with backend...');
+        try {
+          const isValid = await this.validateReceipt(receipt.payload);
+          if (isValid) {
+            console.log('[IAP] ✅ Receipt validated successfully');
+            receipt.finish();
+          } else {
+            console.error('[IAP] ❌ Receipt validation failed');
+          }
+        } catch (error) {
+          console.error('[IAP] ❌ Validation error:', error);
         }
       });
 
       // Handle finished transactions
       store.when().finished((transaction: any) => {
-        console.log('[IAP] Transaction finished:', transaction.id);
+        console.log('[IAP] ✅ Transaction finished:', transaction.id);
       });
 
       // Handle errors
       store.when().error((error: any) => {
-        console.error('[IAP] Store error:', error);
+        console.error('[IAP] ❌ Store error:', error);
       });
       
+      console.log('[IAP] 🔧 Initializing store with Apple App Store...');
       // Initialize with Apple App Store
       // Automatically handles sandbox vs production environment
       await store.initialize([Platform.APPLE_APPSTORE]);
       
       this.isInitialized = true;
-      console.log('[IAP] StoreKit initialization complete');
+      console.log('[IAP] ✅ StoreKit initialization complete!');
     } catch (error) {
-      console.error('[IAP] Initialization failed:', error);
+      console.error('[IAP] ❌ Initialization failed:', error);
       throw error;
     }
   }
@@ -174,41 +185,51 @@ class IAPManager {
    */
   async purchase(productId: string): Promise<IAPPurchaseResult> {
     if (!this.isNativePlatform()) {
+      console.error('[IAP] ❌ Not on native platform');
       return {
         success: false,
         error: 'In-App Purchases only available on mobile devices',
       };
     }
 
-    await this.initialize();
-    console.log('[IAP] Initiating purchase for:', productId);
+    console.log('[IAP] 💳 Starting purchase flow for:', productId);
     
     try {
+      await this.initialize();
+      console.log('[IAP] ✅ Store initialized');
+      
       if (typeof CdvPurchase === 'undefined') {
-        throw new Error('cordova-plugin-purchase not available');
+        throw new Error('In-app purchase plugin not available. Please use the official App Store app.');
       }
 
       const { store } = CdvPurchase;
+      console.log('[IAP] 🔍 Looking up product:', productId);
       const product = store.get(productId);
       
       if (!product) {
-        throw new Error('Product not found');
+        console.error('[IAP] ❌ Product not found:', productId);
+        throw new Error(`Product ${productId} not found in App Store. Please try again later.`);
       }
       
+      console.log('[IAP] 📦 Product found:', product.title);
+      
       if (!product.canPurchase) {
-        throw new Error('Product not available for purchase');
+        console.error('[IAP] ❌ Product cannot be purchased:', product);
+        throw new Error('This subscription is not available for purchase at the moment.');
       }
 
       // Get the offer and initiate purchase
       // This will trigger Apple's payment sheet
       const offer = product.getOffer();
       if (!offer) {
-        throw new Error('No offer available for product');
+        console.error('[IAP] ❌ No offer available');
+        throw new Error('No purchase option available for this subscription.');
       }
       
+      console.log('[IAP] 🛒 Placing order...');
       await offer.order();
       
-      console.log('[IAP] Purchase initiated - waiting for Apple payment sheet');
+      console.log('[IAP] ✅ Purchase initiated - Apple payment sheet should appear');
       
       // The purchase flow continues in the approved/verified callbacks
       // Return pending status
@@ -219,7 +240,7 @@ class IAPManager {
       };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Purchase failed';
-      console.error('[IAP] Purchase error:', errorMessage);
+      console.error('[IAP] ❌ Purchase error:', errorMessage);
       return {
         success: false,
         error: errorMessage,
